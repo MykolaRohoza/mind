@@ -129,11 +129,11 @@ class M_MSQL
 		
 		$sets_s = implode(',', $sets);			
 		$query = "UPDATE $table SET $sets_s WHERE $where";
-
+                M_Lib::addLog($query);
 		$result = mysql_query($query);
 		
 		if (!$result) {
-                    die(mysql_error());
+                    die(mysql_error() . ' ' . $query);
                 }
         $res = mysql_affected_rows();
 

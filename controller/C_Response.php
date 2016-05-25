@@ -53,13 +53,14 @@ class C_Response extends C_Controller{
     private function registrate($login, $password, $telephone, $name, $second){
 
         $result = $this->mUser->registreation($login, $password, $telephone, $name, $second);
-
+                
         return json_encode($result);
 
 }
     public function registrate_test() {
         //M_Lib::addLog($_POST['login']);
-        $sender = new M_Sender($_POST['login']); 
+        $code = md5(date('d-m-Y[H-i]'));
+        $sender = new M_Sender($_POST['login'], $code); 
         $sender->start();
         return json_encode($sender->getLog());
     }

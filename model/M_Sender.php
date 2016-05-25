@@ -15,7 +15,7 @@ class M_Sender {
     private $logPage;
 
             
-    public function __construct($send_to)
+    public function __construct($send_to, $code)
     {
 
         $this->logPage = '';
@@ -25,19 +25,14 @@ class M_Sender {
         $this->website = 'f-i.ho.ua';       // Your site's domain (without www. part)
         $this->send_to = $send_to;  // backup file will be sent to?
         $this->from = 'f-i@' . $this->website;    // some hosting providers won’t let you send backups from invalid e-mail address
-        $this->code = md5($this->date_stamp());
+        $this->code = $code; 
+
     }
 /*
  * 
  *
  */
     
-private function date_stamp() {
-	$backup_date = date('d-m-Y[H-i]');
-	$this->logPage .=  'Database backup date: ' . $backup_date . ' ' . "\n";
-	return $backup_date;
-}
-
 
     private function send_mail() {
         $html = '<html><head></head><body>'
@@ -49,7 +44,7 @@ private function date_stamp() {
         $EOL = "\r\n";
 
         $message = "Для активации перейдите по данной ссылке $EOL http://$this->website/activate/$this->code $EOL "
-                . "Если ссылка не отработала $EOL вы можете вставить регистрационный код$this->code вручную "
+                . "Если ссылка не отработала $EOL вы можете вставить регистрационный код $this->code вручную "
                 . "в окне активации на странице $EOL  http://$this->website/activate";
         $subject = 'Активация аккаунта Mind-Body';
 

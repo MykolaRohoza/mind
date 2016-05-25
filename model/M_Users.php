@@ -99,9 +99,14 @@ class M_Users
         return $result > 0;
     }
     
-    
-    
-    //
+    public function activate($code){
+        $where = "user_code= $code AND user_code_status=0";
+        $object = ['user_code' => $code, 'user_code_status' => 1];
+        
+        return $this->msql->Update('users', $object, $where);
+    }
+
+        //
     // Выход
     //
     public function Logout()

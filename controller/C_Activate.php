@@ -8,6 +8,7 @@ class C_Activate extends C_Base {
 
 
     protected $contVars;
+    private $mUsers;
 
 
 
@@ -18,12 +19,12 @@ class C_Activate extends C_Base {
     function __construct($code) 
     {
     	parent::__construct();
-//        $this->mUsers = M_Users::Instance();
+       $this->mUsers = M_Users::Instance();
 //        $this->needLogin = false;
 //    	$this->needTimeTest = true;
 //    	$this->needStocks = true;
-//        $this->controllerPath = "/.";
-        $this->contVars = $code;
+        $this->controllerPath = "/activate";
+        $this->contVars = array('code' =>$code);
     }
 
 
@@ -38,28 +39,29 @@ class C_Activate extends C_Base {
         
         // Обработка отправки формы.
         if ($this->IsPost()) {
+            if(isset($_POST['code'])){
+                $this->contVars['isActive'] = $this->activate($_POST['code']);
+                
+                header("Location: $this->controllerPath/{$_POST['code']}");
+                die();
+            }
 
-            header("Location: /");
-            die();
 
         }
         else
-        {	
-            if ($this->user == null && $this->needLogin)
-            {       	
-                header("Location: /");
-                die();
+        {
+            if(isset($this->contVars['code'])){	
+                $this->contVars['isActive'] = $this->activate($this->contVars['code']);
             }
-            // сбор разрешений и организация массивов
-//            $this->content['nav']['main'] = 'class="active"';
-
-            
-            
-           
         }
                 
         
     }
+    private function activate($code){
+        $result = $this->mUsers->activate($code);
+        return (bool)$result;
+    }
+
     //
     // Виртуальный генератор HTML.
     //
@@ -67,7 +69,7 @@ class C_Activate extends C_Base {
 
         //Генерация вложенных шаблонов
 
-        $this->content['container_main'] = $this->View('V/view_main.php', $vars);
+        $this->content['container_main'] = $this->View('V/view_activate.php', $this->contVars);
         parent::OnOutput();
         
         
