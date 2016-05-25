@@ -50,6 +50,27 @@ function registrate(){
         });
     }
 }
+
+function check(val, param, elem){
+    var contact;
+            if(param === 'telephone') contact = 'телефон';
+            if(param === 'login') contact = 'логин';
+    $.ajax({
+        type: 'POST',
+        url: '/resp/' + param + '=' + val,
+        data: param + '=' + val,
+        success: function(data){   
+            var result = JSON.parse(data);
+            if(result) {
+                showMessage(elem, 'Данный' + ' ' + contact + ' ' + 'уже есть в базе');
+            }
+
+        }
+    }); 
+
+}
+
+
 function validateName(elem){
     var str = elem.val(), message;
 
@@ -82,7 +103,8 @@ function validateSecName(elem){
 function validateLogin(elem){
     var str = elem.val(), message;
     if(/^[\d\w]{3,15}@[\d\w]{2,10}\.[\d\w]{2,10}(\.[\d\w]{2,10})?$/.test(str)){
-        message =  1;
+        if(check(str, 'login', elem)) message = 1;
+        else message = 0;
     }
     else {
         if(str.length > 20) message = 'Максимальная длина логина 20';
@@ -101,8 +123,8 @@ function validateTelephone(elem){
     str = str.replace(/\+|\-|\(|\)|\s/g, '');
     str = str.replace(/^(38)/, '');
     if(/^[\d]{10,15}$/.test(str)){
-   
-        message = 1;
+        if(check(str, 'telephone', elem)) message = 1;
+        else message = 0;
     }
     else {
         if(/^[^\d]$/.test(str)) message = 'Телефон может содержать только цифры пробелы и () -+';
@@ -158,7 +180,7 @@ function showMessage(elem, message){
     var parent = elem.parent();
     parent.children('span[class="message"]').remove();
     parent.children('br:first').remove();
-    if(message !==1) {
+    if(message !==1 && message !==0) {
         parent.prepend('<span class="message" style="color:red">' + message + '</span> <br>');
     }
 

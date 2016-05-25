@@ -189,18 +189,18 @@ class M_Users
     }
     public function checkLogin($login)
     {	
-            $t = "SELECT COUNT(*) FROM users WHERE login = '%s'";
+            $t = "SELECT DISTINCT id_user FROM users WHERE login = '%s'";
             $query = sprintf($t, mysql_real_escape_string($login));
             $result = $this->msql->Select($query);
-            return $result[0]['COUNT(*)'] > 0;
+            return $result[0]['id_user'] > 0;
     }
     
-    public function findTelephone($telephone)
+    public function checkPhone($telephone)
     {	
-            $t = "SELECT COUNT(*) FROM users WHERE telephone = '%s'";
+            $t = "SELECT DISTINCT id_user FROM users WHERE telephone = '%s'";
             $query = sprintf($t, $telephone);
             $result = $this->msql->Select($query);
-            return $result[0]['COUNT(*)'] > 0;
+            return $result[0]['id_user'] > 0;
     }
     
     

@@ -36,15 +36,11 @@ class C_Response extends C_Controller{
     
     
     private function checkLogin($login){
-        $result = $this->mUser->checkPhone($login);
-        
-        $result = (!$result)?array():$result; 
+        $result = $this->mUser->checkLogin($login);
         return json_encode($result);
     }
     private function checkPhone($tel){
-        $result = $this->mUser->checkPhone($tel);
-        
-        $result = (!$result)?array():$result; 
+        $result = $this->mUser->checkPhone($tel); 
         return json_encode($result);
     }
     private function registrate($login, $pass, $tel){
