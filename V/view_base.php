@@ -160,27 +160,27 @@
                         <form method='post'>
                             <div class="form-group">
                                 <label for="input-name">Имя</label>
-                                <input id="input-name" type="text" class="form-control" placeholder="Name" name='user_name'>
+                                <input id="input-name" required="" type="text" class="form-control" placeholder="Name" name='user_name'>
                             </div>
                             <div class="form-group">
                                 <label for="input-sname">Фамилия</label>
-                                <input id="input-sname" type="text" class="form-control" placeholder="Second name" name='user_second_name'>
+                                <input id="input-sname" required="" type="text" class="form-control" placeholder="Second name" name='user_second_name'>
                             </div>
                             <div class="form-group">
                                 <label class="input-email">E-mail (используется как login)</label>
-                                <input id="input-email" type="text" class="form-control" placeholder="E-mail" name='login'>
+                                <input id="input-email" required="" type="text" class="form-control" placeholder="E-mail" name='login'>
                             </div>
                             <div class="form-group">
                                 <label for="input-tel">Телефон (пример: 380671234567)</label>
-                                <input id="input-tel" type="text" class="form-control" placeholder="Telephone number" name='telephone'>
+                                <input id="input-tel" required="" type="text" class="form-control" placeholder="Telephone number" name='telephone'>
                             </div>
                             <div class="form-group">
                                 <label for="input-pas">Пароль</label>
-                                <input id="input-pas" type="password" class="form-control" placeholder="Password" name='password'>
+                                <input id="input-pas" required="" type="password" class="form-control" placeholder="Password" name='password'>
                             </div>
                             <div class="form-group">
                                 <label for="input-pas2">Повторите пароль</label>
-                                <input id="input-pas2" type="password" class="form-control" placeholder="Confirm password" name='confirm_password'>
+                                <input id="input-pas2" required="" type="password" class="form-control" placeholder="Confirm password" name='confirm_password'>
                             </div>
                             <div class="form-group">
                                 <input type="button" class="btn btn-primary btn-block" name="regestration" value='Зарегестрироваться'>
