@@ -48,8 +48,9 @@ private function date_stamp() {
         
         $EOL = "\r\n";
 
-        $message = "Если ссылка не отработала $EOL вы можете вставить регистрационный код $this->code вручную $EOL "
-                . "в окне активации на странице $this->website/activate";
+        $message = "Для активации перейдите по данной ссылке $EOL http://$this->website/activate/$this->code $EOL "
+                . "Если ссылка не отработала $EOL вы можете вставить регистрационный код$this->code вручную "
+                . "в окне активации на странице $EOL  http://$this->website/activate";
         $subject = 'Активация аккаунта Mind-Body';
 
         $boundary = '_1_' . md5(date('r', time())) . '_2_'; // рандомное число

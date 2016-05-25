@@ -51,6 +51,9 @@ M_startup();
             case('resp') : 
                 $controller = new C_Response();
                 break;
+            case('activate') : 
+                $controller = new C_Activate($info[1]);
+                break;
             default : $controller = new C_Main();
 	}
 
