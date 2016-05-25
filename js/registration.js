@@ -22,17 +22,13 @@ function reg (){
     
 
 }
-
-function registrate(){
-//    var login =  $('input[name="login"]').val(),
-//        city = $('select[name="sities"]').val(),
-//        country = $('select[name="countries"]').val(),
-//        tel = $('input[name="tel"]').val(),
-//        pass = $('input[name="pass"]').val(),
-//        invite = $('input[name="invite"]').val();  
-//    var query = 'reg=&login=' + login + '&country=' + country + '&city=' + city + 
-//            '&tel=' + tel + '&pass=' + pass + '&invite=' + invite;
-
+function registrate_test(){ 
+    var query = 'registration=&'
+    + '&' + "user_name" + '=' + $('input[name="user_name"]').val()
+    + '&' + 'user_second_name' + '=' + $('input[name="user_second_name"]').val()
+    + '&' + 'login' + '=' + $('input[name="login"][required=""]').val()  
+    + '&' +  'telephone' + '=' + $('input[name="telephone"]').val() 
+    + '&' + 'password' + '=' + $('input[name="password"][required=""]').val();
     
     if(validate()){
         var query = getQuery();
@@ -40,11 +36,37 @@ function registrate(){
             type: 'POST',
             url: '/resp/' + query,
             data: query,
-            success: function(data){   
+            success: function(data){
                 var result = JSON.parse(data);
                 if(result) {
-                    showMessage($('input[name="regestration"]'), result['message']);
+                    result = 'на вашу почту высланы инструкции по активации';
                 }
+                else{
+                     result = 'системная ошибка попробуйте позже';
+                }
+                showMessage($('input[name="regestration"]'), result);
+
+            }
+        });
+    }
+}
+
+function registrate(){ 
+    if(validate()){
+        var query = getQuery();
+        $.ajax({
+            type: 'POST',
+            url: '/resp/' + query,
+            data: query,
+            success: function(data){
+                var result = JSON.parse(data);
+                if(result) {
+                    result = 'на вашу почту высланы инструкции по активации';
+                }
+                else{
+                     result = 'системная ошибка попробуйте позже';
+                }
+                showMessage($('input[name="regestration"]'), result);
 
             }
         });
@@ -100,10 +122,10 @@ function validateSecName(elem){
         showMessage(elem, message);
         return message;
 }
-function validateLogin(elem){
+function validateLogin(elem, withOutCheck){
     var str = elem.val(), message;
     if(/^[\d\w]{3,15}@[\d\w]{2,10}\.[\d\w]{2,10}(\.[\d\w]{2,10})?$/.test(str)){
-        if(check(str, 'login', elem)) message = 1;
+        if(withOutCheck || check(str, 'login', elem)) message = 1;
         else message = 0;
     }
     else {
@@ -118,12 +140,12 @@ function validateLogin(elem){
 }
 
 
-function validateTelephone(elem){
+function validateTelephone(elem, withOutCheck){
     var str = elem.val(), message;
     str = str.replace(/\+|\-|\(|\)|\s/g, '');
     str = str.replace(/^(38)/, '');
     if(/^[\d]{10,15}$/.test(str)){
-        if(check(str, 'telephone', elem)) message = 1;
+        if(withOutCheck || check(str, 'telephone', elem)) message = 1;
         else message = 0;
     }
     else {
@@ -158,9 +180,10 @@ function validatePassword(elem1, elem2){
 function validate(){
     var message = validateName( $('input[name="user_name"]')) +
         validateSecName($('input[name="user_second_name"]')) +
-        validateLogin($('input[name="login"][required=""]')) + 
-        validateTelephone($('input[name="telephone"]')) +
+        validateLogin($('input[name="login"][required=""]'), true) + 
+        validateTelephone($('input[name="telephone"]'), true) +
         validatePassword($('input[name="password"][required=""]'), $('input[name="confirm_password"]')) ;
+
     if(message == 5) {
             return true;
     }
@@ -171,7 +194,12 @@ function validate(){
 }
 function getQuery(){
 
-    var query = 'registration=&message=hi';
+    var query = 'registration=&'
+    + '&' + "user_name" + '=' + $('input[name="user_name"]').val()
+    + '&' + 'user_second_name' + '=' + $('input[name="user_second_name"]').val()
+    + '&' + 'login' + '=' + $('input[name="login"][required=""]').val()  
+    + '&' +  'telephone' + '=' + $('input[name="telephone"]').val() 
+    + '&' + 'password' + '=' + $('input[name="password"][required=""]').val();
     return query;
 }
 

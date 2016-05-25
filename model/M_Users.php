@@ -89,55 +89,14 @@ class M_Users
             return true;
     }
         
-    public function checkRegistreation($login, $password, $confirm_password, $telephone)
-    {
 
-            $result = ['login' => $login, 'password' => null, 'confirm_password' => null,
-                'telephone' => $telephone];
-
-              //проверяем login на валидность
-            if (!filter_var($login, FILTER_VALIDATE_EMAIL)){
-                $result['message']['login'] = 'Это не может быть email';
-            }
-            else{
-                if ($this->checkLogin($login)){
-                    $result['message']['login'] = 'Логин занят';
-                }
-            }
-            
-
-            //TODO проверяем пароль на валидность
-            if (!preg_match('~[0-9a-zA-Z]{6,15}~', $password)){
-                $result['message']['password'] = 'Пароль должен содержать только латинские буквы и цифры от 6 до 15 знаков';
-            }
-                 
-            // проверяем пароли
-            if ($password != $confirm_password){
-                $result['message']['confirm_password'] = 'Пароли несовпадают';
-            }
-            
-
-                    
-	    //проверяем пароль на валидность
-            if (!preg_match('~[0-9]{12,15}~', $telephone)){
-                $result['message']['telephone'] = 'проверьте правильность номера (международный формат без "+")'; 
-            }
-            else{
-                //проверяем наличие телефона в базе
-                if($this->findTelephone($telephone)){
-                    $result['message']['telephone'] = 'Номер уже зарегестрирован';
-                } 
-            }
-
-            return $result;
-    }
     
     public function registreation($login, $password, $telephone, $name, $second)
     {
         $obj = ['user_name' => $name, 'user_second_name' => $second, 'login' => $login, 'password' => md5($password), 'telephone' => $telephone]; 
+
         $result = $this->msql->Insert('users', $obj);
-        M_Lib::addLog($obj);
-        return $result;
+        return $result > 0;
     }
     
     

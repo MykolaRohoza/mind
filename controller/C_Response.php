@@ -15,15 +15,16 @@ class C_Response extends C_Controller{
         if($this->IsPost()){
 
             if(isset($_POST['registration'])){
-                $this->content = json_encode($_POST);//$this->registrate($_POST['login'], $_POST['pass'], $_POST['tel'], $_POST['email']);
-               
+
+                $this->content = $this->registrate($_POST['login'], $_POST['password'], 
+                        $_POST['telephone'], $_POST['user_name'], $_POST['user_second_name']);
             }
             if(isset($_POST['login'])){
-                $this->content = $this->checkLogin($_POST['login']);//$this->registrate($_POST['login'], $_POST['pass'], $_POST['tel'], $_POST['email']);
+                $this->content = $this->checkLogin($_POST['login']);
                
             }
             if(isset($_POST['telephone'])){
-                $this->content = $this->checkPhone($_POST['telephone']);//$this->registrate($_POST['login'], $_POST['pass'], $_POST['tel'], $_POST['email']);
+                $this->content = $this->checkPhone($_POST['telephone']);
                
             }
             
@@ -43,17 +44,12 @@ class C_Response extends C_Controller{
         $result = $this->mUser->checkPhone($tel); 
         return json_encode($result);
     }
-    private function registrate($login, $pass, $tel){
+    private function registrate($login, $password, $telephone, $name, $second){
 
-         //$result[] = $this->mUser->registrate($login, $pass, $tel);
+        $result = $this->mUser->registreation($login, $password, $telephone, $name, $second);
 
-//        if(count($result) > 0){
-//            
-//            return json_encode($result);
-//        }
-//        else {
-            return json_encode(array());
-//        }
+        return json_encode($result);
+
 }
     
     public function registration() {
