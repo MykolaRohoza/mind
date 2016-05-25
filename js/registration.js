@@ -1,22 +1,26 @@
 function reg (){
     
-    $('input[name="login"]').on('keyup',function(){
-        var message = validateLogin($(this).val());
-
-            showMessage($(this), message);
-
-    });
-    $('input[name="tel"]').on('keyup',function(){
-        var message = validateTelephone($(this).val());
-
-            showMessage($(this), message);
-
-    });
-    $('input[name="pass"], input[name="dbl_pass"]').on('keyup',function(){
-        var message = validatePassword($('input[name="pass"]').val(), $('input[name="dbl_pass"]').val());
-
-            showMessage($('input[name="pass"]'), message);
-
+//    $('input[name="login"]').on('keyup',function(){
+//        var message = validateLogin($(this).val());
+//
+//            showMessage($(this), message);
+//
+//    });
+//    $('input[name="tel"]').on('keyup',function(){
+//        var message = validateTelephone($(this).val());
+//
+//            showMessage($(this), message);
+//
+//    });
+//    $('input[name="pass"], input[name="dbl_pass"]').on('keyup',function(){
+//        var message = validatePassword($('input[name="pass"]').val(), $('input[name="dbl_pass"]').val());
+//
+//            showMessage($('input[name="pass"]'), message);
+//
+//    });
+    
+    $('input[name="regestration"]').on('click', function (){
+        registrate();
     });
 
     $('input[name="clean"]').on('click', function (){
@@ -32,30 +36,28 @@ function reg (){
         getInvite();
     });
     
-    $('input[name="reg"]').on('click', function(){
-       
-        
-        
-    });
+
 }
 
 function registrate(){
-    var login =  $('input[name="login"]').val(),
-        city = $('select[name="sities"]').val(),
-        country = $('select[name="countries"]').val(),
-        tel = $('input[name="tel"]').val(),
-        pass = $('input[name="pass"]').val(),
-        invite = $('input[name="invite"]').val();  
-    var query = 'reg=&login=' + login + '&country=' + country + '&city=' + city + 
-            '&tel=' + tel + '&pass=' + pass + '&invite=' + invite;
+//    var login =  $('input[name="login"]').val(),
+//        city = $('select[name="sities"]').val(),
+//        country = $('select[name="countries"]').val(),
+//        tel = $('input[name="tel"]').val(),
+//        pass = $('input[name="pass"]').val(),
+//        invite = $('input[name="invite"]').val();  
+//    var query = 'reg=&login=' + login + '&country=' + country + '&city=' + city + 
+//            '&tel=' + tel + '&pass=' + pass + '&invite=' + invite;
+var query = 'registration=&message=hi';
     $.ajax({
         type: 'POST',
-        url: 'index.php?C=resp&' + query,
+        url: '/resp/' + query,
         data: query,
         success: function(data){   
-        var result = JSON.parse(data);
-            if(result[0]) {
-                showMessage($('input[name="reg"]'), result[0]);
+        console.log(data);
+            var result = JSON.parse(data);
+            if(result) {
+                showMessage($('input[name="regestration"]'), result);
             }
 
         }

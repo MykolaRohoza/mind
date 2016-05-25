@@ -18,6 +18,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="/js/jquery-1.10.2.min.js"></script>
         <script src="/js/hammer.js"></script>
+        <script src="/js/registration.js"></script>
         <script src="/js/main.js"></script>
         <script src="/js/holders.js"></script>
         <script src="/js/edit.js"></script>
@@ -182,7 +183,7 @@
                                 <input id="input-pas2" type="password" class="form-control" placeholder="Confirm password" name='confirm_password'>
                             </div>
                             <div class="form-group">
-                                <input type="submit" class="btn btn-primary btn-block" name="regestration" value='Зарегестрироваться'>
+                                <input type="button" class="btn btn-primary btn-block" name="regestration" value='Зарегестрироваться'>
 <!--                                <button type="submit" class="btn btn-primary btn-block">Submit</button>-->
                             </div>
                         </form>

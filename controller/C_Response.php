@@ -2,6 +2,7 @@
 class C_Response extends C_Controller{
     private $content;
     private $mUser;
+
     
     function __construct() {
         parent::__construct();
@@ -12,8 +13,9 @@ class C_Response extends C_Controller{
     protected function OnInput() {
         parent::OnInput();
         if($this->IsPost()){
-            if(isset($_POST['reg'])){
-                $this->content = $this->registrate($_POST['login'], $_POST['pass'], $_POST['tel'], $_POST['email']);
+
+            if(isset($_POST['registration'])){
+                $this->content = json_encode($_POST);//$this->registrate($_POST['login'], $_POST['pass'], $_POST['tel'], $_POST['email']);
                
             }
             
@@ -22,7 +24,6 @@ class C_Response extends C_Controller{
         
        
     }
-    
 
     private function registrate($login, $pass, $tel){
 
@@ -37,7 +38,34 @@ class C_Response extends C_Controller{
 //        }
 }
     
+    public function registration() {
+        $regestration = $this->mUsers->checkRegistreation($_POST['login'], $_POST['password'],
+        $_POST['confirm_password'], $_POST['telephone']);
 
+
+        if(count($regestration['message']) > 0){
+          
+            foreach ($regestration as $key => $value) {
+                if($key != 'message' && $value != null){
+                    
+                }
+                if($regestration['message'][$key] != null){
+                    
+                }
+            }
+        }
+        else{
+            if($this->mUsers->registreation($regestration['login'], $_POST['password'], 
+                    $regestration['telephone'], $_POST['user_name'], $_POST['user_second_name'])){
+                $mSender = M_Sender::Instance();
+
+            }
+        }
+
+
+        header("Location: $this->controllerPath");
+        die(); 
+    }
     
     protected function OnOutput() {
         parent::OnOutput();

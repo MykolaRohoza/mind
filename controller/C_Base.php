@@ -58,9 +58,6 @@ abstract class C_Base extends C_Controller {
                 die();
             }
 
-            if ($_POST['regestration']) {
-                $this->registration();
-            }
 
         }
         else{
@@ -95,37 +92,7 @@ abstract class C_Base extends C_Controller {
         }
     }
     
-    public function registration() {
-        $regestration = $this->mUsers->checkRegistreation($_POST['login'], $_POST['password'],
-        $_POST['confirm_password'], $_POST['telephone']);
 
-
-        if(count($regestration['message']) > 0){
-            $this->controllerPath .= '/regestration';
-            foreach ($regestration as $key => $value) {
-                if($key != 'message' && $value != null){
-                    $this->controllerPath .= '/' . $key . '=' . $value; 
-                }
-                if($regestration['message'][$key] != null){
-                    $this->controllerPath .= '/' . $key . '_message' . '=' . $regestration['message'][$key]; 
-                }
-            }
-        }
-        else{
-            if($this->mUsers->registreation($regestration['login'], $_POST['password'], 
-                    $regestration['telephone'], $_POST['user_name'], $_POST['user_second_name'])){
-                $mSender = M_Sender::Instance();
-//                $mSender->send_attachment_mail('iyaki@rambler.ru');
-//                $mSender->send_attachment_phone('+380639244166');
-                header("Location: /activate");
-                die(); 
-            }
-        }
-
-
-        header("Location: $this->controllerPath");
-        die(); 
-    }
 
 
     private function validate($arr){

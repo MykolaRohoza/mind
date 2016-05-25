@@ -48,6 +48,9 @@ M_startup();
             case('cases') : 
                 $controller = new C_Cases();
                 break;
+            case('resp') : 
+                $controller = new C_Response();
+                break;
             default : $controller = new C_Main();
 	}
 
