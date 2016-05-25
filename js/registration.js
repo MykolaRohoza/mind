@@ -6,7 +6,7 @@ function reg (){
     $('input[name="user_second_name"]').on('keyup',function(){
        validateSecName($(this));
      });
-    $('input[name="login"]').on('keyup',function(){
+    $('input[name="login"][required=""]').on('keyup',function(){
         validateLogin($(this));
     });
     $('input[name="telephone"]').on('keyup',function(){
@@ -33,20 +33,22 @@ function registrate(){
 //    var query = 'reg=&login=' + login + '&country=' + country + '&city=' + city + 
 //            '&tel=' + tel + '&pass=' + pass + '&invite=' + invite;
 
-    ;
-    var query = validate(true);
-    $.ajax({
-        type: 'POST',
-        url: '/resp/' + query,
-        data: query,
-        success: function(data){   
-            var result = JSON.parse(data);
-            if(result) {
-                showMessage($('input[name="regestration"]'), result['message']);
-            }
+    
+    if(validate()){
+        var query = getQuery();
+        $.ajax({
+            type: 'POST',
+            url: '/resp/' + query,
+            data: query,
+            success: function(data){   
+                var result = JSON.parse(data);
+                if(result) {
+                    showMessage($('input[name="regestration"]'), result['message']);
+                }
 
-        }
-    });
+            }
+        });
+    }
 }
 function validateName(elem){
     var str = elem.val(), message;
@@ -75,10 +77,11 @@ function validateSecName(elem){
         if(/[^a-zA-Zа-яА-Я]/g.test(str)) message = 'Фамилия может содержать только буквы';
     }
         showMessage(elem, message);
+        return message;
 }
 function validateLogin(elem){
     var str = elem.val(), message;
-    if(/^[\d\w]{3,15}@[\d\w]{3,10}\.[\d\w]{2,10}(\.[\d\w]{2,10})?$/.test(str)){
+    if(/^[\d\w]{3,15}@[\d\w]{2,10}\.[\d\w]{2,10}(\.[\d\w]{2,10})?$/.test(str)){
         message =  1;
     }
     else {
@@ -87,7 +90,9 @@ function validateLogin(elem){
         if(!message) message = 'проверьте правильность введения почты';
         
     }
+
     showMessage(elem, message);
+     return message;
 }
 
 
@@ -107,6 +112,7 @@ function validateTelephone(elem){
 
     }
     showMessage(elem, message);
+     return message;
 }
 function validatePassword(elem1, elem2){
     var pass = elem1.val(),
@@ -125,13 +131,20 @@ function validatePassword(elem1, elem2){
         if(!message) message ='Пароль может содержать только латинские буквы и цифры';
     }
     showMessage(elem1, message);
+     return message;
 }
 function validate(){
-    validateName( $('input[name="user_name"]'));
-    validateSecName($('input[name="user_second_name"]'));
-    validateLogin($('input[name="login"]'));
-    validateTelephone($('input[name="telephone"]'));
-    validatePassword($('input[name="password"][required=""]'), $('input[name="confirm_password"]'));
+    var message = validateName( $('input[name="user_name"]')) +
+        validateSecName($('input[name="user_second_name"]')) +
+        validateLogin($('input[name="login"][required=""]')) + 
+        validateTelephone($('input[name="telephone"]')) +
+        validatePassword($('input[name="password"][required=""]'), $('input[name="confirm_password"]')) ;
+    if(message == 5) {
+            return true;
+    }
+    else {
+        false;
+    }
   
 }
 function getQuery(){

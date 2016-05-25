@@ -18,6 +18,14 @@ class C_Response extends C_Controller{
                 $this->content = json_encode($_POST);//$this->registrate($_POST['login'], $_POST['pass'], $_POST['tel'], $_POST['email']);
                
             }
+            if(isset($_POST['login'])){
+                $this->content = $this->checkLogin($_POST['login']);//$this->registrate($_POST['login'], $_POST['pass'], $_POST['tel'], $_POST['email']);
+               
+            }
+            if(isset($_POST['telephone'])){
+                $this->content = $this->checkPhone($_POST['telephone']);//$this->registrate($_POST['login'], $_POST['pass'], $_POST['tel'], $_POST['email']);
+               
+            }
             
             
         }
@@ -25,6 +33,20 @@ class C_Response extends C_Controller{
        
     }
 
+    
+    
+    private function checkLogin($login){
+        $result = $this->mUser->checkPhone($login);
+        
+        $result = (!$result)?array():$result; 
+        return json_encode($result);
+    }
+    private function checkPhone($tel){
+        $result = $this->mUser->checkPhone($tel);
+        
+        $result = (!$result)?array():$result; 
+        return json_encode($result);
+    }
     private function registrate($login, $pass, $tel){
 
          //$result[] = $this->mUser->registrate($login, $pass, $tel);
