@@ -72,6 +72,7 @@ class C_Response extends C_Controller{
 
         echo $this->content;
         
+
     }
 
 }
