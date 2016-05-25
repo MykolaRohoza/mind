@@ -40,7 +40,6 @@ function registrate(){
         url: '/resp/' + query,
         data: query,
         success: function(data){   
-        console.log(data);
             var result = JSON.parse(data);
             if(result) {
                 showMessage($('input[name="regestration"]'), result['message']);
