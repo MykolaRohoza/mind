@@ -24,6 +24,7 @@ class C_Response extends C_Controller{
                         $_POST['telephone'], $_POST['user_name'], $_POST['user_second_name']);
             }
             if(isset($_POST['check'])){
+
                 if(isset($_POST['login'])){
                     $this->content = $this->checkLogin($_POST['login']);
 
@@ -33,7 +34,6 @@ class C_Response extends C_Controller{
 
                 }
             }
-            $this->content = json_encode($_POST);
             
         }
         

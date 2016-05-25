@@ -74,10 +74,9 @@ function check(val, param, elem){
             if(param === 'login') contact = 'логин';
     $.ajax({
         type: 'POST',
-        url: '/resp/&check=1&' + param + '=' + val,
-        data: param + '=' + val,
+        url: '/resp/check=1&' + param + '=' + val + '',
+        data: 'check=1&' + param + '=' + val,
         success: function(data){ 
-            console.log(data);
             var result = JSON.parse(data);
             if(result) {
                 showMessage(elem, 'Данный' + ' ' + contact + ' ' + 'уже есть в базе');
