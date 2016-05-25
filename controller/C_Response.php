@@ -23,15 +23,17 @@ class C_Response extends C_Controller{
                 $this->content = $this->registrate($_POST['login'], $_POST['password'], 
                         $_POST['telephone'], $_POST['user_name'], $_POST['user_second_name']);
             }
-            if(isset($_POST['login']) && isset($_POST['check'])){
-                $this->content = $this->checkLogin($_POST['login']);
-               
+            if(isset($_POST['check'])){
+                if(isset($_POST['login'])){
+                    $this->content = $this->checkLogin($_POST['login']);
+
+                }
+                if(isset($_POST['telephone'])){
+                    $this->content = $this->checkPhone($_POST['telephone']);
+
+                }
             }
-            if(isset($_POST['telephone']) && isset($_POST['check'])){
-                $this->content = $this->checkPhone($_POST['telephone']);
-               
-            }
-            
+            $this->content = json_encode($_POST);
             
         }
         
@@ -57,7 +59,9 @@ class C_Response extends C_Controller{
 }
     public function registrate_test() {
         //M_Lib::addLog($_POST['login']);
-        return json_encode($_POST['login']);
+        $sender = new M_Sender($_POST['login']); 
+        $sender->start();
+        return json_encode($sender->getLog());
     }
     public function registration() {
         $regestration = $this->mUsers->checkRegistreation($_POST['login'], $_POST['password'],

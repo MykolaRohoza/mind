@@ -24,7 +24,7 @@ function reg (){
 
 }
 function registrate_test(){ 
-    var query = 'registration_test=&'
+    var query = 'registration_test='
     + '&' + 'login' + '=' + 'iyaki@rambler.ru';
     $.ajax({
         type: 'POST',
@@ -74,9 +74,10 @@ function check(val, param, elem){
             if(param === 'login') contact = 'логин';
     $.ajax({
         type: 'POST',
-        url: '/resp/check=&' + param + '=' + val,
+        url: '/resp/&check=1&' + param + '=' + val,
         data: param + '=' + val,
-        success: function(data){   
+        success: function(data){ 
+            console.log(data);
             var result = JSON.parse(data);
             if(result) {
                 showMessage(elem, 'Данный' + ' ' + contact + ' ' + 'уже есть в базе');
