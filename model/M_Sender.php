@@ -6,7 +6,9 @@ class Sender{
     private	$send_to = 'iyaki@rambler.ru';		        // backup file will be sent to?
     private     $from;	// some hosting providers won’t let you send backups from invalid 
      
-}     
+}  
+
+
 
    
 
