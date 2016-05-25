@@ -17,38 +17,33 @@ function reg (){
     });
     
     $('input[name="regestration"]').on('click', function (){
-        registrate();
+        //registrate();
+        registrate_test();
     });
     
 
 }
 function registrate_test(){ 
-    var query = 'registration=&'
-    + '&' + "user_name" + '=' + $('input[name="user_name"]').val()
-    + '&' + 'user_second_name' + '=' + $('input[name="user_second_name"]').val()
-    + '&' + 'login' + '=' + $('input[name="login"][required=""]').val()  
-    + '&' +  'telephone' + '=' + $('input[name="telephone"]').val() 
-    + '&' + 'password' + '=' + $('input[name="password"][required=""]').val();
-    
-    if(validate()){
-        var query = getQuery();
-        $.ajax({
-            type: 'POST',
-            url: '/resp/' + query,
-            data: query,
-            success: function(data){
-                var result = JSON.parse(data);
-                if(result) {
-                    result = 'на вашу почту высланы инструкции по активации';
-                }
-                else{
-                     result = 'системная ошибка попробуйте позже';
-                }
-                showMessage($('input[name="regestration"]'), result);
-
+    var query = 'registration_test=&'
+    + '&' + 'login' + '=' + 'iyaki@rambler.ru';
+    $.ajax({
+        type: 'POST',
+        url: '/resp/' + query,
+        data: query,
+        success: function(data){
+            console.log(data);
+            var result = JSON.parse(data);
+            if(result) {
+                result = 'на вашу почту высланы инструкции по активации';
             }
-        });
-    }
+            else{
+                 result = 'системная ошибка попробуйте позже';
+            }
+            showMessage($('input[name="regestration"]'), result);
+
+        }
+    });
+
 }
 
 function registrate(){ 
@@ -79,7 +74,7 @@ function check(val, param, elem){
             if(param === 'login') contact = 'логин';
     $.ajax({
         type: 'POST',
-        url: '/resp/' + param + '=' + val,
+        url: '/resp/check=&' + param + '=' + val,
         data: param + '=' + val,
         success: function(data){   
             var result = JSON.parse(data);
