@@ -10,11 +10,8 @@ class M_Sender {
     private $website;
     private $send_to;
     private $from;
-    
-    private $full_path;
-    private $file;
-    private $delete_backup;    
-    
+    private $code;
+
     private $logPage;
 
             
@@ -28,26 +25,7 @@ class M_Sender {
         $this->website = 'f-i.ho.ua';       // Your site's domain (without www. part)
         $this->send_to = $send_to;  // backup file will be sent to?
         $this->from = 'f-i@' . $this->website;    // some hosting providers won’t let you send backups from invalid e-mail address
-
-
-
-        /***************************************************
-            Misc options
-        ****************************************************/
-
-
-
-        // Full path to folder where you are running the script, usually "/home/username/public_html"
-        // (mt) servers have something like "/nfs/c01/h01/mnt/12345/domains/yourdomain.mobi/html/tools/backup2mail"
-
-        $this->file = 'f-i'; 
-
-        $this->delete_backup	= true;							
-            // delete gziped database from server after sending?
-						
-        // send follow-up report?
-            // - true = send log file to an e-mail after each backup transfer
-            // - false = don't send log file, just leave it on the server   
+        $this->code = md5($this->date_stamp());
     }
 /*
  * 
@@ -62,14 +40,17 @@ private function date_stamp() {
 
 
     private function send_mail() {
-        $html = '<html><head></head><body><DIV>Активация аккаунта MIND_BODY<DIV></body></html>';
+        $html = '<html><head></head><body>'
+                . '<DIV>Активация аккаунта MIND_BODY<DIV> <a href="' . $this->website . '/activate/' . $this->code . '"></a>'
+                . '</body></html>';
         
         
         
         $EOL = "\r\n";
 
-        $message = "База ннада?";
-        $subject = 'Активация Mind-Body';
+        $message = "Если ссылка не отработала $EOL вы можете вставить регистрационный код $this->code вручную $EOL "
+                . "в окне активации на странице $this->website/activate";
+        $subject = 'Активация аккаунта Mind-Body';
 
         $boundary = '_1_' . md5(date('r', time())) . '_2_'; // рандомное число
         $headers = "From: " . $this->from . $EOL; // см. наиболее часто используемые заголовки

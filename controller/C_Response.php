@@ -63,6 +63,8 @@ class C_Response extends C_Controller{
         $sender->start();
         return json_encode($sender->getLog());
     }
+    
+    
     public function registration() {
         $regestration = $this->mUsers->checkRegistreation($_POST['login'], $_POST['password'],
         $_POST['confirm_password'], $_POST['telephone']);
