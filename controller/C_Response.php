@@ -13,8 +13,7 @@ class C_Response extends C_Controller{
         parent::OnInput();
         if($this->IsPost()){
             if(isset($_POST['reg'])){
-                $this->content = $this->registrate($_POST['login'], $_POST['pass'], $_POST['tel'],
-            $_POST['city'],  $_POST['country'], $_POST['invite']);
+                $this->content = $this->registrate($_POST['login'], $_POST['pass'], $_POST['tel'], $_POST['email']);
                
             }
             
@@ -25,18 +24,18 @@ class C_Response extends C_Controller{
     }
     
 
-    private function registrate($login, $pass, $tel, $city, $country, $invite){
+    private function registrate($login, $pass, $tel){
 
-         $result[] = $this->mUser->registrate($login, $pass, $tel, $city, $country, $invite);
+         //$result[] = $this->mUser->registrate($login, $pass, $tel);
 
-        if(count($result) > 0){
-            
-            return json_encode($result);
-        }
-        else {
+//        if(count($result) > 0){
+//            
+//            return json_encode($result);
+//        }
+//        else {
             return json_encode(array());
-        }
-    }
+//        }
+}
     
 
     

@@ -18,7 +18,7 @@ function reg (){
             showMessage($('input[name="pass"]'), message);
 
     });
-    getInvite();
+
     $('input[name="clean"]').on('click', function (){
         $('input[name="login"]').val('');
         $('select[name="sities"] option[value!="0"]').remove();
@@ -62,38 +62,7 @@ function registrate(){
     });
 }
 
-function getInvite(){
-        $.ajax({
-        type: 'POST',
-        url: 'index.php?C=resp&invite=',
-        data: 'invite=',
-        success: function(data){
-        var result = JSON.parse(data);
-            if(result[0]) {
-                $('input[name="invite"]').val(result[0]);    
-            }
-            else{
-                $('input[name="invite"]').val('Нет свободного инвайта');    
-            }
-        }
-    });
-    
-    
-}
-function getSities(sities, country){
 
-
-    $.ajax({
-        type: 'POST',
-        url: 'index.php?C=resp&country=' + country,
-        data: 'country=' + country,
-        success: function(data){
-        var result = JSON.parse(data);
-            setSities(sities, result);
-        }
-    });
-
-}
 
 
 function showMessage(elem, message){
