@@ -96,7 +96,9 @@ class M_Users
         $code = md5(date('d-m-Y[H-i]'));
         $obj = ['user_name' => $name, 'user_second_name' => $second, 'login' => $login,
             'password' => md5($password), 'telephone' => $telephone, 'user_code' => $code]; 
-
+        if(checkLogin($login, 0) || checkPhone($telephone, 0)){
+            $result = activate('', $obj);
+        }
         $result = ($this->msql->Insert('users', $obj) > 0);
         if($result) {
             $code = md5(date('d-m-Y[H-i]'));
@@ -127,10 +129,19 @@ class M_Users
     }
     
     
-    public function activate($code){
-        $where = "user_code='$code' AND user_code_status='0'";
-        $object = ['user_code' => $code, 'user_code_status' => 1];
-        
+    public function activate($code, $resentObj = null){
+
+        if(!is_null($resentObj)){
+            foreach ($resentObj as $key => $val){
+                $object[$key] = $val;
+            }
+            $where = "telephone={$resentObj['telephone']} OR login={$resentObj['login']}";
+            $object = ['user_code' => $resentObj['user_code'], 'user_code_status' => 0];
+        }
+        else{
+            $where = "user_code='$code' AND user_code_status='0'";
+            $object = ['user_code' => $code, 'user_code_status' => 1];
+        }
         return $this->msql->Update('users', $object, $where);
     }
 

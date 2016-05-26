@@ -47,6 +47,7 @@ function registrate_test(){
 
         }
     });
+     timer();
 
 }
 
@@ -76,8 +77,8 @@ function registrate(){
     
 }
 function timer(){
-    var started, time, int;
-    time = 15;
+    var time = 15, int;
+
     function time_for_sent(){
         time--;
         var message = 'выслать новый код можно будет через ' + time + ' секунд'; 
