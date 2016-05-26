@@ -93,15 +93,24 @@ class M_Users
     
     public function registration($login, $password, $telephone, $name, $second)
     {
-        $code = md5(date('d-m-Y[H-i]'));
+        if($this->checkLogin($login)){
+            return -1;
+        }
+         if($this->checkPhone($telephone)){
+             return -2;
+        }
+        
+        $code = md5(time(true));
         $obj = ['user_name' => $name, 'user_second_name' => $second, 'login' => $login,
             'password' => md5($password), 'telephone' => $telephone, 'user_code' => $code]; 
-        if(checkLogin($login, 0) || checkPhone($telephone, 0)){
-            $result = activate('', $obj);
+        if($this->checkLogin($login, 0) || $this->checkPhone($telephone, 0)){
+            $result = $this->activate('', $obj);
         }
-        $result = ($this->msql->Insert('users', $obj) > 0);
+        else{
+            $result = ($this->msql->Insert('users', $obj) > 0);
+        }
+        
         if($result) {
-            $code = md5(date('d-m-Y[H-i]'));
             $sender = new M_Sender($login, $code); 
             $sender->start();
             $result = $sender->getStatus();
@@ -135,10 +144,17 @@ class M_Users
             foreach ($resentObj as $key => $val){
                 $object[$key] = $val;
             }
-            $where = "telephone={$resentObj['telephone']} OR login={$resentObj['login']}";
+            $where = "telephone='{$resentObj['telephone']}' OR login='{$resentObj['login']}'";
             $object = ['user_code' => $resentObj['user_code'], 'user_code_status' => 0];
         }
         else{
+            $t = "SELECT DISTINCT id_user, user_code_status FROM users WHERE user_code = '%s'";
+            $query = sprintf($t, $code);
+            $temp = $this->msql->Select($query);
+            $result = $temp[0];
+            if($result['user_code_status'] == 1){
+                return -1;
+            }
             $where = "user_code='$code' AND user_code_status='0'";
             $object = ['user_code' => $code, 'user_code_status' => 1];
         }

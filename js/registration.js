@@ -54,17 +54,26 @@ function registrate_test(){
 function registrate(){ 
     if(validate()){
         var query = getQuery();
-        console.log(query);
+
         $.ajax({
             type: 'POST',
             url: '/resp/' + query,
             data: query,
             success: function(data){
-                console.log(data);
+
                 var result = JSON.parse(data);
                 if(result) {
-                    result = 'на вашу почту высланы инструкции по активации';
-                    timer();
+                    switch(result){
+                        case(-1):
+                            result = 'Этот логин уже есть в базе';
+                        break;
+                        case(-2):
+                            result = 'Этот телефон уже есть в базе';
+                        break;
+                        default :
+                            result = 'на вашу почту высланы инструкции по активации';
+                            timer();
+                    }
                 }
                 else{
                      result = 'системная ошибка попробуйте позже';

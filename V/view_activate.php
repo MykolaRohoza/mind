@@ -7,7 +7,7 @@
             <div class="article article-left clearfix">
                
                 <?php if($isActive):?>
-                    <p style="font-size:22px; color:green;">Спасибо, что за регестрировались на нашем сайте теперь вы можете использовать свой логин и пароль!</p>
+                    <p style="font-size:22px; color:green;"><?=$message?></p>
                 <?php endif; ?>
                 <?php if(!$isActive): ?>
                     <p>Код регистрации просрочен либо просто отсутствует</p>
