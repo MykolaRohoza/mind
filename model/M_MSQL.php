@@ -130,9 +130,9 @@ class M_MSQL
 		$sets_s = implode(',', $sets);			
 		$query = "UPDATE $table SET $sets_s WHERE $where";
 		$result = mysql_query($query);
-		
+
 		if (!$result) {
-                    die(mysql_error() . ' ' . $query . ' ' . var_dump($object));
+                    die(mysql_error() . ' ' . $query);
                 }
         $res = mysql_affected_rows();
 

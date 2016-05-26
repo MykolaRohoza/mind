@@ -47,23 +47,33 @@ function registrate_test(){
 
         }
     });
+     timer();
 
 }
 
 function registrate(){ 
     if(validate()){
         var query = getQuery();
-        console.log(query);
+
         $.ajax({
             type: 'POST',
             url: '/resp/' + query,
             data: query,
             success: function(data){
-                console.log(data);
+
                 var result = JSON.parse(data);
                 if(result) {
-                    result = 'на вашу почту высланы инструкции по активации';
-                    timer();
+                    switch(result){
+                        case(-1):
+                            result = 'Этот логин уже есть в базе';
+                        break;
+                        case(-2):
+                            result = 'Этот телефон уже есть в базе';
+                        break;
+                        default :
+                            result = 'на вашу почту высланы инструкции по активации';
+                            timer();
+                    }
                 }
                 else{
                      result = 'системная ошибка попробуйте позже';
@@ -76,8 +86,8 @@ function registrate(){
     
 }
 function timer(){
-    var started, time, int;
-    time = 15;
+    var time = 15, int;
+
     function time_for_sent(){
         time--;
         var message = 'выслать новый код можно будет через ' + time + ' секунд'; 
@@ -119,6 +129,7 @@ function validateName(elem){
         message = 1;
     }
     else {
+         message ='проверьте правильность набора';
         if(str.length > 20) message = 'Максимальная длина имени 20';
         if(str.length < 3) message = 'Минимальная длина имени 3';
         if(/[^a-zA-Zа-яА-Я]/g.test(str)) message = 'Имя может содержать только буквы';
@@ -147,9 +158,10 @@ function validateLogin(elem, withOutCheck){
         else message = 0;
     }
     else {
+         message ='проверьте правильность набора';
         if(str.length > 20) message = 'Максимальная длина логина 20';
         if(str.length < 5) message = 'Минимальная длина логина 5';
-        if(!message) message = 'проверьте правильность введения почты';
+
         
     }
 
@@ -167,6 +179,7 @@ function validateTelephone(elem, withOutCheck){
         else message = 0;
     }
     else {
+         message ='проверьте правильность набора';
         if(/^[^\d]$/.test(str)) message = 'Телефон может содержать только цифры пробелы и () -+';
         if(str.length < 10) message = 'Минимальная длина телефона 10';
         if(str.length > 15) message = 'Максимальная длина телефона 15';
@@ -188,6 +201,7 @@ function validatePassword(elem1, elem2){
          else  message = 1;
     }
     else {
+        message ='проверьте правильность набора';
         if(pass.length > 20) message = 'Максимальная длина пароля 20';
         if(pass.length < 5) message = 'Минимальная длина пароля 5';
         if(!message) message ='Пароль может содержать только латинские буквы и цифры';
@@ -201,7 +215,7 @@ function validate(){
         validateLogin($('input[name="login"][required=""]'), true) + 
         validateTelephone($('input[name="telephone"]'), true) +
         validatePassword($('input[name="password"][required=""]'), $('input[name="confirm_password"]')) ;
-console.log(message);
+
     if(message == 5) {
             return true;
     }

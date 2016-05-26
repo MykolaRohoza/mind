@@ -19,7 +19,7 @@ class C_Response extends C_Controller{
                 $this->content = $this->registrate_test($_POST['login']);
             }
             if(isset($_POST['registration'])){
-
+                
                 $this->content = $this->registrate($_POST['login'], $_POST['password'], 
                         $_POST['telephone'], $_POST['user_name'], $_POST['user_second_name']);
             }

@@ -51,15 +51,27 @@ class C_Activate extends C_Base {
         else
         {
             if(isset($this->contVars['code'])){	
-                $this->contVars['isActive'] = $this->activate($this->contVars['code']);
+                $this->contVars = $this->activate($this->contVars['code']);
             }
         }
                 
         
     }
     private function activate($code){
-        $result = $this->mUsers->activate($code);
-        return (bool)$result;
+        $res = $this->mUsers->activate($code);
+        if($res){
+            $result['isActive'] = true;
+        }
+        if(is_numeric($res)){
+            if($res == -1) {
+                $result['message'] = 'Данный код уже использован';            
+            }
+            else{
+                $result['message'] = 'Спасибо, что за регестрировались на нашем сайте теперь вы можете использовать свой логин и пароль!';
+            }
+        }
+        
+        return $result;
     }
 
     //
