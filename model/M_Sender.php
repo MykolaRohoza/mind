@@ -1,77 +1,101 @@
 <?php
 
-class M_Sender{
-    private static $instance; 	// ссылка на экземпляр класса
-    private  	$website = 'mind-body.ho.ua';		    // Your site's domain (without www. part)
-    private	$send_to = 'iyaki@rambler.ru';		        // backup file will be sent to?
-    private     $from;	// some hosting providers won’t let you send backups from invalid 
-     
-     
-     
-    public static function Instance() {
-    if (self::$instance == null) {
-        self::$instance = new M_Cases_Example();
-    }
 
-    return self::$instance;
-    }
+ //   $sender = new Sender(); 
+//    $sender->start();
+//    echo $sender->getLog();
+   
+class M_Sender {
 
-    //
-    // Конструктор
-    //
-    private function __construct()
+    private $website;
+    private $send_to;
+    private $from;
+    private $code;
+
+    private $logPage;
+
+    private $status;     
+    public function __construct($send_to, $code)
     {
-        $this->from = 'karevar@' . $this->website;
+
+        $this->logPage = '';
+        /***************************************************
+                E-mail settings
+        ****************************************************/
+        $this->website = 'f-i.ho.ua';       // Your site's domain (without www. part)
+        $this->send_to = $send_to;  // backup file will be sent to?
+        $this->from = 'f-i@' . $this->website;    // some hosting providers won’t let you send backups from invalid e-mail address
+        $this->code = $code; 
+
     }
+/*
+ * 
+ *
+ */
     
-    
-    public function send_attachment_mail($send_to) {
-	//$send_to, $from, $website, $delete_backup;
 
-	$sent       = 'No';
+    private function send_mail() {
+        $html = '<html><head></head><body>'
+                . '<DIV>Активация аккаунта MIND_BODY<DIV> <a href="' . $this->website . '/activate/' . $this->code . '"></a>'
+                . '</body></html>';
+        
+        
+        
+        $EOL = "\r\n";
 
-        $boundary   = md5(uniqid(time()));
-        $mailer     = 'Отправлено с сайта MIND-BODY';
-        $subject  = 'Активация аккаунта MIND-BODY';
+        $message = "Для активации перейдите по данной ссылке $EOL http://$this->website/activate/$this->code $EOL "
+                . "Если ссылка не отработала $EOL вы можете вставить регистрационный код $this->code вручную "
+                . "в окне активации на странице $EOL  http://$this->website/activate";
+        $subject = 'Активация аккаунта Mind-Body';
 
-	$headers  = 'From: ' . $from . "\n";
-	$headers .= 'MIME-Version: 1.0' . "\n";
-	$headers .= 'Content-type: multipart/mixed; boundary="' . $boundary . '";' . "\n";
-	$headers .= 'This is a multi-part message in MIME format. ';
-	$headers .= 'If you are reading this, then your e-mail client probably doesn\'t support MIME.' . "\n";
-	$headers .= $mailer . "\n";
-	$headers .= '--' . $boundary . "\n";
+        $boundary = '_1_' . md5(date('r', time())) . '_2_'; // рандомное число
+        $headers = "From: " . $this->from . $EOL; // см. наиболее часто используемые заголовки
+        $headers .= "Reply-To: " . $this->from . $EOL;
+        $headers .= "MIME-Version: 1.0" . $EOL;
+        $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"";
 
-	$headers .= 'Content-Type: text/plain; charset="iso-8859-1"' . "\n";
-	$headers .= 'Content-Transfer-Encoding: 7bit' . "\n";
-	$headers .= $body . "\n";
+        $body = "--$boundary" . $EOL; 
+
+        $body .= "Content-Type: text/plain; charset=\"utf-8\"" . $EOL;
+        $body .= "Content-Transfer-Encoding: 7bit" . $EOL . $EOL;
+        $body .= $message . $EOL; 
+
+        $body .= "--$boundary" . $EOL;
+
+        $body .= "Content-Type: text/html; charset=\"utf-8\"" . $EOL;
+        $body .= "Content-Transfer-Encoding: base64" . $EOL . $EOL;
+        $body .= chunk_split(base64_encode($html)) . $EOL . $EOL;
 
 
-	$headers .= 'Content-Transfer-Encoding: base64' . "\n\n";
+        $body .= "--$boundary--";
 
-	$headers .= '--' . $boundary . '--' . "\n";
+        $this->logPage .=  $subject . '';
+        if ($this->status = mail($this->send_to, $subject, $body, $headers)) {
+                $sent = 'Yes';
+                
+        }
+        else {
+            $sent = 'NO';
+            
+        }
 
-	if (mail($send_to, $subject, $body, $headers)) {
-		$sent = 'Yes';		
-	} 
-	
-	return $sent;
+        $this->logPage .=  'Sent? ' . $sent . $EOL;    
+    }
+
+
+
+
+public function start() {
+    error_reporting(E_ALL);
+    $this->send_mail();
 }
-    
-        public function send_attachment_phone($send_to) {
-	//$send_to, $from, $website, $delete_backup;
-
-	$sent       = 'No';
-
-        $subject  = 'Активация аккаунта MIND-BODY 5908';
-
-
-
-	if (mail($send_to, $subject, $body, $headers)) {
-		$sent = 'Yes';		
-	} 
-	
-	return $sent;
+public function getLog() {
+    return $this->logPage;
 }
-    
+public function getStatus() {
+    return $this->status;
+}
+
+
+
 }

@@ -89,60 +89,52 @@ class M_Users
             return true;
     }
         
-    public function checkRegistreation($login, $password, $confirm_password, $telephone)
-    {
 
-            $result = ['login' => $login, 'password' => null, 'confirm_password' => null,
-                'telephone' => $telephone];
-
-              //проверяем login на валидность
-            if (!filter_var($login, FILTER_VALIDATE_EMAIL)){
-                $result['message']['login'] = 'Это не может быть email';
-            }
-            else{
-                if ($this->checkLogin($login)){
-                    $result['message']['login'] = 'Логин занят';
-                }
-            }
-            
-
-            //TODO проверяем пароль на валидность
-            if (!preg_match('~[0-9a-zA-Z]{6,15}~', $password)){
-                $result['message']['password'] = 'Пароль должен содержать только латинские буквы и цифры от 6 до 15 знаков';
-            }
-                 
-            // проверяем пароли
-            if ($password != $confirm_password){
-                $result['message']['confirm_password'] = 'Пароли несовпадают';
-            }
-            
-
-                    
-	    //проверяем пароль на валидность
-            if (!preg_match('~[0-9]{12,15}~', $telephone)){
-                $result['message']['telephone'] = 'проверьте правильность номера (международный формат без "+")'; 
-            }
-            else{
-                //проверяем наличие телефона в базе
-                if($this->findTelephone($telephone)){
-                    $result['message']['telephone'] = 'Номер уже зарегестрирован';
-                } 
-            }
-
-            return $result;
-    }
     
-    public function registreation($login, $password, $telephone, $name, $second)
+    public function registration($login, $password, $telephone, $name, $second)
     {
-        $obj = ['user_name' => $name, 'user_second_name' => $second, 'login' => $login, 'password' => md5($password), 'telephone' => $telephone]; 
-        $result = $this->msql->Insert('users', $obj);
-        M_Lib::addLog($obj);
+        $code = md5(date('d-m-Y[H-i]'));
+        $obj = ['user_name' => $name, 'user_second_name' => $second, 'login' => $login,
+            'password' => md5($password), 'telephone' => $telephone, 'user_code' => $code]; 
+
+        $result = ($this->msql->Insert('users', $obj) > 0);
+        if($result) {
+            $code = md5(date('d-m-Y[H-i]'));
+            $sender = new M_Sender($login, $code); 
+            $sender->start();
+            $result = $sender->getStatus();
+        }
+        else{
+           $result = false; 
+        }
         return $result;
     }
     
+        public function checkLogin($login, $user_code_status = 1)
+    {	
+            $t = "SELECT DISTINCT id_user FROM users WHERE login = '%s' AND user_code_status=$user_code_status";
+            $query = sprintf($t, mysql_real_escape_string($login));
+            $result = $this->msql->Select($query);
+            return $result[0]['id_user'] > 0;
+    }
+    
+    public function checkPhone($telephone, $user_code_status=1)
+    {	
+            $t = "SELECT DISTINCT id_user FROM users WHERE telephone = '%s' AND user_code_status=$user_code_status";
+            $query = sprintf($t, $telephone);
+            $result = $this->msql->Select($query);
+            return $result[0]['id_user'] > 0;
+    }
     
     
-    //
+    public function activate($code){
+        $where = "user_code='$code' AND user_code_status='0'";
+        $object = ['user_code' => $code, 'user_code_status' => 1];
+        
+        return $this->msql->Update('users', $object, $where);
+    }
+
+        //
     // Выход
     //
     public function Logout()
@@ -187,22 +179,7 @@ class M_Users
             $result = $this->msql->Select($query);
             return $result[0];
     }
-    public function checkLogin($login)
-    {	
-            $t = "SELECT COUNT(*) FROM users WHERE login = '%s'";
-            $query = sprintf($t, mysql_real_escape_string($login));
-            $result = $this->msql->Select($query);
-            return $result[0]['COUNT(*)'] > 0;
-    }
-    
-    public function findTelephone($telephone)
-    {	
-            $t = "SELECT COUNT(*) FROM users WHERE telephone = '%s'";
-            $query = sprintf($t, $telephone);
-            $result = $this->msql->Select($query);
-            return $result[0]['COUNT(*)'] > 0;
-    }
-    
+
     
      public function getUserNameByLogin(){
             $login = $this->Get();
