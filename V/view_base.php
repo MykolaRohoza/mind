@@ -184,7 +184,7 @@
                             </div>
                             <div class="form-group">
                                 <input type="button" class="btn btn-primary btn-block" name="regestration" value='Зарегестрироваться'>
-<!--                                <button type="submit" class="btn btn-primary btn-block">Submit</button>-->
+<!--                                <button type="submit" class="btn btn-primary btn-block" name="regestration">Submit</button>-->
                             </div>
                         </form>
                     </div>

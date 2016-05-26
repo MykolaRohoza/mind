@@ -1,24 +1,28 @@
 function reg (){
-    $('input[name="user_name"]').on('keyup',function(){
+    $('input[name="user_name"]').on('keyup change',function(){
         validateName($(this));
     });
     
-    $('input[name="user_second_name"]').on('keyup',function(){
+    $('input[name="user_second_name"]').on('keyup change',function(){
        validateSecName($(this));
      });
-    $('input[name="login"][required=""]').on('keyup',function(){
+
+    $('input[name="login"][required=""]').on('keyup change',function(){
         validateLogin($(this));
     });
-    $('input[name="telephone"]').on('keyup',function(){
+
+    $('input[name="telephone"]').on('keyup change',function(){
        validateTelephone($(this));
     });
-    $('input[name="password"][required=""], input[name="confirm_password"]').on('keyup',function(){
+
+    $('input[name="password"][required=""], input[name="confirm_password"]').on('keyup change',function(){
         validatePassword($('input[name="password"][required=""]'), $('input[name="confirm_password"]'));
     });
+
     
     $('input[name="regestration"]').on('click', function (){
-        //registrate();
-        registrate_test();
+        registrate();
+        //registrate_test();
     });
     
 
@@ -31,7 +35,7 @@ function registrate_test(){
         url: '/resp/' + query,
         data: query,
         success: function(data){
-            console.log(data);
+
             var result = JSON.parse(data);
             if(result) {
                 result = 'на вашу почту высланы инструкции по активации';
@@ -49,14 +53,17 @@ function registrate_test(){
 function registrate(){ 
     if(validate()){
         var query = getQuery();
+        console.log(query);
         $.ajax({
             type: 'POST',
             url: '/resp/' + query,
             data: query,
             success: function(data){
+                console.log(data);
                 var result = JSON.parse(data);
                 if(result) {
                     result = 'на вашу почту высланы инструкции по активации';
+                    timer();
                 }
                 else{
                      result = 'системная ошибка попробуйте позже';
@@ -66,8 +73,24 @@ function registrate(){
             }
         });
     }
+    
 }
-
+function timer(){
+    var started, time, int;
+    time = 15;
+    function time_for_sent(){
+        time--;
+        var message = 'выслать новый код можно будет через ' + time + ' секунд'; 
+        showMessage($('input[name="regestration"]'), message);
+        $('input[name="regestration"]').attr('disabled', 'disabled');
+        if (time <= 0){
+           clearInterval(int);
+            $('input[name="regestration"]').removeAttr('disabled');
+            showMessage($('input[name="regestration"]'), 1);
+        }
+    }
+    int = setInterval(time_for_sent, 1000);
+}
 function check(val, param, elem){
     var contact;
             if(param === 'telephone') contact = 'телефон';
@@ -178,7 +201,7 @@ function validate(){
         validateLogin($('input[name="login"][required=""]'), true) + 
         validateTelephone($('input[name="telephone"]'), true) +
         validatePassword($('input[name="password"][required=""]'), $('input[name="confirm_password"]')) ;
-
+console.log(message);
     if(message == 5) {
             return true;
     }
@@ -189,7 +212,7 @@ function validate(){
 }
 function getQuery(){
 
-    var query = 'registration=&'
+    var query = 'registration='
     + '&' + "user_name" + '=' + $('input[name="user_name"]').val()
     + '&' + 'user_second_name' + '=' + $('input[name="user_second_name"]').val()
     + '&' + 'login' + '=' + $('input[name="login"][required=""]').val()  

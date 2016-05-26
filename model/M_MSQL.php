@@ -120,20 +120,19 @@ class M_MSQL
 			}
 			else
 			{
-				if(!pre) {
-                                    $value = mysql_real_escape_string($value . '');					
-				}
-                                    $sets[] = "$key='$value'";			
+                            if(!pre) {
+                                $value = mysql_real_escape_string($value . '');					
+                            }
+                            $sets[] = "$key='$value'";			
 			}			
 		}
 		
 		$sets_s = implode(',', $sets);			
 		$query = "UPDATE $table SET $sets_s WHERE $where";
-                M_Lib::addLog($query);
 		$result = mysql_query($query);
 		
 		if (!$result) {
-                    die(mysql_error() . ' ' . $query);
+                    die(mysql_error() . ' ' . $query . ' ' . var_dump($object));
                 }
         $res = mysql_affected_rows();
 

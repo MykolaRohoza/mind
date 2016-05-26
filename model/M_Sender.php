@@ -14,7 +14,7 @@ class M_Sender {
 
     private $logPage;
 
-            
+    private $status;     
     public function __construct($send_to, $code)
     {
 
@@ -70,11 +70,13 @@ class M_Sender {
         $body .= "--$boundary--";
 
         $this->logPage .=  $subject . '';
-        if (mail($this->send_to, $subject, $body, $headers)) {
-                $sent = 'Yes';		
+        if ($this->status = mail($this->send_to, $subject, $body, $headers)) {
+                $sent = 'Yes';
+                
         }
         else {
             $sent = 'NO';
+            
         }
 
         $this->logPage .=  'Sent? ' . $sent . $EOL;    
@@ -89,6 +91,9 @@ public function start() {
 }
 public function getLog() {
     return $this->logPage;
+}
+public function getStatus() {
+    return $this->status;
 }
 
 
