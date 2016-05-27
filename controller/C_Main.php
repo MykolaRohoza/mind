@@ -2,7 +2,7 @@
 //
 // Конттроллер страницы-примера.
 //
-class C_Main extends C_Base {
+class C_Users extends C_Base {
     
     // переменные для создания наполнения 
 
@@ -19,10 +19,10 @@ class C_Main extends C_Base {
     {
     	parent::__construct();
         $this->mUsers = M_Users::Instance();
-        $this->needLogin = false;
+        $this->needLogin = true;
     	$this->needTimeTest = true;
     	$this->needStocks = true;
-        $this->controllerPath = "/.";
+        $this->controllerPath = "/users";
     }
 
 

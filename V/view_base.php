@@ -51,6 +51,7 @@
 <!--                        <li><a href="/">Расписание</a></li>-->
                         <li><a href="/contacts" <?=$nav['contacts'];?> >Контакты</a></li>
                         <?php if($isAdmin):?>
+                        <li><a href="/users" <?=$nav['users'];?> >Пользователи</a></li>
                         <li><a href="/edit" <?=$nav['edit'];?> >Редактор</a></li>
                         <?php endif;?> 
                     </ul>

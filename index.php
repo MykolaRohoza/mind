@@ -54,6 +54,9 @@ M_startup();
             case('activate') : 
                 $controller = new C_Activate($info[1]);
                 break;
+            case('users') : 
+                $controller = new C_Users();
+                break;
             default : $controller = new C_Main();
 	}
 
