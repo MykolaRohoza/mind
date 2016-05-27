@@ -77,14 +77,11 @@ function validateText(txt, hiddenDiv){
 $(function() {
     var inp_title = $("input[name='article_title']");
     
-        inp_title.bind('keyup', function() {
+        inp_title.bind('keyup focus mouseover', function() {
             validateTitle(inp_title);
 
         });
-        inp_title.on('focus', function() {
-            validateTitle(inp_title);
 
-        });
     
 
 });
