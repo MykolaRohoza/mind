@@ -8,6 +8,7 @@
                
                 <?php if($isActive):?>
                     <p style="font-size:22px; color:green;"><?=$message?></p>
+                    <a href="/">Перейти на главную страницу</a>
                 <?php endif; ?>
                 <?php if(!$isActive): ?>
                     <p>Код регистрации просрочен либо просто отсутствует</p>
