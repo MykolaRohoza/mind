@@ -47,7 +47,7 @@
                     <ul class="nav">
                         <li><a href="/" <?=$nav['main'];?> >Главная</a></li>
                         <li><a href="/prevention" <?=$nav['prevention'];?> >Профилактор</a></li> 
-<!--                        <li><a href="/articles" <?=$nav['articles'];?> >Статьи</a></li>-->
+                        <li><a href="/articles" <?=$nav['articles'];?> >Статьи</a></li>
 <!--                        <li><a href="/">Расписание</a></li>-->
                         <li><a href="/contacts" <?=$nav['contacts'];?> >Контакты</a></li>
                         <?php if($isAdmin):?>

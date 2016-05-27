@@ -51,6 +51,7 @@ class C_Prevention extends C_Base {
             $this->content['nav']['prevention'] = 'class="active"'; 
             $mArticles = M_Articles::Instance();
             $this->content['articles'] = $mArticles->getArticles(2, 0, 2);
+            
             $this->metaTags['keywords'] = 'профилактор Евминова Харьков, Методика Евминова Харьков, лечение и профилактика заболеваний позвоночника Харьков';
             $this->metaTags['description'] = 'профилактор Евминова в аренду Харьков, Харьков Профилактика и лечение проблем позвоночника Харьков, межпозвоночные грыжи Харьков,'
                     . ' боли в спине Харьков, реабилитация пациентов после перенесенных травм и оперативного вмешательства,'
@@ -73,10 +74,10 @@ class C_Prevention extends C_Base {
     public function OnOutput() {   	
         //Генерация вложенных шаблонов
         if($this->needStocks && count($this->content['stocks']) > 0){
-            $vars['stocks'] = $this->View('V/view_stocks.php', ['stocks' => $this->content['stocks'],
-                'isAdmin' => $this->isAdmin]);
+            $vars['stocks'] = $this->View('V/view_stocks.php', array('stocks' => $this->content['stocks']));
         }
-        $vars = ['isAdmin' => $this->isAdmin, 'articles' => $this->content['articles']];
+        $vars['isAdmin'] = $this->isAdmin;
+        $vars['articles'] = $this->content['articles'];
         $this->content['container_main'] = $this->View('V/view_prevention.php', $vars);
         parent::OnOutput();
         

@@ -73,6 +73,17 @@ class M_Articles
        
     }
     
+    /**
+     * 
+     * @param int $article_func 1 - статья, 2 - акция
+     * @param int $id_article
+     * @param int $article_dest 1 - главная, 2 - профилактор, 3 - статьи 
+     * @param int $page
+     * @param int $onPage
+     * @param string $lang
+     * @return mixed array 
+     */
+    
     public function getArticles($article_func = 0, $id_article = 0, $article_dest = 0, $page = 1, $onPage = 5, $lang = 'ru'){
         return $this->getArticlesFull($article_func, $id_article, $article_dest, $page, $onPage, $lang);
     }
