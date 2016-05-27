@@ -1,29 +1,32 @@
 <?php
 ?>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-8">
-            <?php if($articles):?> 
-            <?php foreach ($users as $user):?>
-                <div class="article article-left clearfix">
-                    <h3><?=$user['article_title']?></h3>
-                    <img src="<?='http://' . $_SERVER['SERVER_NAME'] . '/images/carousel/' . $user['article_img_name']?>" alt="<?=$user['image_alt']?>">
-                        <?php if($isAdmin):?>
-                            <a href="/edit/<?=$user['id_article']?>" class=" edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-                        <?php endif;?>
-
-                <?=$user['article_text']?>
-                </div>
-            <?php endforeach;?>
-            <?php endif;?>       
-        </div>
-
-<?=$stocks;?>
-    </div>                  
-</div>
 
 
     <div class="container">
+        
+             <div class="row">
+        <div class="col-sm-7">
+            <?php if(count($images) > 0):?>
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="false">
+                <div class="carousel-inner" role="listbox">
+                    <?php for($i = 0; $i < count($images); $i++): ?>
+                        <div class="item <?php if($i==0) {echo 'active';} ?>">
+                            <img src="<?=$images[$i]['path'];?>" alt="<?=$images[$i]['alt'];?>" onclick="put(this)">
+                        </div>
+                    <?php endfor; ?>
+
+                </div>
+                <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-menu-left glyphicon1" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-menu-right glyphicon1" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        <?php endif; ?>
+        </div>
         <div class="row">
             <div class="col-sm-8">
                 <ul class="contacts">

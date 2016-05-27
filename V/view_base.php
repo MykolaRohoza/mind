@@ -95,8 +95,8 @@
                                 <span class="sr-only">Next</span>
                             </a>
                         </div>
-                 <?php endif; ?>
                         <strong class="logo"><a href="#">MB</a></strong>
+                 <?php endif; ?>
 
                     </div>
                      <?php if($needLoginForm):?>

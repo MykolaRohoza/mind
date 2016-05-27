@@ -52,6 +52,7 @@ class C_Users extends C_Base {
             }
             // сбор разрешений и организация массивов
             $this->content['nav']['users'] = 'class="active"';
+            $this->content['images'] = 'class="active"';
 
             
             
