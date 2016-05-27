@@ -16,8 +16,8 @@
                 </div>
             <?php endforeach;?>
             <?php endif;?>       
-                    
         </div>
+
 <?=$stocks;?>
     </div>                  
 </div>

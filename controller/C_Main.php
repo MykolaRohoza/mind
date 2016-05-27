@@ -77,7 +77,7 @@ class C_Main extends C_Base {
 
         //Генерация вложенных шаблонов
         if($this->needStocks && count($this->content['stocks']) > 0){
-            $vars['stocks'] = $this->View('V/view_stocks.php', ['stocks' => $this->content['stocks'], 'isAdmin' => $this->isAdmin]);
+            $vars['stocks'] = $this->View('V/view_stocks.php', array('stocks' => $this->content['stocks']));
         }
         $vars['isAdmin'] = $this->isAdmin;
         $this->content['container_main'] = $this->View('V/view_main.php', $vars);

@@ -34,11 +34,8 @@ function imgName(){
 $(function() {
     var txt = $('#change'),     
     hiddenDiv = $('.hiddendiv');
-    txt.bind('keyup', function() {
-        validateText(txt, hiddenDiv);
 
-    });
-    txt.on('focus', function() {
+    txt.on('keyup focus', function() {
         validateText(txt, hiddenDiv);
 
     });
@@ -53,12 +50,14 @@ function createHiddenDivTA(){
         txt.addClass('noscroll');
         hiddenDiv.addClass('hiddendiv');
         $('div#changeWrap form').append(hiddenDiv);
-        validateText(txt, hiddenDiv);
+        validateText(txt);
     }
 }
 
-function validateText(txt, hiddenDiv){
-    var content_ta = txt.val().replace(/^<p>/g, '');
+function validateText(txt){
+    var content_ta = txt.val().replace(/^<p>/g, ''),
+        hiddenDiv = $('div.hiddendiv');
+    
     content_ta = content_ta.replace(/<\/p>/g, '');
     content_ta = content_ta.replace(/<p>/g, '\n\n');
     content_ta = content_ta.replace(/<br>/g, '\n');
@@ -77,11 +76,10 @@ function validateText(txt, hiddenDiv){
 $(function() {
     var inp_title = $("input[name='article_title']");
     
-        inp_title.bind('keyup focus mouseover', function() {
+        inp_title.on('click focus blur keyup', function() {
             validateTitle(inp_title);
 
         });
-
     
 
 });
@@ -143,10 +141,10 @@ function put(elem){
 function valid_art_img(src){
     if(src){
         $('#article_img').attr('src', src);
-        $('#article_img').removeAttr('style');
+        $('#article_img').show();
     }
     else{
-        $('#article_img').attr('style', 'display:none');
+        $('#article_img').hide();
 
     }
 }
