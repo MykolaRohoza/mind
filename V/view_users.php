@@ -38,37 +38,51 @@
                         <h4><?=$user['user_name']?> <?=$user['user_second_name']?></h4>
                         <h4>Контакты: <?=$user['user_name']?> <?=$user['user_second_name']?>, Телефон <?=$user['telephone']?></h4>
                         <h4>Диагноз: <?=$user['info_diagnosis']?> </h4>
-                        <div class="exercises_container"> Упражнения:
-                        <form class="exercises">
-                            <div class="exercise">
-                                <input type="text" value="упражнение">
-                                <input type="text" value="<?=$user['id_user']?>" hidden="" name="id_user">
-                                <input type="text" class="counts" value="30">
-                                <input type="text" class="repeat" value="2">
-                                <input type="button" class="plus" value="+">
-                                <input type="button" class="deg" value="-">
-                            </div>
+                        <div class="exercises_container"> <h4>Упражнения:</h4>
+
+
 
                             <div class="exercise">
                                 <input type="text" value="упражнение">
-                                <input type="text" value="<?=$user['id_user']?>" hidden="" name="id_user">
-                                <input type="text" class="counts" value="30">
-                                <input type="text" class="repeat" value="2">
-                                <input type="button" class="plus" value="+">
-                                <input type="button" class="deg" value="-">
-                            </div>
 
+                                <span class="counts">30</span>
+                                <div class="pd_btn plus" onclick="plus(this)"></div>
+                                <div class="pd_btn deg" onclick="deg(this)"></div>
+                                <span class="counts"> X </span>
+                                <span class="repeat">2</span>
+                                <div class="pd_btn plus" onclick="plus(this)"></div>
+                                <div class="pd_btn deg" onclick="deg(this)"></div>
+                            </div>
                             <div class="exercise">
                                 <input type="text" value="упражнение">
-                                <input type="text" value="<?=$user['id_user']?>" hidden="" name="id_user">
-                                <input type="text" class="counts" value="30">
-                                <input type="text" class="repeat" value="2">
-                                <input type="button" class="plus" value="+">
-                                <input type="button" class="deg" value="-">
+
+                                <span class="counts">30</span>
+                                <div class="pd_btn plus" onclick="plus(this)"></div>
+                                <div class="pd_btn deg" onclick="deg(this)"></div>
+                                <span class="counts"> X </span>
+                                <span class="repeat">2</span>
+                                <div class="pd_btn plus" onclick="plus(this)"></div>
+                                <div class="pd_btn deg" onclick="deg(this)"></div>
                             </div>
+                            <div class="exercise">
+                                <input type="text" value="упражнение">
+
+                                <span class="counts">30</span>
+                                <div class="pd_btn plus" onclick="plus(this)"></div>
+                                <div class="pd_btn deg" onclick="deg(this)"></div>
+                                <span class="counts"> X </span>
+                                <span class="repeat">2</span>
+                                <div class="pd_btn plus" onclick="plus(this)"></div>
+                                <div class="pd_btn deg" onclick="deg(this)"></div>
+                            </div>
+
+
+  
+                        <br><form class="exercises">
+                            <input type="hidden" value="<?=$user['id_user']?>" name="id_user">
                             <input type="submit" name="exercise">
                         </form>
-                        <div>
+                     
                         
                         
                         <!--                            <ul>

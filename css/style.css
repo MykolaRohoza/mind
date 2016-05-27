@@ -292,3 +292,54 @@ label{
 .fancybox-overlay {
     background: rgba(0, 0, 0, 0.4);
 }
+
+.plus{
+    background: url(/images/plus.png) no-repeat scroll 0 0;
+}
+.deg{
+    background: url(/images/minus.png) no-repeat scroll 0 0;
+}
+.pd_btn{
+    display: block;
+    float: left;
+    width: 22px;
+    height: 22px;
+    border: 1px solid #CAE1FF;
+    -moz-border-radius: 12px; /*закругляем углы для Mozilla  */
+    -webkit-border-radius: 12px;/* закругляем углы для Chrome, Safari   */
+    border-radius: 12px; /*закругляем углы для остальных браузеров  */ 
+}
+.exercise{
+    display: block;
+    float: left;
+    border: 3px solid #FFF;
+    padding: 1px;
+    font-size: 11px;
+    margin-left: 5px;
+    background-color: rgba(255, 255, 255, 0.25);
+
+    -moz-border-radius: 12px; /*закругляем углы для Mozilla  */
+    -webkit-border-radius: 12px;/* закругляем углы для Chrome, Safari   */
+    border-radius: 12px; /*закругляем углы для остальных браузеров  */ 
+}
+.exercise input{
+    display: block;
+    padding: 1px 3px;
+    background-color: transparent;
+    float: left;
+    text-align: center;
+        -moz-border-radius: 5px; /*закругляем углы для Mozilla  */
+    -webkit-border-radius: 5px;/* закругляем углы для Chrome, Safari   */
+    border-radius: 5px; /*закругляем углы для остальных браузеров  */ 
+}
+.exercise span{
+    font-size: 15px;
+    text-align: center;
+    background-color: transparent;
+    
+}
+.exercises{
+     display: block;
+     clear: both;
+}
+
