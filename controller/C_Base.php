@@ -17,6 +17,7 @@ abstract class C_Base extends C_Controller {
     protected $metaTags;
     protected $contentNeed;
     protected $alts;
+    protected $isEdit;
     private $start_time; // время начала генерации страницы
     protected $galery;
     private  $mUsers;
@@ -77,7 +78,7 @@ abstract class C_Base extends C_Controller {
             $this->mArticles = M_Articles::Instance();
             $this->alts = $this->mArticles->getAlts();
 
-            $this->galery = $this->getImages();
+            if($this->needCarosel || $this->isEdit) $this->galery = $this->getImages();
             // для массовой обрезки            
             //$this->galery = $this->getImages('images/full');
             $this->display = 'style = "display: none"';
@@ -118,7 +119,7 @@ abstract class C_Base extends C_Controller {
 	$i = 0;
         if ($handle != false){
             while (false !== ($file = readdir($handle))){
-                if(strlen($file) > 2 && (isset($this->alts[$file]) || $this->_get[0] === 'edit')){
+                if(strlen($file) > 2 && (isset($this->alts[$file]) || $this->isEdit)){
                     $pictures[$i]['path'] = $this->server . '/' . $path . '/' . $file;
                     $pictures[$i]['full_path'] = $this->server . '/images/full/' . $file;
                     $pictures[$i]['alt'] = $this->alts[$file];
