@@ -444,5 +444,15 @@ private function GetSid(){
         return $code;
     }
 
-
+    public function getUsers($roles){
+        $query = "SELECT * FROM users ";
+        if($roles !== 0){
+           $t =  "WHERE id_role = '%s'";
+           $query .= sprintf($t, mysql_real_escape_string($roles));
+        }
+        $result = $this->msql->Select($query);
+        M_Lib::addLog($result);
+                
+        return $result;
+    }
 }

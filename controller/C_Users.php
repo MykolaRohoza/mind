@@ -70,6 +70,7 @@ class C_Users extends C_Base {
         
     }
     private function getUsersByRoles($roles){
+        $result = $this->mUsers->getUsers($roles);
         return $result;
     }
     private function getRoles($roleName){
