@@ -21,3 +21,41 @@
 <?=$stocks;?>
     </div>                  
 </div>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <ul class="contacts">
+            <?php if($users):?> 
+            <?php foreach ($users as $user):?>                   
+                <li class="clearfix">
+                    <img class="photo" src="<?='http://' . $_SERVER['SERVER_NAME'] . '/images/carousel/' . $user['article_img_name']?>" alt="<?=$user['image_alt']?>">
+                    <div>
+                        <h4><?=$user['id_article']?></h4>
+<!--                            <ul>
+                            <li>Mail</li>
+                            <li>Skype</li>
+                            <li>Telephone</li>
+                        </ul>-->
+                    </div>
+                </li>
+            <?php endforeach;?>
+            <?php endif;?>                     
+                    <li class="clearfix">
+                        <img class="photo" src="" alt="">
+                        <div>
+                            <h4>Виолета Бережная</h4>
+<!--                            <ul>
+                                <li>Mail</li>
+                                <li>Skype</li>
+                                <li>Telephone</li>
+                            </ul>-->
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </div>                  
+    </div>
+

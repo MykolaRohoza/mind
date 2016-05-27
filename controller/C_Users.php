@@ -67,7 +67,7 @@ class C_Users extends C_Base {
 
         //Генерация вложенных шаблонов
 
-        $this->content['container_main'] = $this->View('V/view_main.php', $vars);
+        $this->content['container_main'] = $this->View('V/view_users.php', $vars);
         parent::OnOutput();
         
         
