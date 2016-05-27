@@ -90,7 +90,15 @@ function timer(){
 
     function time_for_sent(){
         time--;
-        var message = 'выслать новый код можно будет через ' + time + ' секунд'; 
+        var message = 'На вашу почту высланы инструкции по активации, выслать новый код можно будет через ' + time + ' секунд';
+        switch(time){
+            case 1:
+                message += 'у';
+                break;
+            case 2,3:
+                message += 'ы';
+                break;
+        }
         showMessage($('input[name="regestration"]'), message);
         $('input[name="regestration"]').attr('disabled', 'disabled');
         if (time <= 0){
@@ -123,7 +131,7 @@ function check(val, param, elem){
 
 function validateName(elem){
     var str = elem.val(), message;
-
+    str = str.replace(/\s*$/, '').replace(/^\s*/, '');
     if(/^[a-zA-Zа-яА-Я]{3,20}$/.test(str)){
 
         message = 1;
@@ -140,6 +148,8 @@ function validateName(elem){
 
 function validateSecName(elem){
     var str = elem.val(), message;
+
+    str = str.replace(/\s*$/, '').replace(/^\s*/, '');
     if(/^[a-zA-Zа-яА-Я\-]{3,20}$/.test(str)){
         message = 1;
     }
@@ -153,6 +163,7 @@ function validateSecName(elem){
 }
 function validateLogin(elem, withOutCheck){
     var str = elem.val(), message;
+    str = str.replace(/\s*$/, '').replace(/^\s*/, '');
     if(/^[\d\w]{3,15}@[\d\w]{2,10}\.[\d\w]{2,10}(\.[\d\w]{2,10})?$/.test(str)){
         if(withOutCheck || check(str, 'login', elem)) message = 1;
         else message = 0;
@@ -172,6 +183,7 @@ function validateLogin(elem, withOutCheck){
 
 function validateTelephone(elem, withOutCheck){
     var str = elem.val(), message;
+
     str = str.replace(/\+|\-|\(|\)|\s/g, '');
     str = str.replace(/^(38)/, '');
     if(/^[\d]{10,15}$/.test(str)){
