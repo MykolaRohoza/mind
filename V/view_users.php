@@ -28,7 +28,7 @@
         <?php endif; ?>
         </div>
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-10">
                 <ul class="contacts">
             <?php if($users):?> 
             <?php foreach ($users as $user):?>                   
@@ -43,8 +43,9 @@
 
 
                             <div class="exercise">
-                                <input type="text" value="упражнение">
 
+
+                                <span class="ex">упражнение</span>
                                 <span class="counts">30</span>
                                 <div class="pd_btn plus" onclick="plus(this)"></div>
                                 <div class="pd_btn deg" onclick="deg(this)"></div>
@@ -54,8 +55,9 @@
                                 <div class="pd_btn deg" onclick="deg(this)"></div>
                             </div>
                             <div class="exercise">
-                                <input type="text" value="упражнение">
 
+
+                                <span class="ex">упражнение</span>
                                 <span class="counts">30</span>
                                 <div class="pd_btn plus" onclick="plus(this)"></div>
                                 <div class="pd_btn deg" onclick="deg(this)"></div>
@@ -65,8 +67,9 @@
                                 <div class="pd_btn deg" onclick="deg(this)"></div>
                             </div>
                             <div class="exercise">
-                                <input type="text" value="упражнение">
 
+
+                                <span class="ex">упражнение</span>
                                 <span class="counts">30</span>
                                 <div class="pd_btn plus" onclick="plus(this)"></div>
                                 <div class="pd_btn deg" onclick="deg(this)"></div>
@@ -75,7 +78,7 @@
                                 <div class="pd_btn plus" onclick="plus(this)"></div>
                                 <div class="pd_btn deg" onclick="deg(this)"></div>
                             </div>
-
+                           
 
   
                         <br><form class="exercises">
@@ -83,7 +86,7 @@
                             <input type="submit" name="exercise">
                         </form>
                      
-                        
+
                         
                         <!--                            <ul>
                             <li>Mail</li>
@@ -94,20 +97,18 @@
                 </li>
             <?php endforeach;?>
             <?php endif;?>                     
-                    <li class="clearfix">
-                        <img class="photo" src="" alt="">
-                        <div>
-                            <h4>Виолета Бережная</h4>
-<!--                            <ul>
-                                <li>Mail</li>
-                                <li>Skype</li>
-                                <li>Telephone</li>
-                            </ul>-->
-                        </div>
-                    </li>
-                </ul>
 
             </div>
-        </div>                  
+                    <div class="col-sm-2" style="padding:0px">
+
+                    <div class="container_add_ex">  
+                        <div class="exercise">
+                            <span class="ex">упражнение</span>
+                            <span class="counts">30</span>
+                            <span class="counts"> X </span>
+                            <span class="repeat">2</span>
+                        </div>        
+                </div>  
+            </div>                  
     </div>
 
