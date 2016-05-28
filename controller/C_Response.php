@@ -36,8 +36,9 @@ class C_Response extends C_Controller{
             }
             if(isset($_POST['add_new_ex'])){
                 $this->content = json_encode(array(1 => 'упр1', 2 => 'упр2' , 3 => 'упр3' , 4 => $_POST['add_new_ex']));
+                $this->content = $this->getExercises($_POST['add_new_ex']);
             }
-                M_Lib::addLog($_POST);
+
             
         }
         
@@ -46,6 +47,11 @@ class C_Response extends C_Controller{
 
     
     
+    private function getExercises($new_ex){
+        $this->mUser->saveExercises($new_ex);
+        $result = $this->mUser->getExercises();
+        return json_encode($result);
+    }
     private function checkLogin($login){
         $result = $this->mUser->checkLogin($login);
         return json_encode($result);

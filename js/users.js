@@ -40,11 +40,9 @@ function onStopSort(){
 }
 
 function addNewEx(str, id_exercise){
-    if(str !== undefined && str.trim().length > 0){
+    if(str !== undefined && str.trim().length > 0 ){
         // Добавить проверку на номер
         id_exercise = (id_exercise === undefined)?0:id_exercise;
-        $('div.container_add_ex').remove();
-        $('.col-sm-2').append('<div class="container_add_ex">');
         $('div.container_add_ex').append(
                 '<div class="exercise ui-draggable">'
                 + '<input type="hidden" name="id_exercise"  value="' + id_exercise + '">'
@@ -52,7 +50,7 @@ function addNewEx(str, id_exercise){
                 + '<div class="pd_btn deg" onclick="deg_counts(this)"></div>'
                 + '</div>'
         );
-        setDraggable();
+        
     }
 }
 function addNewExGetAll(str){
@@ -63,10 +61,14 @@ function addNewExGetAll(str){
         url: '/resp/' + query,
         data: query,
         success: function(data){
-        console.log(data);
             var result = JSON.parse(data);
             if(result) {
-
+                $('div.container_add_ex').remove();
+                $('.col-sm-2').append('<div class="container_add_ex">');
+                $.each(result, function(id_exercise, str) {
+                    addNewEx(str, id_exercise);
+                });
+                setDraggable();
             }
             else{
 
