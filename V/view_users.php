@@ -38,8 +38,9 @@
                         <h4><?=$user['user_name']?> <?=$user['user_second_name']?></h4>
                         <h4>Контакты: <?=$user['user_name']?> <?=$user['user_second_name']?>, Телефон <?=$user['telephone']?></h4>
                         <h4>Диагноз: <?=$user['info_diagnosis']?> </h4>
-                        <div class="exercises_container"> <h4>Упражнения:</h4>
-
+                        
+                        <div class="full_container"> <h4>Упражнения:</h4>
+                            <div class="exercises_container">
 
 
                             <div class="exercise">
@@ -81,19 +82,12 @@
                            
 
   
+                    </div>
                         <br><form class="exercises">
                             <input type="hidden" value="<?=$user['id_user']?>" name="id_user">
                             <input type="submit" name="exercise">
                         </form>
-                     
-
-                        
-                        <!--                            <ul>
-                            <li>Mail</li>
-                            <li>Skype</li>
-                            <li>Telephone</li>
-                        </ul>-->
-                    </div>
+                    </div>  
                 </li>
             <?php endforeach;?>
             <?php endif;?>                     
@@ -118,16 +112,8 @@
         </div>
 
     <script type="text/javascript">
-$(function() {
-	
-     $('#sortContainer').sortable();  
 
-});
     </script> 
                  
-            <div id="sortContainer">
-        <div id="item1" class="sortable ui-state-error">Элемент 1</div>
-        <div id="item2" class="sortable ui-state-error">Элемент 2</div>
-        <div id="item3" class="sortable ui-state-error">Элемент 3</div>
-    </div>         
-        </div>
+       
+</div>

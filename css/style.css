@@ -365,3 +365,4 @@ div.sortable {
     text-align: center; border: medium solid black;
     padding: 10px;
 }
+.emptySpace {border: medium dotted red; height: 36px; margin: 4px}
