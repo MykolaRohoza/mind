@@ -93,14 +93,17 @@
                     <h5>Список упражнений:</h4>
                     <div class="container_add_ex">  
                         <div class="exercise">
+                            <input type="hidden" name="id_exercise"  value="1">
                             <span class="ex">упражнение1</span>
                             <div class="pd_btn deg" onclick="deg_ex(this)"></div>
                         </div>        
                         <div class="exercise">
+                            <input type="hidden" name="id_exercise"  value="2">
                             <span class="ex">упражнение2</span>
                             <div class="pd_btn deg" onclick="deg_ex(this)"></div>
                         </div>        
                         <div class="exercise">
+                            <input type="hidden" name="id_exercise" value="3">
                             <span class="ex">упражнение3</span>
                             <div class="pd_btn deg" onclick="deg_ex(this)"></div>
                         </div>        

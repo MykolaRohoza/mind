@@ -34,6 +34,10 @@ class C_Response extends C_Controller{
 
                 }
             }
+            if(isset($_POST['add_new_ex'])){
+                $this->content = json_encode(array(1 => 'упр1', 2 => 'упр2' , 3 => 'упр3' , 4 => $_POST['add_new_ex']));
+            }
+                M_Lib::addLog($_POST);
             
         }
         
