@@ -292,7 +292,7 @@ label{
 .fancybox-overlay {
     background: rgba(0, 0, 0, 0.4);
 }
-
+/**/
 .plus{
     background: url(/images/plus.png) no-repeat scroll 0 0;
 }
@@ -310,26 +310,21 @@ label{
     border-radius: 12px; /*закругляем углы для остальных браузеров  */ 
 }
 .exercise{
-display: inline-block;
+    display: inline-block;
     border: 3px solid #FFF;
     padding: 1px;
     font-size: 11px;
-
+    margin: 0px 0px 0 3px;
     background-color: rgba(255, 255, 255, 0.25);
     -moz-border-radius: 12px; /*закругляем углы для Mozilla  */
     -webkit-border-radius: 12px;/* закругляем углы для Chrome, Safari   */
     border-radius: 12px; /*закругляем углы для остальных браузеров  */ 
 }
-.exercise input{
-    display: block;
-    padding: 1px 3px;
-    background-color: transparent;
-    float: left;
-    text-align: center;
-        -moz-border-radius: 5px; /*закругляем углы для Mozilla  */
-    -webkit-border-radius: 5px;/* закругляем углы для Chrome, Safari   */
-    border-radius: 5px; /*закругляем углы для остальных браузеров  */ 
+
+.container_add_ex .exercise{
+    
 }
+
 .exercise span{
     font-size: 14px;
     text-align: center;
@@ -361,8 +356,7 @@ div.sortable {
     width: 100px;
     background-color: lightgrey;
     font-size: large;
-    float: left; margin: 6px;
+    float: left;
     text-align: center; border: medium solid black;
     padding: 10px;
 }
-.emptySpace {border: medium dotted red; height: 36px; margin: 4px}

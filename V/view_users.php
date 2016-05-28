@@ -42,44 +42,37 @@
                         <div class="full_container"> <h4>Упражнения:</h4>
                             <div class="exercises_container">
 
-
                             <div class="exercise">
-
-
                                 <span class="ex">упражнение</span>
                                 <span class="counts">30</span>
-                                <div class="pd_btn plus" onclick="plus(this)"></div>
-                                <div class="pd_btn deg" onclick="deg(this)"></div>
+                                <div class="pd_btn plus" onclick="plus_counts(this)"></div>
+                                <div class="pd_btn deg" onclick="deg_counts(this)"></div>
                                 <span class="counts"> X </span>
                                 <span class="repeat">2</span>
-                                <div class="pd_btn plus" onclick="plus(this)"></div>
-                                <div class="pd_btn deg" onclick="deg(this)"></div>
+                                <div class="pd_btn plus" onclick="plus_rep(this)"></div>
+                                <div class="pd_btn deg" onclick="deg_rep(this)"></div>
                             </div>
                             <div class="exercise">
-
-
                                 <span class="ex">упражнение</span>
                                 <span class="counts">30</span>
-                                <div class="pd_btn plus" onclick="plus(this)"></div>
-                                <div class="pd_btn deg" onclick="deg(this)"></div>
+                                <div class="pd_btn plus" onclick="plus_counts(this)"></div>
+                                <div class="pd_btn deg" onclick="deg_counts(this)"></div>
                                 <span class="counts"> X </span>
                                 <span class="repeat">2</span>
-                                <div class="pd_btn plus" onclick="plus(this)"></div>
-                                <div class="pd_btn deg" onclick="deg(this)"></div>
+                                <div class="pd_btn plus" onclick="plus_rep(this)"></div>
+                                <div class="pd_btn deg" onclick="deg_rep(this)"></div>
                             </div>
                             <div class="exercise">
-
-
                                 <span class="ex">упражнение</span>
                                 <span class="counts">30</span>
-                                <div class="pd_btn plus" onclick="plus(this)"></div>
-                                <div class="pd_btn deg" onclick="deg(this)"></div>
+                                <div class="pd_btn plus" onclick="plus_counts(this)"></div>
+                                <div class="pd_btn deg" onclick="deg_counts(this)"></div>
                                 <span class="counts"> X </span>
                                 <span class="repeat">2</span>
-                                <div class="pd_btn plus" onclick="plus(this)"></div>
-                                <div class="pd_btn deg" onclick="deg(this)"></div>
+                                <div class="pd_btn plus" onclick="plus_rep(this)"></div>
+                                <div class="pd_btn deg" onclick="deg_rep(this)"></div>
                             </div>
-                           
+
 
   
                     </div>
@@ -95,15 +88,21 @@
             </div>
                     <div class="col-sm-2" style="padding:0px">
                     <h4>Упражнения: </h4>
-                    <input type="text">
-                    <input type="button" value="добьавить">
+                    <input type="text" name="new_ex">
+                    <input type="button" value="добавить" name="add_ex">
                     <h5>Список упражнений:</h4>
                     <div class="container_add_ex">  
                         <div class="exercise">
-                            <span class="ex">упражнение</span>
-                            <span class="counts">30</span>
-                            <span class="counts"> X </span>
-                            <span class="repeat">2</span>
+                            <span class="ex">упражнение1</span>
+                            <div class="pd_btn deg" onclick="deg_ex(this)"></div>
+                        </div>        
+                        <div class="exercise">
+                            <span class="ex">упражнение2</span>
+                            <div class="pd_btn deg" onclick="deg_ex(this)"></div>
+                        </div>        
+                        <div class="exercise">
+                            <span class="ex">упражнение3</span>
+                            <div class="pd_btn deg" onclick="deg_ex(this)"></div>
                         </div>        
                 </div>  
             </div>                  
