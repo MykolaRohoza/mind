@@ -16,7 +16,9 @@
         <meta content="<?=$metaTags['og:description'];?>" property="og:description" >
   
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <script src="/js/jquery-1.10.2.min.js"></script>
+        <script src="/js/jquery_ui-1.10.3.min.js"></script>
         <script src="/js/hammer.js"></script>
         <script src="/js/registration.js"></script>
         <script src="/js/main.js"></script>
@@ -27,7 +29,12 @@
         <link href="/css/bootstrap.css" rel="stylesheet">
         <link href="/css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="screen">
         <link type="text/css" rel="stylesheet" href="/css/style.css"/>
+        <link type="text/css" rel="stylesheet" href="/css/jquery-ui.css"/>
         <link type="image/x-icon" rel="shortcut icon" href="/images/favicon.ico">
+        
+<!--        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="//ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/themes/sunny/jquery-ui.css">-->
         <title>Mind-Body Харьков</title>
     </head>
     <body>

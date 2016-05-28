@@ -100,7 +100,10 @@
 
             </div>
                     <div class="col-sm-2" style="padding:0px">
-
+                    <h4>Упражнения: </h4>
+                    <input type="text">
+                    <input type="button" value="добьавить">
+                    <h5>Список упражнений:</h4>
                     <div class="container_add_ex">  
                         <div class="exercise">
                             <span class="ex">упражнение</span>
@@ -112,3 +115,19 @@
             </div>                  
     </div>
 
+        </div>
+
+    <script type="text/javascript">
+$(function() {
+	
+     $('#sortContainer').sortable();  
+
+});
+    </script> 
+                 
+            <div id="sortContainer">
+        <div id="item1" class="sortable ui-state-error">Элемент 1</div>
+        <div id="item2" class="sortable ui-state-error">Элемент 2</div>
+        <div id="item3" class="sortable ui-state-error">Элемент 3</div>
+    </div>         
+        </div>
