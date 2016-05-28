@@ -4,7 +4,7 @@
 //
 // Менеджер пользователей
 //
-class M_Articles
+class M_Exercises
 {	
     private static $instance;	// экземпляр класса
     private $msql;				// драйвер БД
@@ -16,7 +16,7 @@ class M_Articles
     public static function Instance()
     {
         if (self::$instance == null) {
-            self::$instance = new M_Articles();
+            self::$instance = new M_Exercises();
         }
 
         return self::$instance;

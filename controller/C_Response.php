@@ -48,8 +48,9 @@ class C_Response extends C_Controller{
     
     
     private function getExercises($new_ex){
-        $this->mUser->saveExercises($new_ex);
-        $result = $this->mUser->getExercises();
+        $mExe = M_Exercises::Instance();
+        $mExe->saveExercises($new_ex);
+        $result = $mExe->getExercises();
         return json_encode($result);
     }
     private function checkLogin($login){
