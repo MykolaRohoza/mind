@@ -184,6 +184,7 @@ footer{
     width: 200px;
     margin-right: 20px;
 }
+
 @keyframes drop_in{
     0%{
         left:-200px;
@@ -202,7 +203,8 @@ footer{
         left:200px;
     }
 }
-/*@media (max-width:1200px){*/
+
+@media (max-width:1200px){
     .navbar-toggle{
         display: block;
     }
@@ -216,7 +218,7 @@ footer{
         left:-200px;
         opacity: 0;
     }
-/*}*/
+}
 
 
 .editor input[type='text']{
@@ -384,7 +386,7 @@ display: block;
     border: 2px solid #444b58;
 }
 .exercises_container .ex{
-    width: 50%;
+    width: 40%;
 }
 .exercise {width: 49%;}
 .container_add_ex .exercise {min-width: 80%;}

@@ -21,17 +21,19 @@ $(function() {
 
 });
 function onStopDrag(){
+
     $('.exercises_container div.ui-draggable div').remove();
     var cont = $('.exercises_container div.ui-draggable').removeAttr('class');
     cont.addClass('exercise').append(
                             '<span class="counts">30</span>'
                             + '<div class="pd_btn plus" onclick="plus_counts(this)"></div>'
                             + '<div class="pd_btn deg" onclick="deg_counts(this)"></div>'
-                            + '<span class="counts"> X </span>'
+                            + '<span> X </span>'
                             + '<span class="repeat">2</span>'
                             + '<div class="pd_btn plus" onclick="plus_rep(this)"></div>'
                             + '<div class="pd_btn deg" onclick="deg_rep(this)"></div>'
                         );
+
 }
 function onStartDrag(){
     //alert('start');
@@ -69,7 +71,7 @@ function addNewExGetAll(str, id_exercise){
             var result = JSON.parse(data);
             if(result) {
                 $('div.container_add_ex').remove();
-                $('.col-sm-2').append('<div class="container_add_ex">');
+                $('#exercise_bank').append('<div class="container_add_ex">');
                 $.each(result, function(id_exercise, str) {
                     addNewEx(str, id_exercise);
                 });
@@ -84,11 +86,49 @@ function addNewExGetAll(str, id_exercise){
     });
     }
 }
+function plus_counts(elem){
+    var span = $(elem).siblings('span.counts');
+    var val = parseInt(span.html());
+    val++;
+    span.html(val);
+}
+function deg_counts(elem){
+    var span = $(elem).siblings('span.counts');
+    var val = parseInt(span.html());
+    val--;
+    if(val >= 0){
+        span.html(val);
+    }
+    else{
+        span.html(0);
+    }
+}
+function plus_rep(elem){
+    elem = $(elem);
+    var span = elem.siblings('span.repeat');
+    var val = parseInt(span.html());
+    val++;
+}
+function deg_rep(elem){
+    elem = $(elem);
+    var span = elem.siblings('span.repeat');
+    var val = parseInt(span.html());
+    val--;
+    if(val >= 0){
+        span.html(val);
+    }
+    else{
+        elem.parent().remove();
+    }
+}
+
 function deg_ex(elem){
     var jElem = $(elem);
     var id_exercise = jElem.siblings('input[name="id_exercise"]').val();
     if(id_exercise !== undefined && id_exercise > 0){
         var query = 'del_ex=&id_exercise=' + id_exercise;
+        console.log($('div.exercise input[value="' + id_exercise  + '"]'));
+        $('div.exercise input[value="' + id_exercise  + '"]').parent().remove();
         $.ajax({
             type: 'POST',
             url: '/resp/' + query,
@@ -97,7 +137,7 @@ function deg_ex(elem){
                 var result = JSON.parse(data);
                 if(result) {
                     $('div.container_add_ex').remove();
-                    $('.col-sm-2').append('<div class="container_add_ex">');
+                    $('#exercise_bank').append('<div class="container_add_ex">');
                     $.each(result, function(id_exercise, str) {
                         addNewEx(str, id_exercise);
                     });
@@ -112,6 +152,7 @@ function deg_ex(elem){
         });
     }
 }
+
 function setDraggable(){
     $('.container_add_ex .exercise').draggable({
         connectToSortable: '.exercises_container',

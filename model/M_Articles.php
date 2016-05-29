@@ -106,6 +106,12 @@ class M_Articles
         }
         return $result;
     }
+    public function delAlt($name){
+        $tmp = "image_alt='%s'";
+        $where = sprintf($tmp, $name);
+        $result = $this->msql->Del('images', $where);
+        return $result;
+    }
     public function setAlts($image_name, $image_alt, $image_new_name, $image_show){  
         $img_show = ($image_show)?1:0;
         $object = array('image_alt' => $image_alt, 'image_name' => $image_new_name, 'image_show' => $img_show);
