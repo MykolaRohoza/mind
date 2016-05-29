@@ -78,7 +78,8 @@
                     </div>
                         <br><form class="exercises">
                             <input type="hidden" value="<?=$user['id_user']?>" name="id_user">
-                            <input type="submit" name="exercise">
+                            <textarea style="display:none" name="exercises"></textarea>
+                            <input type="button" name="exercise">
                         </form>
                     </div>  
                 </li>
@@ -92,21 +93,13 @@
                     <input type="button" value="добавить" name="add_ex">
                     <h5>Список упражнений:</h4>
                     <div class="container_add_ex">  
+                    <?php foreach ($exercises as $id_exercise => $exercise):?>    
                         <div class="exercise">
-                            <input type="hidden" name="id_exercise"  value="1">
-                            <span class="ex">упражнение1</span>
+                            <input type="hidden" name="id_exercise"  value="<?=$id_exercise?>">
+                            <span class="ex"><?=$exercise?></span>
                             <div class="pd_btn deg" onclick="deg_ex(this)"></div>
-                        </div>        
-                        <div class="exercise">
-                            <input type="hidden" name="id_exercise"  value="2">
-                            <span class="ex">упражнение2</span>
-                            <div class="pd_btn deg" onclick="deg_ex(this)"></div>
-                        </div>        
-                        <div class="exercise">
-                            <input type="hidden" name="id_exercise" value="3">
-                            <span class="ex">упражнение3</span>
-                            <div class="pd_btn deg" onclick="deg_ex(this)"></div>
-                        </div>        
+                        </div> 
+                    <?php endforeach;?>
                 </div>  
             </div>                  
     </div>

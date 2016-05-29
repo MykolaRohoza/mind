@@ -15,6 +15,9 @@ $(function() {
         addNewEx(ex_name);
         addNewExGetAll(ex_name);
     });
+    $('input[name="exercise"]').on('click', function (){
+        $(this);
+    });
 
 });
 function onStopDrag(){

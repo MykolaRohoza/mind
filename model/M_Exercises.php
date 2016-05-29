@@ -140,7 +140,7 @@ class M_Exercises
         return message;
     }
     public function getExercises(){
-        $query  = "SELECT id_exercise, exercise FROM exercises ORDER BY id_exercise DESC";
+        $query  = "SELECT id_exercise, exercise FROM exercises ORDER BY exercise";
         $result = $this->msql->Select($query);
         $exercises = array();
         foreach ($result as $value) {    

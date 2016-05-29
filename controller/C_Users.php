@@ -61,6 +61,8 @@ class C_Users extends C_Base {
             
             $roles = $this->getRoles($this->_get[1]);
             $this->content['users'] = $this->getUsersByRoles($roles);
+            $mExe = M_Exercises::Instance();
+            $this->content['exercises'] = $this->getExercises($mExe);
 
             
             
@@ -84,7 +86,10 @@ class C_Users extends C_Base {
             default : return 3; // users
         }
     }
-
+    private function getExercises(M_Exercises $mExe){
+        $result = $mExe->getExercises();
+        return $result;
+    }
 
     //
     // Виртуальный генератор HTML.
