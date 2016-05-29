@@ -80,7 +80,7 @@ class C_Edit extends C_Base{
 
             
             $this->content['articles']['article_list'] = $this->mArticles->getArticlesNames();
-            $this->content['articles']['message_file'] = $this->_get[2];
+            $this->content['articles']['message'] = $this->_get[2];
             $this->content['articles']['message_article'] = $this->_get[2];
           
         }

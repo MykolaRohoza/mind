@@ -108,8 +108,10 @@ function validateImgPl(){
                 className += 'right';
                 break;
             default:
-                className += 'none';               
+                className += 'none';  
+            
         }
+        className += ' clearfix'
         if(place !== 'none'){
             $('#view_article').removeClass();
             $('#view_article').addClass(className);
@@ -149,4 +151,13 @@ function valid_art_img(src){
     }
 }
 
+$(function (){
+    var message = $('span.message');
+    if(message.length > 0){
+        int = setTimeout(function (){
+            message.slideUp();
+        }, 10000);
+        
+    }
+});
 
