@@ -97,7 +97,7 @@ class M_Exercises
     public function getAlts(){
         $query = "SELECT image_name, image_alt FROM images WHERE image_show='1'";
         $res = $this->msql->Select($query);
-        $result = [];
+        $result = array();
         if(count($res[0]) > 0){
             foreach ($res as $value){ 
                  
@@ -108,7 +108,7 @@ class M_Exercises
     }
     public function setAlts($image_name, $image_alt, $image_new_name, $image_show){  
         $img_show = ($image_show)?1:0;
-        $object = ['image_alt' => $image_alt, 'image_name' => $image_new_name, 'image_show' => $img_show];
+        $object = array('image_alt' => $image_alt, 'image_name' => $image_new_name, 'image_show' => $img_show);
         
         $table = 'images';
         if(!($this->msql->Update($table, $object, "image_name='$image_name'", true, true) > 0)){
@@ -120,10 +120,10 @@ class M_Exercises
     
     
     public function saveExercises($id_ex, $new_ex){
-        $object = ['exercise' => $new_ex];
+        $object = array('exercise' => $new_ex);
         $table = 'exercises';
         if ($id_ex != 0){
-            $object = ['id_exercise' => $id_ex];
+        $object['id_exercise'] = $id_ex;
             $message = $this->msql->Update($table, $object, $where, true, true);
         }
         else{

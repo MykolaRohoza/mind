@@ -28,7 +28,7 @@
         <?php endif; ?>
         </div>
         <div class="row">
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 <ul class="contacts">
             <?php if($users):?> 
             <?php foreach ($users as $user):?>                   
@@ -87,7 +87,7 @@
             <?php endif;?>                     
 
             </div>
-                    <div class="col-sm-2" style="padding:0px">
+                    <div class="col-sm-3" style="padding:0px">
                     <h4>Упражнения: </h4>
                     <input type="text" name="new_ex">
                     <input type="button" value="добавить" name="add_ex">

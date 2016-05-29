@@ -101,8 +101,8 @@ class M_Users
         }
         
         $code = md5(time(true));
-        $obj = ['user_name' => $name, 'user_second_name' => $second, 'login' => $login,
-            'password' => md5($password), 'telephone' => $telephone, 'user_code' => $code]; 
+        $obj = array('user_name' => $name, 'user_second_name' => $second, 'login' => $login,
+            'password' => md5($password), 'telephone' => $telephone, 'user_code' => $code); 
         if($this->checkLogin($login, 0) || $this->checkPhone($telephone, 0)){
             $result = $this->activate('', $obj);
         }
@@ -145,7 +145,7 @@ class M_Users
                 $object[$key] = $val;
             }
             $where = "telephone='{$resentObj['telephone']}' OR login='{$resentObj['login']}'";
-            $object = ['user_code' => $resentObj['user_code'], 'user_code_status' => 0];
+            $object = array('user_code' => $resentObj['user_code'], 'user_code_status' => 0);
         }
         else{
             $t = "SELECT DISTINCT id_user, user_code_status FROM users WHERE user_code = '%s'";
@@ -156,7 +156,7 @@ class M_Users
                 return -1;
             }
             $where = "user_code='$code' AND user_code_status='0'";
-            $object = ['user_code' => $code, 'user_code_status' => 1];
+            $object = array('user_code' => $code, 'user_code_status' => 1);
         }
         return $this->msql->Update('users', $object, $where);
     }

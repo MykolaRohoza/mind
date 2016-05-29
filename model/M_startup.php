@@ -3,11 +3,14 @@
 function M_startup()
 {
 	// Настройки подключения к БД.
+
+        
 	$hostname = 'localhost';	
 	$username = 'f-i'; 
 	$password = '0okmnji9';
-
+        
 	$dbName   = "f-i";
+
 	
 	// Языковая настройка.
 	setlocale(LC_ALL, 'ru_RU.utf8');	

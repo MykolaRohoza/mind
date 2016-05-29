@@ -29,6 +29,7 @@ class C_Edit extends C_Base{
         $this->mArticles = M_Articles::Instance();
         $this->controllerPath = '/edit/' . $_POST['id_article'];
         $this->isEdit = true;
+        $this->content = array();
     }
 
 
@@ -73,7 +74,8 @@ class C_Edit extends C_Base{
             // сбор разрешений и организация массивов
             $this->content['nav']['edit'] = 'class="active"';
             if(isset($this->_get[1]) && $this->_get[1] > 0){
-                $this->content['articles'] = $this->mArticles->getArticles(0, $this->_get[1])[0];
+                $temp_arr = $this->mArticles->getArticles(0, $this->_get[1]);
+                $this->content['articles'] = $temp_arr[0];
             }
 
             
@@ -87,9 +89,9 @@ class C_Edit extends C_Base{
     }
     private function save(){
        
-        $queryKeys = ['article_title', 'article_text', 'article_order', 'article_func', 'article_dest', 'article_img_name',
-            'article_img_place', 'article_secondary_to'];
-        $queryObj =[];
+        $queryKeys = array('article_title', 'article_text', 'article_order', 'article_func', 'article_dest', 'article_img_name',
+            'article_img_place', 'article_secondary_to');
+        $queryObj =array();
         foreach ($queryKeys as  $key) {
             if($key != 'article_text' && $key != 'article_title'){
                 $queryObj[$key] = $_POST[$key];

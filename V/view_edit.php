@@ -2,6 +2,7 @@
             
 ?>
 <div class="container">
+    <span class='message'>jfdjf;s';'sd:W::WW":';sdlpfgkf</span>
         <div class="row">
         <div class="col-sm-12">
         </div></div>
@@ -35,14 +36,14 @@
             <form method="post" enctype="multipart/form-data">
                 <span id="message"><?=$message_file?></span>
                 <input type='file' name='img'>
-                Задать название
-                <input type="text" name="name">
-                <input type="text" name="old_name" style="display: none;">
+                <span>Задать название</span>
+                <input type="text" name="name" class="form-control">
+                <input type="text" name="old_name" style="display: none;" class="form-control">
                 Задать описание
                 <input type="text" name="alt">
                 <label>Показывать в слайдере <input type="checkbox" name='image_show' checked="checked"></label><br>
-                <input type="submit" name='upload_img' value="Отправить">
-                <input type="submit" name='delete_img' value="Удалить">
+                <input type="submit" class="btn btn-primary btn-block" name='upload_img' value="Отправить" style="display: inline-block;  width: 49%">
+                <input type="submit" class="btn btn-primary btn-block" name='delete_img' value="Удалить" style="display: inline-block;  width: 49%; margin: 0">
                 <input type="hidden" value="<?=$id_article?>" name='id_article'>
             </form>
             <br>
@@ -89,9 +90,9 @@
                 </div>
 
                 <br>
-                <div>
+                <div class="article_list">
+                    <div class="add_article"><a href="/edit/"><b>+</b> Добавить статью</a></div>
                     <ul>
-                        <li><a href="/edit/"><b>+</b> Добавить статью</a></li>
                    <?php foreach ($article_list as $article) :?>
                         <li><a href="/edit/<?=$article['id_article']?>"><b>№<?=$article['id_article']?></b> <?=$article['article_title']?></a></li>
                     <?php endforeach; ?>
@@ -127,7 +128,7 @@
         <div class="col-sm-6">
 
                
-            <div class="article article-left" id="view_article">
+            <div class="article article-left clearfix" id="view_article">
                
                 <h3 id='v_h3'></h3>
 
