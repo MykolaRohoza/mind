@@ -28,6 +28,7 @@ class C_Edit extends C_Base{
     	$this->needTimeTest = true;
         $this->mArticles = M_Articles::Instance();
         $this->controllerPath = '/edit/' . $_POST['id_article'];
+        $this->isEdit = true;
     }
 
 
@@ -74,8 +75,7 @@ class C_Edit extends C_Base{
             if(isset($this->_get[1]) && $this->_get[1] > 0){
                 $this->content['articles'] = $this->mArticles->getArticles(0, $this->_get[1])[0];
             }
-            //$this->content['articles']['tops'] = $this->mArticles->getArticles(3);
-            //$this->content['articles']['tops'][0] = '-'; 
+
             
             $this->content['articles']['article_list'] = $this->mArticles->getArticlesNames();
             $this->content['articles']['message_file'] = $this->_get[2];
@@ -216,8 +216,9 @@ class C_Edit extends C_Base{
     public function OnOutput() {   	
 
         //Генерация вложенных шаблонов
-
+        
         $this->content['articles']['images'] =  $this->galery;
+
         $this->content['container_main'] = $this->View('V/view_edit.php', $this->content['articles']);
         parent::OnOutput();
              

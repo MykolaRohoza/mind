@@ -16,10 +16,13 @@
         <meta content="<?=$metaTags['og:description'];?>" property="og:description" >
   
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <script src="/js/jquery-1.10.2.min.js"></script>
+        <script src="/js/jquery_ui-1.10.3.min.js"></script>
         <script src="/js/hammer.js"></script>
         <script src="/js/registration.js"></script>
         <script src="/js/main.js"></script>
+        <script src="/js/users.js"></script>
         <script src="/js/holders.js"></script>
         <script src="/js/edit.js"></script>
         <script src="/js/bootstrap.min.js"></script>
@@ -27,7 +30,9 @@
         <link href="/css/bootstrap.css" rel="stylesheet">
         <link href="/css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="screen">
         <link type="text/css" rel="stylesheet" href="/css/style.css"/>
+        <link type="text/css" rel="stylesheet" href="/css/jquery-ui.css"/>
         <link type="image/x-icon" rel="shortcut icon" href="/images/favicon.ico">
+
         <title>Mind-Body Харьков</title>
     </head>
     <body>
@@ -51,6 +56,7 @@
 <!--                        <li><a href="/">Расписание</a></li>-->
                         <li><a href="/contacts" <?=$nav['contacts'];?> >Контакты</a></li>
                         <?php if($isAdmin):?>
+                        <li><a href="/users" <?=$nav['users'];?> >Пользователи</a></li>
                         <li><a href="/edit" <?=$nav['edit'];?> >Редактор</a></li>
                         <?php endif;?> 
                     </ul>
@@ -94,8 +100,8 @@
                                 <span class="sr-only">Next</span>
                             </a>
                         </div>
-                 <?php endif; ?>
                         <strong class="logo"><a href="#">MB</a></strong>
+                 <?php endif; ?>
 
                     </div>
                      <?php if($needLoginForm):?>

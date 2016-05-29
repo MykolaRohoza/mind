@@ -19,7 +19,7 @@ function reg (){
         validatePassword($('input[name="password"][required=""]'), $('input[name="confirm_password"]'));
     });
 
-    
+//    
     $('input[name="regestration"]').on('click', function (){
         registrate();
         //registrate_test();
@@ -83,6 +83,7 @@ function registrate(){
             }
         });
     }
+
     
 }
 function timer(){

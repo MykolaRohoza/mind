@@ -34,6 +34,16 @@ class C_Response extends C_Controller{
 
                 }
             }
+            if(isset($_POST['add_new_ex'])){
+                $mExe = M_Exercises::Instance();
+                $this->content['message'] = $this->save($_POST['id_exercise'], $_POST['add_new_ex'], $mExe);
+                $this->content = $this->getExercises($mExe);
+            }
+            if(isset($_POST['del_ex'])){
+                $mExe = M_Exercises::Instance();
+                $this->content['message'] = $this->deleteExercises($_POST['id_exercise'], $mExe);
+                $this->content = $this->getExercises($mExe);
+            }
             
         }
         
@@ -42,34 +52,50 @@ class C_Response extends C_Controller{
 
     
     
+    private function deleteExercises($id_ex, M_Exercises $mExe){
+        $result = $mExe->deleteExercises($id_ex);
+        return $result;
+    }
+    private function getExercises(M_Exercises $mExe){
+        $result = $mExe->getExercises();
+        return $result;
+    }
+    private function save($id_ex, $new_ex, M_Exercises $mExe){
+       
+        $mExe->saveExercises($id_ex, $new_ex);
+    }
     private function checkLogin($login){
         $result = $this->mUser->checkLogin($login);
-        return json_encode($result);
+        return $result;
     }
     private function checkPhone($tel){
         $result = $this->mUser->checkPhone($tel); 
-        return json_encode($result);
+        return $result;
     }
     private function registrate($login, $password, $telephone, $name, $second){
 
         $result = $this->mUser->registration($login, $password, $telephone, $name, $second);
                 
-        return json_encode($result);
+        return $result;
 
 }
     public function registrate_test() {
         $code = md5(date('d-m-Y[H-i]'));
         $sender = new M_Sender($_POST['login'], $code); 
         $sender->start();
-        return json_encode($sender->getLog());
+        return $sender->getLog();
     }
     
     
     
     protected function OnOutput() {
         parent::OnOutput();
-
-        echo $this->content;
+        
+        
+        if(true){
+            $json = json_encode($this->content);
+        }
+        echo $json;
         
 
     }

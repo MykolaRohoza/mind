@@ -28,7 +28,7 @@
                 </a>
             </div>
         <?php endif; ?>
-            <strong class="logo"><a href="#">MB</a></strong>
+           
         </div>
                 <div class="col-sm-5">
 
