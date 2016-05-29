@@ -16,7 +16,7 @@
                         </div>
                     </li>
                     <li class="clearfix">
-                        <img class="photo" src="" alt="">
+                        <img class="photo" src="http://fi/images/carousel/Raketa_s_myachem.JPG" alt="">
                         <div>
                             <h4>Виолета Бережная</h4>
 <!--                            <ul>

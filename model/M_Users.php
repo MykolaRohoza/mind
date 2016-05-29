@@ -451,7 +451,7 @@ private function GetSid(){
            $query .= sprintf($t, mysql_real_escape_string($roles));
         }
         $result = $this->msql->Select($query);
-        M_Lib::addLog($result);
+
                 
         return $result;
     }

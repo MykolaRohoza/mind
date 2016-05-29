@@ -11,8 +11,9 @@ $(function() {
     
     setDraggable(); 
     $('input[name="add_ex"]').on('click', function (){
-        addNewEx($('input[name="new_ex"]').val().trim());
-        addNewExGetAll($('input[name="new_ex"]').val().trim());
+        var ex_name = $('input[name="new_ex"]').val().trim();
+        addNewEx(ex_name);
+        addNewExGetAll(ex_name);
     });
 
 });
@@ -47,14 +48,15 @@ function addNewEx(str, id_exercise){
                 '<div class="exercise ui-draggable">'
                 + '<input type="hidden" name="id_exercise"  value="' + id_exercise + '">'
                 + '<span class="ex">' + str + '</span>'
-                + '<div class="pd_btn deg" onclick="deg_counts(this)"></div>'
+                + '<div class="pd_btn deg" onclick="deg_ex(this)"></div>'
                 + '</div>'
         );
         
     }
 }
-function addNewExGetAll(str){
+function addNewExGetAll(str, id_exercise){
     if(str !== undefined && str.trim().length > 0){
+    id_exercise = (id_exercise === undefined)?0:id_exercise;
     var query = 'add_new_ex=' + str;
     $.ajax({
         type: 'POST',
@@ -77,6 +79,34 @@ function addNewExGetAll(str){
 
         }
     });
+    }
+}
+function deg_ex(elem){
+    var jElem = $(elem);
+    var id_exercise = jElem.siblings('input[name="id_exercise"]').val();
+    if(id_exercise !== undefined && id_exercise > 0){
+        var query = 'del_ex=&id_exercise=' + id_exercise;
+        $.ajax({
+            type: 'POST',
+            url: '/resp/' + query,
+            data: query,
+            success: function(data){
+                var result = JSON.parse(data);
+                if(result) {
+                    $('div.container_add_ex').remove();
+                    $('.col-sm-2').append('<div class="container_add_ex">');
+                    $.each(result, function(id_exercise, str) {
+                        addNewEx(str, id_exercise);
+                    });
+                    setDraggable();
+                }
+                else{
+
+                }
+
+
+            }
+        });
     }
 }
 function setDraggable(){

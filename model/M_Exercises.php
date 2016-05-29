@@ -119,90 +119,47 @@ class M_Exercises
     
     
     
-    public function save($table, $object, $where){
-
-        if((trim($where) === 'id_article=') || !($message = $this->msql->Update($table, $object, $where, true, true))){
-            // добавляет новую статью возвращает ее номер и сообщение об успехе
-            $message = $this->msql->Insert($table, $object) . '/статья успешно добавлена';
-           
+    public function saveExercises($id_ex, $new_ex){
+        $object = ['exercise' => $new_ex];
+        $table = 'exercises';
+        if ($id_ex != 0){
+            $object = ['id_exercise' => $id_ex];
+            $message = $this->msql->Update($table, $object, $where, true, true);
         }
         else{
-            if(!$message){
-                $message = 'ошибка при сохранения';
+            $message = $this->msql->Insert($table, $object) ;
+            if(is_numeric($message)){
+                $message =  'Упражнение успешно добавлено';
+                
             }
             else{
-                if(is_numeric($message)){
-                    $message = 'статья успешно обновлена';
-                }
-                else{
-                    $message = 'изменений в статье не найдено';
-                }
-
+                
+                $message =  'Упражнение не было добавлено';
             }
         }
-
-        return $message;
+        return message;
     }
-    public function renameArticleImg($newName, $oldName){
-        return $this->msql->Update('articles', ['article_img_name' => $newName], 'article_img_name=' .  "'" . $oldName . "'");
-
-    }
-    public function delete($table, $where){
-        return ($this->msql->Del($table, $where) > 0);
-        
-    }
-
- 
-    private function generateSQL($selectStr, $from , $id_user, $id_group,  $id_contr, $id_operation, $date1, $date2, $isAllDates){
-        $query  = "SELECT %s FROM %s";
-        $query  = sprintf($query, $selectStr, $from);
-        if($id_user !=0 ){
-            // если получен ИД пользователя возвращается его сумма
-            $query .= " WHERE transactions.id_user = '%d' AND id_operation != 7" ;
-            $query  = sprintf($query, $id_user);
-        }
-        else{
-            if($id_group != 0){
-                // если получен ИД группы возвращается ее сумма
-                $query .= " WHERE transactions.id_group = '%d'";
-                $query  = sprintf($query, $id_group);
-            }
-            else{
-            // если не получено ничего возвращаем всю сумму
-                // затычка для AND
-                $query .= " WHERE 1=1";
-            }
-        }
-            
-        if( $id_operation !=  0){
-            $query .= " AND transactions.id_operation = '%d'" ;
-            $query  = sprintf($query, $id_operation);
-           
-        }
-        if($id_contr != 0){
-            $query .= " AND transactions.id_contr = '%d'" ;
-            $query  = sprintf($query, $id_contr);           
-        }
-        if(!$isAllDates){
-            
-            $query .= " AND transactions.date >='%s' AND transactions.date <= '%s'" ;
-            $query  = sprintf($query, date("Y-m-d", strtotime($date1)), date("Y-m-d", strtotime($date2)));
-        }
-        
-        return $query;
-    }
-    
-    public function getRoles() {
-        $query = "SELECT id_role, role_name FROM roles";
+    public function getExercises(){
+        $query  = "SELECT id_exercise, exercise FROM exercises ORDER BY id_exercise DESC";
         $result = $this->msql->Select($query);
-        $roles = array();
-        if($result != null){
-            foreach ($result as $value){
-                $roles[$value['id_role']] = $value['role_name'];
-            }
+        $exercises = array();
+        foreach ($result as $value) {    
+            $exercises[$value['id_exercise']] = $value['exercise'];
         }
-        return $roles;
+        return $exercises;
     }
+    public function deleteExercises($id_ex){
+        $tmp = "id_exercise='%d'";
+        $where = sprintf($tmp, $id_ex);
+        return ($this->msql->Del('exercises', $where) > 0);
+    }
+
+
+    public function delete($table, $where){    
+        return ($this->msql->Del($table, $where) > 0);
+    }
+
+
     
     private function validateArtCont($assocRes, $lang) {
         $articles = array();      
