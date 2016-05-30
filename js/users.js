@@ -44,7 +44,13 @@ function  show_users_info(elem){
 function  save_exercises(elem){
     var id_user =  elem.siblings('input[name="id_user"]').val();
     var cont = elem.parent().siblings('.exercises_container'); 
-    var query = 'id_user=' + id_user + '&add_user_ex=' +  cont.html();
+    var exercises = cont.children('.exercise'), user_ex = '==||##', glue = '==||##';
+    for (var i = 0; i < exercises.length; i++){
+        user_ex += glue + exercises.children('span.ex').html()  
+                + glue + exercises.children('span.counts').html()
+                + glue + exercises.children('span.repeat').html();
+    }
+    var query = 'id_user=' + id_user + '&add_user_ex=' +  user_ex;
 
     $.ajax({
         type: 'POST',
@@ -57,7 +63,9 @@ function  save_exercises(elem){
             var result = JSON.parse(data);
             if(result) {
                 cont.empty();
-                cont.append(result);
+                for (var i = 0; i < result.length; i++){    
+                    createExercise(cont, result['id'], result['ex'], result['count'], result['repeat']);
+                }
             }
             else{
 
@@ -155,6 +163,7 @@ function plus_rep(elem){
     var span = elem.siblings('span.repeat');
     var val = parseInt(span.html());
     val++;
+    span.html(val);
 }
 function deg_rep(elem){
     elem = $(elem);
@@ -174,7 +183,6 @@ function deg_ex(elem){
     var id_exercise = jElem.siblings('input[name="id_exercise"]').val();
     if(id_exercise !== undefined && id_exercise > 0){
         var query = 'del_ex=&id_exercise=' + id_exercise;
-        console.log($('div.exercise input[value="' + id_exercise  + '"]'));
         $('div.exercise input[value="' + id_exercise  + '"]').parent().remove();
         $.ajax({
             type: 'POST',
@@ -212,5 +220,21 @@ function setDraggable(){
         }
     });
 }
+function createExercise(elem, id, ex, count, repeat){
+    elem.append(
+                '<div class="exercise" style="display: inline-block;">'
+                + '<input type="hidden" value="' + id + '" name="id_exercise">'   
+                + '<span class="ex">' + ex + '</span>'
+                + '<span class="counts">' + count + '</span>'
+                + '<div class="pd_btn plus" onclick="plus_counts(this)"></div>'
+                + '<div class="pd_btn deg" onclick="deg_counts(this)"></div>'
+                + '<span> X </span>'
+                + '<span class="repeat">' + repeat + '</span>'
+                + '<div class="pd_btn plus" onclick="plus_rep(this)"></div>'
+                + '<div class="pd_btn deg" onclick="deg_rep(this)"></div>'
+                + '</div>'
+            );
+}
+
 
 

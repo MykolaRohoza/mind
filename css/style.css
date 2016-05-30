@@ -311,7 +311,8 @@ label{
     border: 1px solid #CAE1FF;
     -moz-border-radius: 12px; /*закругляем углы для Mozilla  */
     -webkit-border-radius: 12px;/* закругляем углы для Chrome, Safari   */
-    border-radius: 12px; /*закругляем углы для остальных браузеров  */ 
+    border-radius: 12px; /*закругляем углы для остальных браузеров  */
+    cursor: pointer;
 }
 .exercise{
     display: inline-block;
@@ -325,9 +326,7 @@ label{
     border-radius: 12px; /*закругляем углы для остальных браузеров  */ 
 }
 
-.container_add_ex .exercise{
-    
-}
+
 
 .exercise span{
     font-size: 14px;
@@ -337,8 +336,7 @@ label{
     padding: 0 3px;
     
 }
-.ex{
-}
+
 .exercises{
     
     display: block;
