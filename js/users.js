@@ -43,12 +43,15 @@ function  show_users_info(elem){
 
 function  save_exercises(elem){
     var id_user =  elem.siblings('input[name="id_user"]').val();
-    var cont = elem.parent().siblings('.exercises_container'); 
-    var exercises = cont.children('.exercise'), user_ex = '==||##', glue = '==||##';
+    var cont = elem.parent('form').siblings('.exercises_container'); 
+
+    var exercises = cont.children('.exercise'), glue = '==||##', user_ex = glue;
     for (var i = 0; i < exercises.length; i++){
-        user_ex += glue + exercises.children('span.ex').html()  
-                + glue + exercises.children('span.counts').html()
-                + glue + exercises.children('span.repeat').html();
+        var exercise = $(exercises[i]);
+        user_ex += glue + exercise.children('input[name="id_exercise"]').val()  
+                + glue + exercise.children('span.ex').html()  
+                + glue + exercise.children('span.counts').html()
+                + glue + exercise.children('span.repeat').html();
     }
     var query = 'id_user=' + id_user + '&add_user_ex=' +  user_ex;
 
@@ -64,7 +67,7 @@ function  save_exercises(elem){
             if(result) {
                 cont.empty();
                 for (var i = 0; i < result.length; i++){    
-                    createExercise(cont, result['id'], result['ex'], result['count'], result['repeat']);
+                    createExercise(cont, result[i]['id'], result[i]['ex'], result[i]['count'], result[i]['repeat']);
                 }
             }
             else{

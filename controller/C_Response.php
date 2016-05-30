@@ -13,7 +13,6 @@ class C_Response extends C_Controller{
     protected function OnInput() {
         parent::OnInput();
         if($this->IsPost()){
-            M_Lib::addLog($_POST);
             if(isset($_POST['registration_test'])){
 
                 $this->content = $this->registrate_test($_POST['login']);

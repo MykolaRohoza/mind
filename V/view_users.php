@@ -48,14 +48,30 @@
 
                         
                         <div class="full_container"> <h4>Упражнения:</h4>
-                                <div class="exercises_container"><?=$user['exercises']?></div>
+                            <div class="exercises_container">
+                            <?php foreach ($user['exercises'] as $exercise):?>    
+                                    <div class="exercise" style="display: inline-block;">
+                                        <input type="hidden" value="<?=$exercise['id_exercise'];?>" name="id_exercise">
+                                        <span class="ex"><?=$exercise['ex'];?></span>
+                                        <span class="counts"><?=$exercise['count'];?></span>
+                                        <div class="pd_btn plus" onclick="plus_counts(this)"></div>
+                                        <div class="pd_btn deg" onclick="deg_counts(this)"></div>
+                                        <span> X </span>
+                                        <span class="repeat"><?=$exercise['repeat'];?></span>
+                                        <div class="pd_btn plus" onclick="plus_rep(this)"></div>
+                                        <div class="pd_btn deg" onclick="deg_rep(this)"></div>
+                                    </div>
+                                        
+                            <?php endforeach;?>
+                            </div>
                             <form class="exercises">
                                 <input type="hidden" value="<?=$user['id_user']?>" name="id_user">
                                 <textarea style="display:none" name="exercises"></textarea>
                                 <input type="button" style="width: 25%;" class="btn btn-primary btn-block" name="exercise" value="Сохранить">
                             </form>
-                        </div> 
-                    </div>
+                        </div>
+                    </div> 
+                  
      
                 </li>
             <?php endforeach;?>

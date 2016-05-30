@@ -468,7 +468,11 @@ private function GetSid(){
            $query .= sprintf($t, mysql_real_escape_string($roles));
         }
         $result = $this->msql->Select($query);
+        foreach ($result as $key => $value) {
 
+            $result[$key]['exercises'] = $this->validateExercises($value['exercises']);
+        }
+        M_Lib::addLog($result);
         return $result;
     }
     public function addUserEx($id_user, $exercises){
@@ -486,7 +490,18 @@ private function GetSid(){
         $t = "SELECT exercises FROM users WHERE id_user = '%d'";
         $query .= sprintf($t, mysql_real_escape_string($id_user));
         $result = $this->msql->Select($query);
-
-        return $result[0]['exercises'];
+        $ex = $this->validateExercises($result[0]['exercises']);
+        M_Lib::addLog($ex);
+        return $ex;
+    }
+    
+    private function validateExercises($str_exer) {
+        $temp = explode('==||##', $str_exer);
+        $result = array();
+        for($i = 2; $i < count($temp); $i += 4){
+            $result[] = array('id' => $temp[$i], 'ex' => $temp[$i + 1],
+                'count' => $temp[$i + 2], 'repeat' => $temp[$i + 3]);
+        }
+        return $result;
     }
 }
