@@ -92,7 +92,7 @@
 
                 <br>
                 <div class="article_list">
-                    <div class="add_article"><a href="/edit/"><b>+</b> Добавить статью</a></div>
+                    <div class="add_article"><a href="/edit"><b>+</b> Добавить статью</a></div>
                     <ul>
                    <?php foreach ($article_list as $article) :?>
                         <li><a href="/edit/<?=$article['id_article']?>"><b>№<?=$article['id_article']?></b> <?=$article['article_title']?></a></li>

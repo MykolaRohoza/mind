@@ -1,4 +1,5 @@
 $(function() {
+    $('.full_container').hide();
     $('.exercises_container').sortable({
         delay: 250,
         start: function() {
@@ -16,10 +17,56 @@ $(function() {
         addNewExGetAll(ex_name);
     });
     $('input[name="exercise"]').on('click', function (){
-        $(this);
+        
+        save_exercises($(this));
+    });
+    
+    $('div.more').on('click', function (){
+        show_users_info($(this));
     });
 
 });
+function  show_users_info(elem){
+    var cont = elem.siblings('.full_container');
+        if(cont.is(':hidden')){
+            cont.slideDown("slow");
+            elem.children('span').removeClass();
+            elem.children('span').addClass('glyphicon glyphicon-arrow-up');
+        }
+        else{
+            cont.slideUp("slow");
+            elem.children('span').removeClass();
+            elem.children('span').addClass('glyphicon glyphicon-arrow-down');
+        }
+
+}
+
+function  save_exercises(elem){
+    var id_user =  elem.siblings('input[name="id_user"]').val();
+    var cont = elem.parent().siblings('.exercises_container'); 
+    var query = 'id_user=' + id_user + '&add_user_ex=' +  cont.html();
+
+    $.ajax({
+        type: 'POST',
+        url: '/resp/' + query,
+        data: query,
+        start: function (){
+            
+        },
+        success: function(data){
+            var result = JSON.parse(data);
+            if(result) {
+                cont.empty();
+                cont.append(result);
+            }
+            else{
+
+            }
+        }
+    });
+    
+}
+
 function onStopDrag(){
 
     $('.exercises_container div.ui-draggable div').remove();

@@ -13,7 +13,7 @@ class C_Response extends C_Controller{
     protected function OnInput() {
         parent::OnInput();
         if($this->IsPost()){
-
+            M_Lib::addLog($_POST);
             if(isset($_POST['registration_test'])){
 
                 $this->content = $this->registrate_test($_POST['login']);
@@ -44,13 +44,24 @@ class C_Response extends C_Controller{
                 $this->content['message'] = $this->deleteExercises($_POST['id_exercise'], $mExe);
                 $this->content = $this->getExercises($mExe);
             }
+            if(isset($_POST['add_user_ex'])){
+                $this->content = $this->addUserEx($_POST['id_user'], $_POST['add_user_ex']);
+
+            }
             
         }
         
        
     }
+    private function addUserEx($id_user,$exercises){
+        $this->mUser->addUserEx($id_user,$exercises);
+        return $this->mUser->getUserEx($id_user);
+        
+        
+    }
 
     
+
     
     private function deleteExercises($id_ex, M_Exercises $mExe){
         $result = $mExe->deleteExercises($id_ex);

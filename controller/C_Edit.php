@@ -44,12 +44,13 @@ class C_Edit extends C_Base{
         
         // Обработка отправки формы.
         if ($this->IsPost()) {
+
             if(isset($_POST['save'])){
                 $message = '/' .$this->save();
             }
             if(isset($_POST['delete'])){
                 $this->delete();
-                $this->controllerPath = '/edit/';
+                $this->controllerPath = '/edit';
             }
             if(isset($_POST['delete_img'])){
                 $message = '/' . $this->deleteImg($_POST['old_name']);     

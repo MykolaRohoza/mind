@@ -121,7 +121,7 @@ class M_Users
         return $result;
     }
     
-        public function checkLogin($login, $user_code_status = 1)
+    public function checkLogin($login, $user_code_status = 1)
     {	
             $t = "SELECT DISTINCT id_user FROM users WHERE login = '%s' AND user_code_status=$user_code_status";
             $query = sprintf($t, mysql_real_escape_string($login));
@@ -252,6 +252,21 @@ class M_Users
             return false;
         }
 
+        $t = "SELECT privs.priv_name FROM privs2roles JOIN users USING(id_role) 
+                      JOIN privs USING(id_priv) 
+                      WHERE id_user = '%d'";
+
+            $query  = sprintf($t, $id_user);
+            $result = $this->msql->Select($query);
+            $userPrivs = array();
+            foreach ($result as $value){
+                $userPrivs[$value['priv_name']] = true;
+            }
+
+            return $userPrivs;
+    }
+    public function getUserContacts($id_user = null){
+        
         $t = "SELECT privs.priv_name FROM privs2roles JOIN users USING(id_role) 
                       JOIN privs USING(id_priv) 
                       WHERE id_user = '%d'";
@@ -444,15 +459,34 @@ private function GetSid(){
         return $code;
     }
 
-    public function getUsers($roles){
+    public function getUsers($roles = 0){
         $query = "SELECT * FROM users ";
+        //$query = "SELECT `users`.user_name, `users`.user_second_name, `contact_infos`.`contact_dest`,`contact_infos`.`contact` "
+        //    . "FROM users JOIN `user_info` USING(id_user) JOIN `contact_infos` USING(contact_info)";
         if($roles !== 0){
            $t =  "WHERE id_role = '%s'";
            $query .= sprintf($t, mysql_real_escape_string($roles));
         }
         $result = $this->msql->Select($query);
 
-                
         return $result;
+    }
+    public function addUserEx($id_user, $exercises){
+            $tmp = "id_user='%d'";
+            $where = sprintf($tmp, $id_user);
+            $object = array('exercises' => trim($exercises));
+        
+        $result = $this->msql->Update('users', $object, $where, true, true);
+        
+
+
+        return $result;
+    }
+    public function getUserEx($id_user){
+        $t = "SELECT exercises FROM users WHERE id_user = '%d'";
+        $query .= sprintf($t, mysql_real_escape_string($id_user));
+        $result = $this->msql->Select($query);
+
+        return $result[0]['exercises'];
     }
 }

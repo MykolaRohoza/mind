@@ -6,10 +6,10 @@ function M_startup()
 
         
 	$hostname = 'localhost';	
-	$username = 'f-i'; 
-	$password = '0okmnji9';
+	$username = 'mind-body'; 
+	$password = '0oiuy6';
         
-	$dbName   = "f-i";
+	$dbName   = "mind-body";
 
 	
 	// Языковая настройка.
