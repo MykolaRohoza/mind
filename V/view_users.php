@@ -34,7 +34,7 @@
             
                 <ul class="contacts">
             <?php if($users):?> 
-            <?php foreach ($users as $user):?>                   
+            <?php foreach ($users as $id_user => $user):?>                   
                 <li class="clearfix">
 
                     <div class="user_card">
@@ -42,10 +42,25 @@
                             <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                         </div>
                         <img class="photo" src="<?='http://' . $_SERVER['SERVER_NAME'] . '/images/carousel/' . $user['article_img_name']?>" alt="<?=$user['image_alt']?>">
-                        <h4><?=$user['user_name']?> <?=$user['user_second_name']?></h4>
-                        <h4>Контакты: <?=$user['login']?>, Телефон <?=$user['telephone']?></h4>
-                        <div class="diagnosis"><span class="diagnosis">Диагноз: <?=$user['diagnosis']?> </span> <div class="pd_btn plus" onclick="change_diagnosis(this)"></div></div>
-
+                        <h4><?=$user['user_name']?> <?=$user['user_second_name']?> - <span ondblclick="change_role(this)"><?=$user['description']?></span></h4>
+                        <h4><span ondblclick="new_contact(this)">Контакты: </span><input class="contacts" type="text" value="text" onmouseout="input2span(this)">
+                            <?php $i = 0; foreach($user['contacts'] as $contact){
+                                echo '<span id="' . $contact['id_info'] . '_' . $contact['contact'] . '" class="contacts" ondblclick="span2input(this)">' . $contact['contact'];
+                                echo '</span>';
+                                if($i < (count($user['contacts']) - 1)){
+                                    echo '<span>, </span>';
+                                }
+                                else {
+                                    echo '<span>.</span>';
+                                }
+                                $i++;
+                            
+                            }?>
+                        </h4>
+                        <h4>
+                            <span ondblclick="new_diagnosis(this)">Диагноз: </span>
+                            <span ondblclick="change_diagnosis(this)" class="diagnosis"><?=$user['diagnosis']?></span> 
+                        </h4>
                         
                         <div class="full_container"> <h4>Упражнения:</h4>
                             <div class="exercises_container">
@@ -65,7 +80,7 @@
                             <?php endforeach;?>
                             </div>
                             <form class="exercises">
-                                <input type="hidden" value="<?=$user['id_user']?>" name="id_user">
+                                <input type="hidden" value="<?=$id_user?>" name="id_user">
                                 <textarea style="display:none" name="exercises"></textarea>
                                 <input type="button" style="width: 25%;" class="btn btn-primary btn-block" name="exercise" value="Сохранить">
                             </form>

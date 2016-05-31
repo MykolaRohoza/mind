@@ -15,10 +15,7 @@ class M_MSQL
             if (self::$instance == null) {
                 self::$instance = new M_MSQL();
             }
-            $unique_columns = array('contact', 'contact_dest');
-            $query = "SELECT u.id_user, c_i.contact, c_i.contact_dest FROM users u "
-                    . "LEFT JOIN contact_infos c_i ON u.id_user = c_i.contact_info";
-            self::SelectGroupByPrKey($query, 'id_user', 'contacts', $unique_columns);
+
             return self::$instance;
 	}
 	
@@ -76,11 +73,8 @@ class M_MSQL
                     unset($arr[$rpk][$value]);
                 }
                 $arr[$rpk][$container] = array();
-                $arr[$rpk][$container][] = self::uniqueCol2Arr($row, $unique_columns);
             }
-            else{
-                $arr[$rpk][$container][] = self::uniqueCol2Arr($row, $unique_columns);
-            }
+            $arr[$rpk][$container][] = self::uniqueCol2Arr($row, $unique_columns);
         }
 
 	return $arr;				

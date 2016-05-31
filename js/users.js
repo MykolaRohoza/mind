@@ -26,6 +26,14 @@ $(function() {
     });
 
 });
+//TODO
+function  input2span(elem){}
+function  span2input(elem){}
+function  new_contact(elem){}
+function  change_role(elem){}
+function  new_diagnosis(elem){}
+function  change_diagnosis(elem){}
+
 function  show_users_info(elem){
     var cont = elem.siblings('.full_container');
         if(cont.is(':hidden')){
