@@ -2,6 +2,9 @@
             
 ?>
 <div class="container">
+    <?php if($message):?>
+        <span class='message'><?=$message?></span>
+    <?php endif;?>
         <div class="row">
         <div class="col-sm-12">
         </div></div>
@@ -33,16 +36,15 @@
                 <div class="col-sm-5">
 
             <form method="post" enctype="multipart/form-data">
-                <span id="message"><?=$message_file?></span>
                 <input type='file' name='img'>
-                Задать название
-                <input type="text" name="name">
-                <input type="text" name="old_name" style="display: none;">
-                Задать описание
-                <input type="text" name="alt">
+                <span>Задать название</span>
+                <input type="text" name="name" class="form-control">
+                <input type="text" name="old_name" style="display: none;" class="form-control">
+                <span>Задать описание</span>
+                <input type="text" name="alt"  class="form-control">
                 <label>Показывать в слайдере <input type="checkbox" name='image_show' checked="checked"></label><br>
-                <input type="submit" name='upload_img' value="Отправить">
-                <input type="submit" name='delete_img' value="Удалить">
+                <input type="submit" class="btn btn-primary btn-block" name='upload_img' value="Отправить" style="display: inline-block;  width: 49%">
+                <input type="submit" class="btn btn-primary btn-block" name='delete_img' value="Удалить" style="display: inline-block;  width: 49%; margin: 0">
                 <input type="hidden" value="<?=$id_article?>" name='id_article'>
             </form>
             <br>
@@ -73,7 +75,7 @@
                         </select>
                         <br>
                -->
-                        Назначение <select name='article_dest'>
+               Назначение <select class="" name='article_dest'>
                             <option value="1"  <?php if($article_dest == 1){echo 'selected="selected"';} ?>>Главная</option>
                             <option value="2" <?php if($article_dest == 2){echo 'selected="selected"';} ?>>Профилактор</option>
                             <option value="3" <?php if($article_dest == 3){echo 'selected="selected"';} ?>>Статьи</option>
@@ -89,9 +91,9 @@
                 </div>
 
                 <br>
-                <div>
+                <div class="article_list">
+                    <div class="add_article"><a href="/edit"><b>+</b> Добавить статью</a></div>
                     <ul>
-                        <li><a href="/edit/"><b>+</b> Добавить статью</a></li>
                    <?php foreach ($article_list as $article) :?>
                         <li><a href="/edit/<?=$article['id_article']?>"><b>№<?=$article['id_article']?></b> <?=$article['article_title']?></a></li>
                     <?php endforeach; ?>
@@ -127,7 +129,7 @@
         <div class="col-sm-6">
 
                
-            <div class="article article-left" id="view_article">
+            <div class="article article-left clearfix" id="view_article">
                
                 <h3 id='v_h3'></h3>
 

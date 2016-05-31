@@ -29,6 +29,7 @@ class C_Edit extends C_Base{
         $this->mArticles = M_Articles::Instance();
         $this->controllerPath = '/edit/' . $_POST['id_article'];
         $this->isEdit = true;
+        $this->content = array();
     }
 
 
@@ -43,12 +44,13 @@ class C_Edit extends C_Base{
         
         // Обработка отправки формы.
         if ($this->IsPost()) {
+
             if(isset($_POST['save'])){
                 $message = '/' .$this->save();
             }
             if(isset($_POST['delete'])){
                 $this->delete();
-                $this->controllerPath = '/edit/';
+                $this->controllerPath = '/edit';
             }
             if(isset($_POST['delete_img'])){
                 $message = '/' . $this->deleteImg($_POST['old_name']);     
@@ -73,12 +75,13 @@ class C_Edit extends C_Base{
             // сбор разрешений и организация массивов
             $this->content['nav']['edit'] = 'class="active"';
             if(isset($this->_get[1]) && $this->_get[1] > 0){
-                $this->content['articles'] = $this->mArticles->getArticles(0, $this->_get[1])[0];
+                $temp_arr = $this->mArticles->getArticles(0, $this->_get[1]);
+                $this->content['articles'] = $temp_arr[0];
             }
 
             
             $this->content['articles']['article_list'] = $this->mArticles->getArticlesNames();
-            $this->content['articles']['message_file'] = $this->_get[2];
+            $this->content['articles']['message'] = $this->_get[2];
             $this->content['articles']['message_article'] = $this->_get[2];
           
         }
@@ -87,9 +90,9 @@ class C_Edit extends C_Base{
     }
     private function save(){
        
-        $queryKeys = ['article_title', 'article_text', 'article_order', 'article_func', 'article_dest', 'article_img_name',
-            'article_img_place', 'article_secondary_to'];
-        $queryObj =[];
+        $queryKeys = array('article_title', 'article_text', 'article_order', 'article_func', 'article_dest', 'article_img_name',
+            'article_img_place', 'article_secondary_to');
+        $queryObj =array();
         foreach ($queryKeys as  $key) {
             if($key != 'article_text' && $key != 'article_title'){
                 $queryObj[$key] = $_POST[$key];

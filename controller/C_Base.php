@@ -115,7 +115,7 @@ abstract class C_Base extends C_Controller {
         
         $path = 'images/carousel';
 	$handle = opendir($path);
-        $pictures = [];
+        $pictures = array();
 	$i = 0;
         if ($handle != false){
             while (false !== ($file = readdir($handle))){

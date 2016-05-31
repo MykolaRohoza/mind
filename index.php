@@ -19,7 +19,7 @@ M_startup();
 	}
 	
         $info_ = explode('/', $_GET['q']);
-        $info = [];
+        $info = array();
         foreach ($info_ as $value) {
             if($value != ''){
                 $info[] = $value;

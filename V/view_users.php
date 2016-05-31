@@ -27,70 +27,62 @@
             </div>
         <?php endif; ?>
         </div>
+        </div>
         <div class="row">
-            <div class="col-sm-10">
+            <div class="col-sm-9">
+
+            
                 <ul class="contacts">
             <?php if($users):?> 
             <?php foreach ($users as $user):?>                   
                 <li class="clearfix">
-                    <img class="photo" src="<?='http://' . $_SERVER['SERVER_NAME'] . '/images/carousel/' . $user['article_img_name']?>" alt="<?=$user['image_alt']?>">
-                    <div>
+
+                    <div class="user_card">
+                        <div class="more">
+                            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                        </div>
+                        <img class="photo" src="<?='http://' . $_SERVER['SERVER_NAME'] . '/images/carousel/' . $user['article_img_name']?>" alt="<?=$user['image_alt']?>">
                         <h4><?=$user['user_name']?> <?=$user['user_second_name']?></h4>
-                        <h4>Контакты: <?=$user['user_name']?> <?=$user['user_second_name']?>, Телефон <?=$user['telephone']?></h4>
-                        <h4>Диагноз: <?=$user['info_diagnosis']?> </h4>
+                        <h4>Контакты: <?=$user['login']?>, Телефон <?=$user['telephone']?></h4>
+                        <div class="diagnosis"><span class="diagnosis">Диагноз: <?=$user['diagnosis']?> </span> <div class="pd_btn plus" onclick="change_diagnosis(this)"></div></div>
+
                         
                         <div class="full_container"> <h4>Упражнения:</h4>
                             <div class="exercises_container">
-
-                            <div class="exercise">
-                                <span class="ex">упражнение</span>
-                                <span class="counts">30</span>
-                                <div class="pd_btn plus" onclick="plus_counts(this)"></div>
-                                <div class="pd_btn deg" onclick="deg_counts(this)"></div>
-                                <span class="counts"> X </span>
-                                <span class="repeat">2</span>
-                                <div class="pd_btn plus" onclick="plus_rep(this)"></div>
-                                <div class="pd_btn deg" onclick="deg_rep(this)"></div>
+                            <?php foreach ($user['exercises'] as $exercise):?>    
+                                    <div class="exercise" style="display: inline-block;">
+                                        <input type="hidden" value="<?=$exercise['id_exercise'];?>" name="id_exercise">
+                                        <span class="ex"><?=$exercise['ex'];?></span>
+                                        <span class="counts"><?=$exercise['count'];?></span>
+                                        <div class="pd_btn plus" onclick="plus_counts(this)"></div>
+                                        <div class="pd_btn deg" onclick="deg_counts(this)"></div>
+                                        <span> X </span>
+                                        <span class="repeat"><?=$exercise['repeat'];?></span>
+                                        <div class="pd_btn plus" onclick="plus_rep(this)"></div>
+                                        <div class="pd_btn deg" onclick="deg_rep(this)"></div>
+                                    </div>
+                                        
+                            <?php endforeach;?>
                             </div>
-                            <div class="exercise">
-                                <span class="ex">упражнение</span>
-                                <span class="counts">30</span>
-                                <div class="pd_btn plus" onclick="plus_counts(this)"></div>
-                                <div class="pd_btn deg" onclick="deg_counts(this)"></div>
-                                <span class="counts"> X </span>
-                                <span class="repeat">2</span>
-                                <div class="pd_btn plus" onclick="plus_rep(this)"></div>
-                                <div class="pd_btn deg" onclick="deg_rep(this)"></div>
-                            </div>
-                            <div class="exercise">
-                                <span class="ex">упражнение</span>
-                                <span class="counts">30</span>
-                                <div class="pd_btn plus" onclick="plus_counts(this)"></div>
-                                <div class="pd_btn deg" onclick="deg_counts(this)"></div>
-                                <span class="counts"> X </span>
-                                <span class="repeat">2</span>
-                                <div class="pd_btn plus" onclick="plus_rep(this)"></div>
-                                <div class="pd_btn deg" onclick="deg_rep(this)"></div>
-                            </div>
-
-
-  
-                    </div>
-                        <br><form class="exercises">
-                            <input type="hidden" value="<?=$user['id_user']?>" name="id_user">
-                            <textarea style="display:none" name="exercises"></textarea>
-                            <input type="button" name="exercise">
-                        </form>
-                    </div>  
+                            <form class="exercises">
+                                <input type="hidden" value="<?=$user['id_user']?>" name="id_user">
+                                <textarea style="display:none" name="exercises"></textarea>
+                                <input type="button" style="width: 25%;" class="btn btn-primary btn-block" name="exercise" value="Сохранить">
+                            </form>
+                        </div>
+                    </div> 
+                  
+     
                 </li>
             <?php endforeach;?>
             <?php endif;?>                     
+                        </div>
 
-            </div>
-                    <div class="col-sm-2" style="padding:0px">
+  
+                    <div class="col-sm-3" style="padding:0px" id="exercise_bank">
                     <h4>Упражнения: </h4>
-                    <input type="text" name="new_ex">
-                    <input type="button" value="добавить" name="add_ex">
+                    <input type="text" name="new_ex" class="form-control">
+                    <input type="button" value="добавить" class="btn btn-primary btn-block"  name="add_ex">
                     <h5>Список упражнений:</h4>
                     <div class="container_add_ex">  
                     <?php foreach ($exercises as $id_exercise => $exercise):?>    
@@ -102,13 +94,10 @@
                     <?php endforeach;?>
                 </div>  
             </div>                  
-    </div>
+            </div>
 
-        </div>
 
     <script type="text/javascript">
 
     </script> 
                  
-       
-</div>

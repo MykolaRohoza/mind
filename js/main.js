@@ -96,7 +96,7 @@ function scroll(){
             $('#back-to-top').tooltip('hide');
             $('body,html').animate({
                 scrollTop: 0
-            }, 1000);
+            }, 200);
             return false;
         });
  

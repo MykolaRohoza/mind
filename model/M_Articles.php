@@ -97,7 +97,7 @@ class M_Articles
     public function getAlts(){
         $query = "SELECT image_name, image_alt FROM images WHERE image_show='1'";
         $res = $this->msql->Select($query);
-        $result = [];
+        $result = array();
         if(count($res[0]) > 0){
             foreach ($res as $value){ 
                  
@@ -106,9 +106,15 @@ class M_Articles
         }
         return $result;
     }
+    public function delAlt($name){
+        $tmp = "image_alt='%s'";
+        $where = sprintf($tmp, $name);
+        $result = $this->msql->Del('images', $where);
+        return $result;
+    }
     public function setAlts($image_name, $image_alt, $image_new_name, $image_show){  
         $img_show = ($image_show)?1:0;
-        $object = ['image_alt' => $image_alt, 'image_name' => $image_new_name, 'image_show' => $img_show];
+        $object = array('image_alt' => $image_alt, 'image_name' => $image_new_name, 'image_show' => $img_show);
         
         $table = 'images';
         if(!($this->msql->Update($table, $object, "image_name='$image_name'", true, true) > 0)){
@@ -144,7 +150,7 @@ class M_Articles
         return $message;
     }
     public function renameArticleImg($newName, $oldName){
-        return $this->msql->Update('articles', ['article_img_name' => $newName], 'article_img_name=' .  "'" . $oldName . "'");
+        return $this->msql->Update('articles', array('article_img_name' => $newName), 'article_img_name=' .  "'" . $oldName . "'");
 
     }
     public function delete($table, $where){
