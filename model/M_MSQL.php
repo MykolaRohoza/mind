@@ -15,7 +15,10 @@ class M_MSQL
             if (self::$instance == null) {
                 self::$instance = new M_MSQL();
             }
-
+            $unique_columns = array('contact', 'contact_dest');
+            $query = "SELECT u.id_user, c_i.contact, c_i.contact_dest FROM users u "
+                    . "LEFT JOIN contact_infos c_i ON u.id_user = c_i.contact_info";
+            self::SelectGroupByPrKey($query, 'id_user', 'contacts', $unique_columns);
             return self::$instance;
 	}
 	
@@ -42,19 +45,59 @@ class M_MSQL
             die(mysql_error());
         }
 
-        $n = mysql_num_rows($result);
-
-		$arr = array();
-	
-            for($i = 0; $i < $n; $i++)
-            {
-                $row = mysql_fetch_assoc($result);		
-                $arr[] = $row;
-            }
+	$arr = array();
+        while($row = mysql_fetch_assoc($result)){
+            $arr[] = $row;
+        }
 
 	return $arr;				
     }
-	
+    
+    
+    /**
+     * 
+     * @param String $query полный текст SQL запроса
+     * @param String $pr_key имя основного ключа
+     * @param String $container Название ключа для обращения к массиву колонок
+     * @param String[] $unique_columns Массив колонок, остальные параметры будут схлапываться в строке
+     * @return mixed[] 
+     */
+    public function SelectGroupByPrKey($query, $pr_key, $container, $unique_columns){
+        $result = mysql_query($query);
+        if (!$result) {
+            die(mysql_error());
+        }
+        $arr = array();
+        while($row = mysql_fetch_assoc($result)){
+            $rpk = $row[$pr_key];
+            if(is_null($arr[$rpk])){
+                $arr[$rpk]  = $row;
+                foreach ($unique_columns as $value) {
+                    unset($arr[$rpk][$value]);
+                }
+                $arr[$rpk][$container] = array();
+                $arr[$rpk][$container][] = self::uniqueCol2Arr($row, $unique_columns);
+            }
+            else{
+                $arr[$rpk][$container][] = self::uniqueCol2Arr($row, $unique_columns);
+            }
+        }
+
+	return $arr;				
+    }
+    private function uniqueCol2Arr($row , $unique_columns) {
+        $result = array();
+        foreach ($unique_columns as $value) {
+            if(!is_null($row[$value])){
+                $result[$value] = $row[$value];
+            }
+            else {
+                $result = array();
+                break;
+            }
+        }
+        return $result;
+    }
 	/**
 	* Вставка строки
 	* @param string $table
