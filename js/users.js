@@ -27,8 +27,24 @@ $(function() {
 
 });
 //TODO
-function  input2span(elem){}
-function  span2input(elem){}
+function  span2input(elem){
+    var span = $(elem),
+        content = span.html(),
+        container = span.parent(),
+        index = container.children().index(elem) - 1;
+    span.remove();
+    if(container.children().length > 0){
+        $('<input class="contacts" type="text" value="' 
+            + content + '" onfocusout="input2span(this)">').insertAfter(container.children()[index]).bind("focusout", function(){alert('');});
+    }
+    else{
+        $('<input class="contacts" type="text" value="' 
+            + content + '" onblur="input2span(this)">').appendTo(container);
+    }
+}
+function  input2span(elem){
+    console.log(elem);
+}
 function  new_contact(elem){}
 function  change_role(elem){}
 function  new_diagnosis(elem){}

@@ -43,7 +43,8 @@
                         </div>
                         <img class="photo" src="<?='http://' . $_SERVER['SERVER_NAME'] . '/images/carousel/' . $user['article_img_name']?>" alt="<?=$user['image_alt']?>">
                         <h4><?=$user['user_name']?> <?=$user['user_second_name']?> - <span ondblclick="change_role(this)"><?=$user['description']?></span></h4>
-                        <h4><span ondblclick="new_contact(this)">Контакты: </span><input class="contacts" type="text" value="text" onmouseout="input2span(this)">
+                        <h4>
+                            <span ondblclick="new_contact(this)">Контакты: </span>
                             <?php $i = 0; foreach($user['contacts'] as $contact){
                                 echo '<span id="' . $contact['id_info'] . '_' . $contact['contact'] . '" class="contacts" ondblclick="span2input(this)">' . $contact['contact'];
                                 echo '</span>';
@@ -96,7 +97,7 @@
   
                     <div class="col-sm-3" style="padding:0px" id="exercise_bank">
                     <h4>Упражнения: </h4>
-                    <input type="text" name="new_ex" class="form-control">
+                    <input type="text" name="new_ex" onblur="" class="form-control">
                     <input type="button" value="добавить" class="btn btn-primary btn-block"  name="add_ex">
                     <h5>Список упражнений:</h4>
                     <div class="container_add_ex">  
