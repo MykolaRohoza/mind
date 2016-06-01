@@ -42,11 +42,12 @@
                             <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                         </div>
                         <img class="photo" src="<?='http://' . $_SERVER['SERVER_NAME'] . '/images/carousel/' . $user['article_img_name']?>" alt="<?=$user['image_alt']?>">
-                        <h4><?=$user['user_name']?> <?=$user['user_second_name']?> - <span ondblclick="change_role(this)"><?=$user['description']?></span></h4>
+                        <h4><span><?=$user['user_name']?> <?=$user['user_second_name']?> - </span><span ondblclick="span2changeble(this)"><?=$user['description']?></span></h4>
                         <h4>
                             <span ondblclick="new_contact(this)">Контакты: </span>
                             <?php $i = 0; foreach($user['contacts'] as $contact){
-                                echo '<span id="' . $contact['id_info'] . '_' . $contact['contact'] . '" class="contacts" ondblclick="span2input(this)">' . $contact['contact'];
+                            if($contact){
+                                echo '<span id="' . $contact['id_info'] . '_' . $contact['contact'] . '" ondblclick="span2changeble(this)">' . $contact['contact'];
                                 echo '</span>';
                                 if($i < (count($user['contacts']) - 1)){
                                     echo '<span>, </span>';
@@ -55,12 +56,15 @@
                                     echo '<span>.</span>';
                                 }
                                 $i++;
+                            }
                             
                             }?>
                         </h4>
                         <h4>
                             <span ondblclick="new_diagnosis(this)">Диагноз: </span>
-                            <span ondblclick="change_diagnosis(this)" class="diagnosis"><?=$user['diagnosis']?></span> 
+                            <?php if($user['diagnosis']):?>
+                            <span ondblclick="span2changeble(this)"><?=$user['diagnosis']?></span><span>.</span>
+                            <?php endif;?>
                         </h4>
                         
                         <div class="full_container"> <h4>Упражнения:</h4>
@@ -83,7 +87,8 @@
                             <form class="exercises">
                                 <input type="hidden" value="<?=$id_user?>" name="id_user">
                                 <textarea style="display:none" name="exercises"></textarea>
-                                <input type="button" style="width: 25%;" class="btn btn-primary btn-block" name="exercise" value="Сохранить">
+                                <input type="button" class="btn btn-primary btn-block save" name="exercise" value="Сохранить">
+                                <input type="button" class="btn btn-primary btn-block save" name="cansel" value="Отменить">
                             </form>
                         </div>
                     </div> 

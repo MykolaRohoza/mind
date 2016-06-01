@@ -445,6 +445,7 @@ div.more span{
 input.save[type="button"]{
     width: 25%;
     display: inline-block;
-    float: right;    
+   
     margin-top: 0px;
+    margin-bottom: 5px;
 }

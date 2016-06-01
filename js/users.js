@@ -16,8 +16,7 @@ $(function() {
         addNewEx(ex_name);
         addNewExGetAll(ex_name);
     });
-    $('input[name="exercise"]').on('click', function (){
-        
+    $('input[name="exercise"]').on('click', function (){ 
         save_exercises($(this));
     });
     
@@ -27,29 +26,143 @@ $(function() {
 
 });
 //TODO
-function  span2input(elem){
+function  change_role(elem){}
+// getdataNames(elem);
+//end TODO
+function  span2changeble(elem){
     var span = $(elem),
         content = span.html(),
+        width = span.width(),
+        id = (span.attr('id'))?span.attr('id'):'0_',
         container = span.parent(),
-        index = container.children().index(elem) - 1;
+        index = container.children('span').index(elem) - 1;
+    var data = getDataNames(elem); 
     span.remove();
-    if(container.children().length > 0){
-        $('<input class="contacts" type="text" value="' 
-            + content + '" onfocusout="input2span(this)">').insertAfter(container.children()[index]).bind("focusout", function(){alert('');});
+    addChangeble(width, content, data['data_name'], data['id_data'], data['data_cont'], id, container, index);
+    
+    container.siblings('div.full_container').slideDown('fast');
+}
+function getDataNames(elem){
+    elem = $(elem);
+    var container = $(elem).parent(),
+    index = container.parent().children('h4').index(container);
+    var dataNamesHolder = [
+        {'data_name' : 'role_menu',
+        id_data : '',
+        data_cont : 'id_role'},
+        {'data_name' : 'contacts_menu',
+        id_data : 'id_info',
+        data_cont : 'contact'},
+        {'data_name' : 'diagnosis_menu',
+        id_data : '',
+        data_cont : 'diagnosis'}
+    ];
+    
+    return dataNamesHolder[index];
+}
+
+function addChangeble(width, content, data_name, id_data, data_cont, id, container, index, is_select){
+    var new_elem;
+    if(!is_select){
+        new_elem = $('<input type="text" value="' + content + '">');
     }
     else{
-        $('<input class="contacts" type="text" value="' 
-            + content + '" onblur="input2span(this)">').appendTo(container);
+        'get_roles';
+        new_elem = $('<select></select>'); 
+    }
+    
+    new_elem.insertAfter(container.children()[index]);
+    var handler = function (result){
+        input2span(new_elem, result, id_data, data_cont, container, index);
+    };
+    new_elem.width(width + 10)
+        .bind("blur", function(){
+        save_($(this), data_name, id_data, data_cont, id, handler);
+        });
+    return new_elem;
+
+}
+
+
+function save_ (elem, data_name, id_data, data_cont, id, handler){
+        
+    var id_user = getIdUserByElem(elem),
+        query = {'id_user': id_user};
+    query[data_name] = '';
+    if(id_data.length > 0) query[id_data] = id.split('_')[0];
+    query[data_cont] = elem.val();
+    
+    query_ajax(query, handler);
+}
+
+function  input2span(elem, response, id, content, container, index){
+    
+    elem.remove();
+    console.log(response);
+    if(response[content].length > 0) {
+        var new_elem = $('<span id="' + response[id] + '_' + response[content] + '">');
+            new_elem.insertAfter(container.children()[index]);
+        new_elem.html(response[content]).bind("dblclick", function(){
+                    span2changeble($(this));
+                });
+        var next = new_elem.next();
+        if(next.length > 0){
+            if(next.html() !== '.' && next.html() !== ', ' ){
+                $('<span>, </span>').insertAfter(new_elem);
+            }
+        }
+        else{
+            $('<span>.</span>').insertAfter(new_elem);
+        }
+    }
+    else{
+        var useless = $(container.children('span')[index + 1]);
+        if(useless.html() === '.' || useless.html() === ', '){
+            useless.remove();
+        }
     }
 }
-function  input2span(elem){
-    console.log(elem);
-}
-function  new_contact(elem){}
-function  change_role(elem){}
-function  new_diagnosis(elem){}
-function  change_diagnosis(elem){}
 
+
+function query_ajax(obj, handler){
+    var query  = '';
+    $.each(obj, function (key, value){
+        if(query.length !== 0) query += '&';
+        query += key + '=' + value;
+    });
+    
+    console.log(query);
+    $.ajax({
+        type: 'POST',
+        url: '/resp/' + query,
+        data: query,
+        success: function(data){
+            var result = JSON.parse(data);
+            if(result) {
+                handler(result);
+            }
+            else{
+
+            }
+
+
+        }
+    }); 
+}
+
+function  new_contact(elem){   
+    addChangeble('20%', '', 'contacts_menu', 'id_info', 'contact', '0_', $(elem).parent(), 0);
+
+}
+function  new_diagnosis(elem){
+    addChangeble('20%', '', 'diagnosis_menu', '', 'diagnosis', '', $(elem).parent(), 0);
+}
+
+
+
+function getIdUserByElem(elem){
+    return elem.parent().siblings('div.full_container').children('form').children('input[name="id_user"]').val();
+}
 function  show_users_info(elem){
     var cont = elem.siblings('.full_container');
         if(cont.is(':hidden')){
@@ -234,6 +347,9 @@ function deg_ex(elem){
         });
     }
 }
+
+
+
 
 function setDraggable(){
     $('.container_add_ex .exercise').draggable({

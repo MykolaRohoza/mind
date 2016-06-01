@@ -67,7 +67,7 @@ abstract class C_Base extends C_Controller {
             }
 
             // Очистка старых сессий и определение текущего пользователя.
-            $this->mUsers->ClearSessions(); 
+            //$this->mUsers->ClearSessions(); 
             $this->user = $this->validate($this->mUsers->Get());
             if ($this->user == null && $this->needLogin) {
 
