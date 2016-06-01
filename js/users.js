@@ -38,7 +38,8 @@ function  span2changeble(elem){
         index = container.children('span').index(elem) - 1;
     var data = getDataNames(elem); 
     span.remove();
-    addChangeble(width, content, data['data_name'], data['id_data'], data['data_cont'], id, container, index);
+    addChangeble(width, content, data['data_name'], data['id_data'],
+        data['data_cont'], id, container, index, data['data_cont'] === 'id_role');
     
     container.siblings('div.full_container').slideDown('fast');
 }
@@ -67,8 +68,15 @@ function addChangeble(width, content, data_name, id_data, data_cont, id, contain
         new_elem = $('<input type="text" value="' + content + '">');
     }
     else{
-        'get_roles';
+        
         new_elem = $('<select></select>'); 
+        var obj = getDataNames(container.children()[0]);
+        obj['id_data'] = 'get_roles';
+        query_ajax(obj, function (result){
+            console.log(' ');
+            
+        });
+        
     }
     
     new_elem.insertAfter(container.children()[index]);
@@ -138,6 +146,7 @@ function query_ajax(obj, handler){
         data: query,
         success: function(data){
             var result = JSON.parse(data);
+            console.log(data);
             if(result) {
                 handler(result);
             }

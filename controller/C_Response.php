@@ -66,6 +66,7 @@ class C_Response extends C_Controller{
                 }
             }
              /* */
+                $this->content = $_POST;
         }
         
        
