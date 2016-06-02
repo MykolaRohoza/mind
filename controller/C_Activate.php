@@ -50,6 +50,7 @@ class C_Activate extends C_Base {
         }
         else
         {
+            M_Lib::addLog($this->contVars['code']);
             if(isset($this->contVars['code'])){	
                 $this->contVars = $this->activate($this->contVars['code']);
             }

@@ -38,7 +38,7 @@ class C_Office extends C_Base {
         // Обработка отправки формы.
         if ($this->IsPost()) {
 
-        if($this->mUsers->setNewPassword($this->user['id_user'], md5($this->_post['new_pass']))){
+        if($this->mUsers->setNewPassword($this->user['id_user'], md5(md5($this->_post['new_pass'])))){
             $message = 'пароль успешно изменен';
             
         }

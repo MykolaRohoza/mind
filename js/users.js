@@ -47,8 +47,11 @@ function getScroll($elem){
 }
 
 function  span2changeble(elem){
-    var $span = $(elem),
-        content = $span.html(),
+    var $span = $(elem);
+    if($span.siblings('input').length) {
+        return false;
+    }
+    var content = $span.html(),
         width = $span.width(),
         id = ($span.attr('id'))?$span.attr('id'):'0_',
         container = $span.parent(),
@@ -92,6 +95,7 @@ function getSelectInner ($elem, data_name, id_data, data_cont, id, handler){
 }
 
 function addChangeble(width, content, data_name, id_data, data_cont, id, container, index, is_select){
+    if(container.children('input').length) return false;
     var $new_elem;
     if(!is_select){
         $new_elem = $('<input type="text" value="' + content + '">');

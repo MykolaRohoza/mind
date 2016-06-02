@@ -71,6 +71,7 @@ class M_Users
 
             $id_user = $user['id_user'];
             // проверяем пароль
+
             if ($user['password'] != md5(md5($password)))
                     return false;
 
@@ -101,12 +102,25 @@ class M_Users
         
         $code = md5(time(true));
         $obj = array('user_name' => $name, 'user_second_name' => $second, 'login' => $login,
-            'password' => md5($password), 'telephone' => $telephone, 'user_code' => $code); 
+            'password' => md5(md5($password)), 'user_code' => $code); 
+        
+        // TODO Занесение в контакты 
         if($this->checkLogin($login, 0) || $this->checkPhone($telephone, 0)){
             $result = $this->activate('', $obj);
         }
         else{
-            $result = ($this->msql->Insert('users', $obj) > 0);
+            $result = $this->msql->Insert('users', $obj);
+            if($result > 0){
+                $cont_obj = array();
+                $cont_obj[] = array('contact_info' => $result, 'contact' => $login, 'contact_dest' => 2);
+                $cont_obj[] = array('contact_info' => $result, 'contact' => $telephone, 'contact_dest' => 1);
+                foreach ($cont_obj as $value) {
+                    $this->msql->Insert('contact_infos', $value);
+                }
+
+            }
+            $result = ($result > 0);
+            
         }
         
         if($result) {
@@ -120,20 +134,23 @@ class M_Users
         return $result;
     }
     
-    public function checkLogin($login, $user_code_status = 1)
+    public function checkContact($contact, $user_code_status)
     {	
-            $t = "SELECT DISTINCT id_user FROM users WHERE login = '%s' AND user_code_status=$user_code_status";
-            $query = sprintf($t, mysql_real_escape_string($login));
+            $t = "SELECT DISTINCT u.id_user FROM users u RIGHT JOIN contact_infos c_i "
+                    . "ON u.id_user = c_i.contact_info WHERE c_i.contact = '%s' AND "
+                    . "u.user_code_status=$user_code_status";
+            $query = sprintf($t, mysql_real_escape_string($contact));
             $result = $this->msql->Select($query);
             return $result[0]['id_user'] > 0;
     }
-    
-    public function checkPhone($telephone, $user_code_status=1)
+    private function checkLogin($contact, $user_code_status = 1)
     {	
-            $t = "SELECT DISTINCT id_user FROM users WHERE telephone = '%s' AND user_code_status=$user_code_status";
-            $query = sprintf($t, $telephone);
-            $result = $this->msql->Select($query);
-            return $result[0]['id_user'] > 0;
+        return $this->checkContact($contact, $user_code_status);
+    }
+    
+    private function checkPhone($telephone, $user_code_status=1)
+    {	
+        return $this->checkContact($telephone, $user_code_status);    
     }
     
     
@@ -143,7 +160,7 @@ class M_Users
             foreach ($resentObj as $key => $val){
                 $object[$key] = $val;
             }
-            $where = "telephone='{$resentObj['telephone']}' OR login='{$resentObj['login']}'";
+            $where = "login='{$resentObj['login']}'";
             $object = array('user_code' => $resentObj['user_code'], 'user_code_status' => 0);
         }
         else{
