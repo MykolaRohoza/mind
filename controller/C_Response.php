@@ -47,7 +47,28 @@ class C_Response extends C_Controller{
                 $this->content = $this->addUserEx($_POST['id_user'], $_POST['add_user_ex']);
 
             }
-            
+            /* должны возвращать то что принимают */
+            if(isset($_POST['contacts_menu'])){
+                $this->content = $_POST;
+
+            }
+            if(isset($_POST['diagnosis_menu'])){
+                $this->content = $_POST;
+
+            }
+            if(isset($_POST['role_menu'])){ 
+                if(!is_numeric($_POST['id_role'])){
+                    $this->content = [1 => 'Администратор', 2 => 'Тренер', 3 => 'Посетитель'];
+
+                }
+                else{                    
+                   $arr = [1 => 'Администратор', 2 => 'Тренер', 3 => 'Посетитель'];
+                    $this->content = ['id_role' => $arr[$_POST['id_role']]];
+                }
+
+            }
+             /* */
+                //$this->content = $_POST;
         }
         
        

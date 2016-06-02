@@ -459,22 +459,36 @@ private function GetSid(){
         return $code;
     }
 
-    public function getUsers($roles = 0){
-        $query = "SELECT * FROM users ";
-        //$query = "SELECT `users`.user_name, `users`.user_second_name, `contact_infos`.`contact_dest`,`contact_infos`.`contact` "
-        //    . "FROM users JOIN `user_info` USING(id_user) JOIN `contact_infos` USING(contact_info)";
+    public function getUsers($roles = 0, $id_user = 0){
+        $query = "SELECT u.id_user, u.login, u.user_name, u.user_second_name, u.id_role, u.exercises, u.diagnosis, "
+                . "r.description, c_i.contact, c_i.id_info, c_i.contact_dest "
+                . "FROM users u LEFT JOIN roles r USING(id_role) LEFT JOIN contact_infos c_i "
+                . "ON c_i.contact_info=u.id_user WHERE 1=1 ";
+        $pr_key = 'id_user';
+        $container = 'contacts';
+        $unique_columns = array('contact', 'id_info', 'contact_dest');
         if($roles !== 0){
-           $t =  "WHERE id_role = '%s'";
-           $query .= sprintf($t, mysql_real_escape_string($roles));
+       
+            $t =  "AND id_role = '%d'";   
+     
+            $query .= sprintf($t, mysql_real_escape_string($roles));
         }
-        $result = $this->msql->Select($query);
+        if($id_user !== 0){
+           $t =  "AND id_user = '%d'";
+           $query .= sprintf($t, mysql_real_escape_string($id_user));
+        }        
+        $result = $this->msql->SelectGroupByPrKey($query, $pr_key, $container, $unique_columns);
         foreach ($result as $key => $value) {
 
             $result[$key]['exercises'] = $this->validateExercises($value['exercises']);
         }
-        M_Lib::addLog($result);
+
+
         return $result;
+     
     }
+    
+    
     public function addUserEx($id_user, $exercises){
             $tmp = "id_user='%d'";
             $where = sprintf($tmp, $id_user);
@@ -491,7 +505,7 @@ private function GetSid(){
         $query .= sprintf($t, mysql_real_escape_string($id_user));
         $result = $this->msql->Select($query);
         $ex = $this->validateExercises($result[0]['exercises']);
-        M_Lib::addLog($ex);
+
         return $ex;
     }
     
