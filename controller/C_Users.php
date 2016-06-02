@@ -60,7 +60,8 @@ class C_Users extends C_Base {
             $this->content['images'] =  $this->galery;
             
             $roles = $this->getRoles($this->_get[1]);
-            $this->content['users'] = $this->getUsersByRoles(0);
+            var_dump($roles);
+            $this->content['users'] = $this->getUsersByRoles($roles);
             $mExe = M_Exercises::Instance();
             $this->content['exercises'] = $this->getExercises($mExe);
 

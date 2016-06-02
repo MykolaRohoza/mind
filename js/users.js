@@ -25,25 +25,25 @@ $(function() {
     
     $('div.more').on('click', function (){
         show_users_info($(this));
-        getScroll(true);
+        getScroll($(this));
     });
 
 });
 // todo
-function getScroll(anim){
+function getScroll($elem){
     var max_height = $('div#contacts_container').height(),
     $pusher = $('#pusher'),
     scroll = $(window).scrollTop(),
     offered_height = $pusher.parent().height() - $pusher.height()+ scroll;
-    if(anim){
+    if($elem && false){
         $pusher.animate({
-            height: scroll
+            height: $pusher.parent().position().top - $elem.parent().position().top
         }, 300);            
     }
     
     if(max_height > offered_height || $pusher.height() > offered_height){
-        $pusher.height(scroll);
     }
+        $pusher.height(scroll);
 }
 
 function  span2changeble(elem){
@@ -416,9 +416,6 @@ function setDraggable(){
     $('.container_add_ex .exercise').draggable({
         connectToSortable: '.exercises_container',
         helper: "clone",
-        start: function() {
-            onStartDrag();
-        },
         stop: function() {   
             onStopDrag();
         }

@@ -30,16 +30,16 @@
     <div class="row">
         <div class="col-sm-9" id = "contacts_container">
             <div class="user_roles">
-                <a href="/users/1">
+                <a href="/users/admins">
                     Администраторы
                 </a>
-                <a href="/users/2">
+                <a href="/users/couchers">
                     Тренера
                 </a>
-                <a href="/users/3">
+                <a href="/users/visitors">
                     Пользователи
                 </a>
-                <a href="/users/0">
+                <a href="/users/all">
                     Все
                 </a>
             </div>
@@ -100,7 +100,7 @@
                             <input type="hidden" value="<?=$id_user?>" name="id_user">
                             <textarea style="display:none" name="exercises"></textarea>
                             <input type="button" class="btn btn-primary btn-block save" name="exercise" value="Сохранить">
-                            <input type="button" class="btn btn-primary btn-block save" name="cansel" value="Отменить">
+<!--                            <input type="button" class="btn btn-primary btn-block save" name="cansel" value="Отменить">-->
                         </form>
                     </div>
                 </div> 
