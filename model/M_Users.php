@@ -281,39 +281,8 @@ class M_Users
             return $userPrivs;
     }
 
-    public function getUserGroups($id_user) {
 
-        $temp = "SELECT DISTINCT id_group, group_name FROM transactions LEFT JOIN groups USING (id_group) WHERE id_user = '%d'";
-        $query = sprintf($temp, $id_user);
 
-        $result = $this->msql->Select($query);
- 
-        $groups = array();
-        if($result != null){
-            foreach ($result as $value){
-                if($value['id_group'] != 0 || $value['id_group'] != null){
-                    $groups[$value['id_group']] = $value['group_name'];
-                }
-            }
-        }
-       
-        return $groups;
-
-    }
-    
-    public function getActualUserGroupName($id_user) {
-        $temp = "SELECT group_name FROM groups RIGHT JOIN users USING(id_group)"
-                . " WHERE id_user = '%d'";
-        $query = sprintf($temp, $id_user);
-
-        $result = $this->msql->Select($query);
-        $groupName =  $result[0]['group_name'];
-        if ($groupName == '') {
-            $groupName = '-';
-        }
-        return $groupName;
-
-    }
     
     //
     // Проверка активности пользователя
@@ -419,29 +388,6 @@ private function GetSid(){
         return $sid;		
     }
 
-    //
-    // Открытие новой сессии
-    // результат	- SID
-    //
-    private function OpenSession($id_user) {
-        // генерируем SID
-        $sid = $this->GenerateStr(10);
-
-        // вставляем SID в БД
-        $now = date('Y-m-d H:i:s'); 
-        $session = array();
-        $session['id_user'] = $id_user;
-        $session['sid'] = $sid;
-        $session['time_start'] = $now;
-        $session['time_last'] = $now;				
-        $this->msql->Insert('sessions', $session); 
-
-        // регистрируем сессию в PHP сессии
-        $_SESSION['sid'] = $sid;				
-
-        // возвращаем SID
-        return $sid;	
-    }
 
     //
     // Генерация случайной последовательности
@@ -487,7 +433,28 @@ private function GetSid(){
         return $result;
      
     }
-    
+ 
+    public function getRoles($id_user = 0){
+        $query = "SELECT id_role, description FROM roles";
+        if($id_user){
+            $query .= " WHERE id_user='%d'";  
+            $query = sprintf($query, mysql_real_escape_string($id_user));
+        }
+        $result = $this->msql->Select($query);
+        $roles = array();
+        foreach ($result as $value) {
+            $roles[$value['id_role']] = $value['description'];
+        }
+        return $roles;
+    }
+    public function getRoleByID($id_user){
+        $t = "SELECT u.id_user, r.id_role, r.description FROM users u LEFT JOIN roles r USING(id_role) "
+                . "WHERE u.id_user='%d'";
+        $query = sprintf($t, mysql_real_escape_string($id_user));
+        $result = $this->msql->Select($query);
+        $roles = array('id_role'  => $result[0]['description']);
+        return $roles;
+    }
     
     public function addUserEx($id_user, $exercises){
             $tmp = "id_user='%d'";
@@ -518,4 +485,28 @@ private function GetSid(){
         }
         return $result;
     }
+        //
+    // Открытие новой сессии
+    // результат	- SID
+    //
+    private function OpenSession($id_user) {
+        // генерируем SID
+        $sid = $this->GenerateStr(10);
+
+        // вставляем SID в БД
+        $now = date('Y-m-d H:i:s'); 
+        $session = array();
+        $session['id_user'] = $id_user;
+        $session['sid'] = $sid;
+        $session['time_start'] = $now;
+        $session['time_last'] = $now;				
+        $this->msql->Insert('sessions', $session); 
+
+        // регистрируем сессию в PHP сессии
+        $_SESSION['sid'] = $sid;				
+
+        // возвращаем SID
+        return $sid;	
+    }
+
 }

@@ -209,6 +209,7 @@ function query_ajax(obj, handler){
             
         },
         success: function(data){
+            console.log(data);
             var result = JSON.parse(data);
             if(result) {
                 handler.get_elem.css('cursor', 'auto');
