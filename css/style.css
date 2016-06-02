@@ -449,3 +449,43 @@ input.save[type="button"]{
     margin-top: 0px;
     margin-bottom: 5px;
 }
+#exercise_bank{
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 90%);
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+#pusher{
+    width:100%;
+
+}
+
+.user_roles{
+    margin: 10px 0px;
+    text-align: center;
+}
+.user_roles a{
+    display: inline-block;
+    border: 1px solid #444b58;
+    padding: 3px 5px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
+}
+/*h4 span{ position: relative;}*/
+
+/*h4 span:hover::after {
+    content: 'Изменяется при двойном клике';  Выводим текст 
+    position: absolute;  Абсолютное позиционирование 
+    left: 20%; top: 30%;  Положение подсказки 
+    z-index: 1;  Отображаем подсказку поверх других элементов 
+    background: rgba(255,255,230,0.9);  Полупрозрачный цвет фона 
+    font-family: Arial, sans-serif;  Гарнитура шрифта 
+    font-size: 11px;  Размер текста подсказки 
+    padding: 5px 10px;  Поля 
+    
+    border: 1px solid #333;  Параметры рамки 
+    border-radius: 3px;
+    
+}
+h4 :first-child:hover::after {
+     content: 'Добавление по двойному клику'; 
+}*/

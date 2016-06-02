@@ -1,5 +1,8 @@
 $(function() {
     $('.full_container').hide();
+    $(window).scroll(function (){
+        getScroll();
+    });
     $('.exercises_container').sortable({
         delay: 250,
         start: function() {
@@ -22,83 +25,134 @@ $(function() {
     
     $('div.more').on('click', function (){
         show_users_info($(this));
+        getScroll(true);
     });
 
 });
-//TODO
-function  change_role(elem){}
-// getdataNames(elem);
-//end TODO
+// todo
+function getScroll(anim){
+    var max_height = $('div#contacts_container').height(),
+    $pusher = $('#pusher'),
+    scroll = $(window).scrollTop(),
+    offered_height = $pusher.parent().height() - $pusher.height()+ scroll;
+    if(anim){
+        $pusher.animate({
+            height: scroll
+        }, 300);            
+    }
+    
+    if(max_height > offered_height || $pusher.height() > offered_height){
+        $pusher.height(scroll);
+    }
+}
+
 function  span2changeble(elem){
-    var span = $(elem),
-        content = span.html(),
-        width = span.width(),
-        id = (span.attr('id'))?span.attr('id'):'0_',
-        container = span.parent(),
-        index = container.children('span').index(elem) - 1;
-    var data = getDataNames(elem); 
-    span.remove();
+    var $span = $(elem),
+        content = $span.html(),
+        width = $span.width(),
+        id = ($span.attr('id'))?$span.attr('id'):'0_',
+        container = $span.parent(),
+        index = container.children('span').index(elem) - 1,
+        data = getDataNames(elem); 
+    $span.remove();
     addChangeble(width, content, data['data_name'], data['id_data'],
         data['data_cont'], id, container, index, data['data_cont'] === 'id_role');
     
     container.siblings('div.full_container').slideDown('fast');
 }
 function getDataNames(elem){
-    elem = $(elem);
-    var container = $(elem).parent(),
+    var $elem = $(elem),
+    container = $elem.parent(),
     index = container.parent().children('h4').index(container);
     var dataNamesHolder = [
         {'data_name' : 'role_menu',
-        id_data : '',
-        data_cont : 'id_role'},
+        'id_data' : '',
+        'data_cont' : 'id_role'},
+        
         {'data_name' : 'contacts_menu',
-        id_data : 'id_info',
-        data_cont : 'contact'},
+        'id_data' : 'id_info',
+        'data_cont' : 'contact'},
+        
         {'data_name' : 'diagnosis_menu',
-        id_data : '',
-        data_cont : 'diagnosis'}
+        'id_data' : '',
+        'data_cont' : 'diagnosis'}
     ];
     
     return dataNamesHolder[index];
 }
+function getSelectInner ($elem, data_name, id_data, data_cont, id, handler){
+        var id_user = getIdUserByElem($elem),
+        query = {'id_user': id_user};
+        if(id_data.length > 0) query[id_data] = id.split('_')[0];
+
+        query[data_name] = '';
+        query[data_cont] = $elem.val();
+
+        query_ajax(query, handler);
+}
 
 function addChangeble(width, content, data_name, id_data, data_cont, id, container, index, is_select){
-    var new_elem;
+    var $new_elem;
     if(!is_select){
-        new_elem = $('<input type="text" value="' + content + '">');
+        $new_elem = $('<input type="text" value="' + content + '">');
     }
     else{
         
-        new_elem = $('<select></select>'); 
-        var obj = getDataNames(container.children()[0]);
-        obj['id_data'] = 'get_roles';
-        query_ajax(obj, function (result){
-            console.log(' ');
-            
-        });
+        $new_elem = $('<select></select>'); 
+        var select_handler =  function (result){
+                $.each(result, function (key, value){
+                var selected = '';
+                    if(content.trim() === value.trim()) {
+                        selected = 'selected="selected"';
+                    }
+                    $('<option value="' + key + '" ' + selected + ' >' + value + '</option>').appendTo($new_elem);
+                });
+            };
+            select_handler.get_elem = $new_elem;
+        save_ (container.children()[0], data_name, id_data, data_cont, id, select_handler);
         
     }
     
-    new_elem.insertAfter(container.children()[index]);
+    $new_elem.insertAfter(container.children()[index]);
+    
     var handler = function (result){
-        input2span(new_elem, result, id_data, data_cont, container, index);
+        
+        input2span($new_elem, result, id_data, data_cont, container, index);
+        handler.get_elem = function (){
+            return $new_elem;
+        };
+       
     };
-    new_elem.width(width + 10)
-        .bind("blur", function(){
-        save_($(this), data_name, id_data, data_cont, id, handler);
+    handler.get_elem = $new_elem;
+    
+    $new_elem.width(width + 10);
+    if($new_elem[0].tagName.toLowerCase() === 'select'){
+        $new_elem.bind('change', function(){
+            save_($(this), data_name, id_data, data_cont, id, handler); 
         });
-    return new_elem;
+    }
+    if($new_elem[0].tagName.toLowerCase() === 'input'){
+        $new_elem.bind("blur keyup e", function(e){
+            if(e.keyCode === undefined || e.keyCode === 13) 
+                save_($(this), data_name, id_data, data_cont, id, handler); 
+            
+        });
+    }
+
+    return $new_elem;
 
 }
 
 
 function save_ (elem, data_name, id_data, data_cont, id, handler){
         
-    var id_user = getIdUserByElem(elem),
+    var $elem = $(elem),
+        id_user = getIdUserByElem($elem),
         query = {'id_user': id_user};
-    query[data_name] = '';
     if(id_data.length > 0) query[id_data] = id.split('_')[0];
-    query[data_cont] = elem.val();
+    
+    query[data_name] = '';
+    query[data_cont] = $elem.val();
     
     query_ajax(query, handler);
 }
@@ -106,21 +160,26 @@ function save_ (elem, data_name, id_data, data_cont, id, handler){
 function  input2span(elem, response, id, content, container, index){
     
     elem.remove();
-    console.log(response);
     if(response[content].length > 0) {
-        var new_elem = $('<span id="' + response[id] + '_' + response[content] + '">');
-            new_elem.insertAfter(container.children()[index]);
-        new_elem.html(response[content]).bind("dblclick", function(){
+        var elem_id;
+        if(response[id]){
+            elem_id =  'id="' + response[id] + '_' + response[content].replace(/\s/g, '') + '"';
+        }
+        var $new_elem = $('<span ' + elem_id + '></span>');
+        
+        $new_elem.insertAfter(container.children()[index]);
+        
+        $new_elem.html(response[content]).bind("dblclick", function(){
                     span2changeble($(this));
                 });
-        var next = new_elem.next();
+        var next = $new_elem.next();
         if(next.length > 0){
             if(next.html() !== '.' && next.html() !== ', ' ){
-                $('<span>, </span>').insertAfter(new_elem);
+                $('<span>, </span>').insertAfter($new_elem);
             }
         }
         else{
-            $('<span>.</span>').insertAfter(new_elem);
+            $('<span>.</span>').insertAfter($new_elem);
         }
     }
     else{
@@ -138,16 +197,22 @@ function query_ajax(obj, handler){
         if(query.length !== 0) query += '&';
         query += key + '=' + value;
     });
-    
-    console.log(query);
     $.ajax({
         type: 'POST',
         url: '/resp/' + query,
         data: query,
+        beforeSend: function (){
+            if(handler.get_elem){
+                handler.get_elem.css('cursor', 'progress');
+                handler.get_elem.attr('disabled', 'disabled');
+            }
+            
+        },
         success: function(data){
             var result = JSON.parse(data);
-            console.log(data);
             if(result) {
+                handler.get_elem.css('cursor', 'auto');
+                handler.get_elem.removeAttr('disabled');
                 handler(result);
             }
             else{
@@ -160,31 +225,30 @@ function query_ajax(obj, handler){
 }
 
 function  new_contact(elem){   
-    addChangeble('20%', '', 'contacts_menu', 'id_info', 'contact', '0_', $(elem).parent(), 0);
+    addChangeble('20%', '', 'contacts_menu', 'id_info', 'contact', '', $(elem).parent(), 0);
 
 }
 function  new_diagnosis(elem){
     addChangeble('20%', '', 'diagnosis_menu', '', 'diagnosis', '', $(elem).parent(), 0);
 }
 
-
-
 function getIdUserByElem(elem){
     return elem.parent().siblings('div.full_container').children('form').children('input[name="id_user"]').val();
 }
 function  show_users_info(elem){
-    var cont = elem.siblings('.full_container');
-        if(cont.is(':hidden')){
-            cont.slideDown("slow");
-            elem.children('span').removeClass();
-            elem.children('span').addClass('glyphicon glyphicon-arrow-up');
-        }
-        else{
-            cont.slideUp("slow");
-            elem.children('span').removeClass();
-            elem.children('span').addClass('glyphicon glyphicon-arrow-down');
-        }
-
+    
+    var $elem = $(elem),
+        cont = $elem.siblings('.full_container');
+    if(cont.is(':hidden')){
+        cont.slideDown("slow");
+        $elem.children('span').removeClass();
+        $elem.children('span').addClass('glyphicon glyphicon-arrow-up');
+    }
+    else{
+        cont.slideUp("slow");
+        $elem.children('span').removeClass();
+        $elem.children('span').addClass('glyphicon glyphicon-arrow-down');
+    }
 }
 
 function  save_exercises(elem){
@@ -239,16 +303,6 @@ function onStopDrag(){
                         );
 
 }
-function onStartDrag(){
-    //alert('start');
-}
-function onStopSort(){
-    alert('stop');
-}
-function onStopSort(){
-    alert('stop');
-}
-
 function addNewEx(str, id_exercise){
     if(str !== undefined && str.trim().length > 0 ){
         // Добавить проверку на номер
@@ -356,8 +410,6 @@ function deg_ex(elem){
         });
     }
 }
-
-
 
 
 function setDraggable(){

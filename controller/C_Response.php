@@ -57,16 +57,18 @@ class C_Response extends C_Controller{
 
             }
             if(isset($_POST['role_menu'])){ 
-                if($_POST['id_data'] === 'get_roles'){
+                if(!is_numeric($_POST['id_role'])){
                     $this->content = [1 => 'Администратор', 2 => 'Тренер', 3 => 'Посетитель'];
 
                 }
-                if($_POST['id_data'] === 'change_roles'){
-                   $this->content = $_POST;
+                else{                    
+                   $arr = [1 => 'Администратор', 2 => 'Тренер', 3 => 'Посетитель'];
+                    $this->content = ['id_role' => $arr[$_POST['id_role']]];
                 }
+
             }
              /* */
-                $this->content = $_POST;
+                //$this->content = $_POST;
         }
         
        
