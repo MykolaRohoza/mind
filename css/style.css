@@ -308,7 +308,7 @@ label{
     float: left;
     width: 22px;
     height: 22px;
-    border: 1px solid #CAE1FF;
+    border: 1px solid transparent;
     -moz-border-radius: 12px; /*закругляем углы для Mozilla  */
     -webkit-border-radius: 12px;/* закругляем углы для Chrome, Safari   */
     border-radius: 12px; /*закругляем углы для остальных браузеров  */
@@ -353,7 +353,7 @@ label{
     display: inline-block;
     border: solid 1px #000;
     width: 100%;
-    padding: 2px;
+    padding: 2px 5px;
 }
 
 

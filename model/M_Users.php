@@ -70,9 +70,8 @@ class M_Users
                     return false;
 
             $id_user = $user['id_user'];
-
             // проверяем пароль
-            if ($user['password'] != md5($password))
+            if ($user['password'] != md5(md5($password)))
                     return false;
 
             // запоминаем имя и md5(пароль)
@@ -80,7 +79,7 @@ class M_Users
             {
                     $expire = time() + 3600 * 24 * 100;
                     setcookie('login', $login, $expire);
-                    setcookie('password', md5($password), $expire);
+                    setcookie('password', md5(md5($password)), $expire);
             }		
 
             // открываем сессию и запоминаем SID
@@ -455,6 +454,49 @@ private function GetSid(){
         $roles = array('id_role'  => $result[0]['description']);
         return $roles;
     }
+    public function getDiagnosis($id_user){
+        $t = "SELECT id_user, diagnosis FROM users WHERE id_user='%d'";
+        $query = sprintf($t, mysql_real_escape_string($id_user));
+        $result = $this->msql->Select($query);
+        $roles = array('diagnosis'  => $result[0]['diagnosis']);
+        return $roles;
+    }
+    public function saveDiagnosis($request){
+        $tmp = "id_user='%d'";
+        $where = sprintf($tmp, $request['id_user']);
+        $object = array('diagnosis' => $request['diagnosis']);
+        $result = $this->msql->Update('users', $object, $where);
+        return $result;
+    }
+    public function saveContact($request){
+        if(!$request['id_info']){
+            $object = array('contact' => $request['contact'], 'contact_info' => $request['id_user']);
+            $result = $this->msql->Insert('contact_infos', $object);
+        }
+        else{   
+            $tmp = "id_info='%d'";
+            $where = sprintf($tmp, $request['id_info']);
+            $object = array('contact' => $request['contact']);
+            $this->msql->Update('contact_infos', $object, $where);
+            $result = $request['id_info'];
+        }
+        return $result;
+    }
+    public function getContact($request){
+        $t = "SELECT id_info, contact FROM contact_infos WHERE id_info='%d'";
+        $query = sprintf($t, mysql_real_escape_string($request['id_info']));
+        $result = $this->msql->Select($query);
+        $contact = array('id_info' => $result[0]['id_info'], 'contact'  => $result[0]['contact']);
+        return $contact;
+    }
+    public function changeUserRole($request){
+        $tmp = "id_user='%d'";
+        $where = sprintf($tmp, $request['id_user']);
+        $object = array('id_role' => $request['id_role']);
+        $result = $this->msql->Update('users', $object, $where);
+        return $result;
+    }
+
     
     public function addUserEx($id_user, $exercises){
             $tmp = "id_user='%d'";

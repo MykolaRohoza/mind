@@ -78,10 +78,15 @@ class C_Response extends C_Controller{
     }
 
     private function saveContact($request){
-        return $request;
+        $request['id_info'] = $this->mUser->saveContact($request); 
+        $result = $this->mUser->getContact($request);
+        $result['id_user'] = $request['id_user'];
+        return $result;
     }
     private function saveDiagnosis($request){
-        return $request;
+        $this->mUser->saveDiagnosis($request);
+        $result = $this->mUser->getDiagnosis($request['id_user']);
+        return $result;
     }
     private function getRoles(){
         $result = $this->mUser->getRoles();
@@ -89,9 +94,9 @@ class C_Response extends C_Controller{
 
     }
     private function saveRole($request){
-        $arr = [1 => 'Администратор', 2 => 'Тренер', 3 => 'Посетитель'];
+        $this->mUser->changeUserRole($request);
         $result = $this->mUser->getRoleByID($request['id_user']);
-        return $result;//['id_role' => $arr[$_POST['id_role']]];
+        return $result;
     }
 
     
@@ -126,7 +131,7 @@ class C_Response extends C_Controller{
 
 }
     public function registrate_test() {
-        $code = md5(date('d-m-Y[H-i]'));
+        $code = md5(time(true));
         $sender = new M_Sender($_POST['login'], $code); 
         $sender->start();
         return $sender->getLog();
