@@ -7,7 +7,7 @@ function M_startup()
         
 	$hostname = 'localhost';	
 	$username = 'mind-body'; 
-	$password = '0oiuy6';
+	$password = '';
         
 	$dbName   = "mind-body";
 
